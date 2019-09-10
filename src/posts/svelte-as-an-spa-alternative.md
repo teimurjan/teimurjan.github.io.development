@@ -6,15 +6,15 @@ excerpt: >-
   the front-end development. But what if there is a faster lighter tool
   compilable to vanilla JS? Explore the new Svelte tool with the real-world
   examples.
+hidden: true
 tags:
   - svelte
   - javascript
   - spa
-hidden: true
 ---
 Web applications are becoming more popular from day to day. It’s like a growing universe which people opt for its simplicity, speed and cross-platform availability. Single Page Applications(SPAs) have taken a huge part in this process. Frameworks like Angular, Vue and React help developers to deliver the best user experience in a short period of time leaving the code supportable and extendable. These tools have been remaining the most popular ones in the area and have many advantages over the newly created packages for a long time. It’s felt like an oligopoly in the SPA world. However, a group of initiative developers targeting this market could enter there with a serious competitor for the existing frameworks - Svelte.
 
-Svelte is called as a new approach to building user interfaces. It’s actually new, but what are the things that make it so. Let’s dive into them by creating a login form which almost any application have.
+Svelte is called as a new approach to building user interfaces. It’s actually new, but what are the things that make it so. Let’s dive into them by creating a login form which almost any application have. 
 
 # Architecture
 
