@@ -6,7 +6,7 @@ excerpt: >-
   the front-end development. But what if there is a faster lighter tool
   compilable to vanilla JS? Explore the new Svelte tool with the real-world
   examples.
-hidden: false
+hidden: true
 tags:
   - svelte
   - javascript
