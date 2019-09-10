@@ -1,6 +1,6 @@
 ---
 title: Svelte - a modern alternative to build lightweight SPAs.
-date: 2018-03-23T12:34:00.000Z
+date: 2019-09-04T12:34:00.000Z
 excerpt: >-
   The most popular tools like React and Angular are the indisputable leaders in
   the front-end development. But what if there is a faster lighter tool
