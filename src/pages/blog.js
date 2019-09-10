@@ -25,7 +25,8 @@ BlogPage.propTypes = {
         PropTypes.shape({
           node: PropTypes.shape({
             id: PropTypes.string.isRequired,
-            field: PropTypes.shape({
+            fields: PropTypes.shape({
+              slug: PropTypes.string.isRequired,
               readingTime: PropTypes.shape({
                 minutes: PropTypes.number.isRequired,
                 text: PropTypes.string.isRequired,
@@ -35,7 +36,6 @@ BlogPage.propTypes = {
               date: PropTypes.string.isRequired,
               title: PropTypes.string.isRequired,
               tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-              slug: PropTypes.string.isRequired,
               excerpt: PropTypes.string.isRequired,
             }),
           }),
@@ -61,11 +61,11 @@ export const query = graphql`
           frontmatter {
             title
             date
-            slug
             tags
             excerpt
           }
           fields {
+            slug
             readingTime {
               minutes
               text

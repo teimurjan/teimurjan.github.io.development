@@ -17,13 +17,13 @@ import {
 const PostPreview = ({
   post: {
     frontmatter,
-    fields: { readingTime },
+    fields: { readingTime, slug },
   },
   shouldHide,
 }) => {
   const date = new Date(frontmatter.date)
   return (
-    <PostPreviewWrapperLink to={`/blog/${frontmatter.slug}`} hide={shouldHide}>
+    <PostPreviewWrapperLink to={`/blog/${slug}`} hide={shouldHide}>
       <LevelOverlay>
         {'🍩'.repeat(Math.ceil(readingTime.minutes / 5))} {readingTime.text}
       </LevelOverlay>
@@ -46,6 +46,7 @@ PostPreview.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.string.isRequired,
     fields: PropTypes.shape({
+      slug: PropTypes.string.isRequired,
       readingTime: PropTypes.shape({
         minutes: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired,

@@ -7,6 +7,7 @@
 // You can delete this file if you're not using it
 const path = require('path')
 const _ = require('lodash')
+const { createFilePath } = require('gatsby-source-filesystem')
 
 exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
@@ -72,7 +73,9 @@ const createPosts = async ({ actions, graphql }) => {
             fileAbsolutePath
             html
             id
-            slug
+            fields {
+              slug
+            }
             frontmatter {
               excerpt
               date(formatString: "MMM DD, YYYY")
@@ -89,7 +92,7 @@ const createPosts = async ({ actions, graphql }) => {
   const posts = result.data.allMarkdownRemark.edges
   posts.forEach(({ node }) => {
     createPage({
-      path: `/blog/${node.slug}`,
+      path: `/blog${node.fields.slug}`,
       component: blogPostTemplate,
       context: {
         post: node,
@@ -135,3 +138,16 @@ const getTagsFromPosts = posts =>
       return allTags
     }, [])
   )
+
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions
+
+  if (node.internal.type === `MarkdownRemark`) {
+    const value = createFilePath({ node, getNode })
+    createNodeField({
+      name: `slug`,
+      node,
+      value,
+    })
+  }
+}
