@@ -1,25 +1,30 @@
 ---
 title: Svelte - a modern alternative to build lightweight SPAs.
-slug: 'svelte-introduction'
-date: 2018-03-23 12:34:00
-tags: ['svelte', "javascript", "spa"]
-excerpt: "The most popular tools like React and Angular are the indisputable leaders in the front-end development. But what if there is a faster lighter tool compilable to vanilla JS? Explore the new Svelte tool with the real-world examples."
-hidden: true
+date: 2018-03-23T12:34:00.000Z
+excerpt: >-
+  The most popular tools like React and Angular are the indisputable leaders in
+  the front-end development. But what if there is a faster lighter tool
+  compilable to vanilla JS? Explore the new Svelte tool with the real-world
+  examples.
+tags:
+  - svelte
+  - javascript
+  - spa
 ---
-
 Web applications are becoming more popular from day to day. It’s like a growing universe which people opt for its simplicity, speed and cross-platform availability. Single Page Applications(SPAs) have taken a huge part in this process. Frameworks like Angular, Vue and React help developers to deliver the best user experience in a short period of time leaving the code supportable and extendable. These tools have been remaining the most popular ones in the area and have many advantages over the newly created packages for a long time. It’s felt like an oligopoly in the SPA world. However, a group of initiative developers targeting this market could enter there with a serious competitor for the existing frameworks - Svelte.
 
 Svelte is called as a new approach to building user interfaces. It’s actually new, but what are the things that make it so. Let’s dive into them by creating a login form which almost any application have.
 
 # Architecture
-Svelte is architectured in the way to be faster than any other library. It’s reached by shifting the step of loading a framework for building a virtual DOM. Instead it’s compiled to the VanillaJS so the application has no dependencies needed to start.
+
+Svelte is architectured in the way to be faster than any other library. It’s reached by shifting the step of loading a framework for building a virtual DOM. Instead of using a tool during the running process it’s compiled to the VanillaJS at the building stage so the application has no dependencies needed to start.
 
 ![](./assets/svelte-as-an-spa-alternative/svelte-vs-others.png)
 
-  
 The illustration above describes why Svelte is the absolute winner in the start-up performance competition. That’s not gained by any sort of optimization but by usage of the plain browser Javascript compiler instead of side-compilers.
 
 # Installation
+
 Svelte installation is as easy as pie which makes its usage even more pleasant. At first it’s needed to download the project’s template:
 
 ```sh
@@ -40,12 +45,15 @@ npm dev start
 ```
 
 # Structure
+
 Any Svelte component may contain the following sections:
+
 * script
 * style
 * template
 
 Let’s look at the example in `src/App.svelte` file.
+
 ```html
 <script>
   export let name;
@@ -59,6 +67,7 @@ Let’s look at the example in `src/App.svelte` file.
 
 <h1>{name}</h1>
 ```
+
 Script section is an optional Javascript block, which can declare variables and functions that will be used in the template block.
 Style is an optional block with the CSS rules for the template block. It’s important to understand that these rules are scoped to the component. Applying a style to a `p` element won’t affect all the paragraphs on the page.
 Template block is the only required one, which is the presentation of a component. It’s tightly bound to the style and script blocks as they determine how the view will be styled and how it will behave.
@@ -135,7 +144,7 @@ Returning to the login form we’re building. Let’s create a new file `LoginFo
 
   <button type="submit">Log in 🔒</button>
 </form>
-``` 
+```
 
 It’s a dumb styled component that we’ll make smart later. To be able to see this component at our site we render it inside the App component. Edit the `src/App.svelte` so it’ll look like this:
 
@@ -163,6 +172,7 @@ It’s a dumb styled component that we’ll make smart later. To be able to see 
 By doing that, we've made the form rendered at localhost:5000.
 
 # State
+
 Any component in Svelte is able to have its own state. State is a variable or group of variables which can be used inside the template. In turn the template will be re-rendered once a state piece is changed.
 
 We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It’ll give us access to the form values, so we’ll create a fake function to handle form submissions too.
@@ -204,11 +214,12 @@ We’ll declare email and password state variables where the form values for the
 ```
 
 State variables look like common Javascript variables, but in order to bind them to the form fields, it is necessary to use `bind:value` directive. There are also couple unfamiliar things: 
-* ```on:submit|preventDefault``` is a short-hand for preventing default events’ behaviour. It’s so comfortable to have it in this way rather than writing `e.preventDefault()` every time.
-* ```{#if isLoading}Logging in...{:else}Log in 🔒{/if}``` is a piece of Svelte’s template syntax. As there is no JS in the template block, there is a special syntax for using ifs, loops etc.
 
+* `on:submit|preventDefault` is a short-hand for preventing default events’ behaviour. It’s so comfortable to have it in this way rather than writing `e.preventDefault()` every time.
+* `{#if isLoading}Logging in...{:else}Log in 🔒{/if}` is a piece of Svelte’s template syntax. As there is no JS in the template block, there is a special syntax for using ifs, loops etc.
 
 Finally, let’s add the validation to our form. It can be acheived by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.
+
 ```html
 <script>
   let email = "";
@@ -346,6 +357,7 @@ This modification made the form to go into success state as soon as the submissi
 ```
 
 ## Props
+
 We've sorted out everything about the internal component's state. Now it's time to go through the external dependencies called properties. Declaration of a property looks so similiar to the state, except the keyword `export`.
 
 ```html
