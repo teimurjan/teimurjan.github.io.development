@@ -27,8 +27,14 @@ jobs:
           root: ~/site
           paths:
             - node_modules
+  
+  build:
+    working_directory: ~/site
+    <<: *defaults
+    steps:
+      - run: rm -rf public .cache && npm run build
 
-  gatsby-deploy:
+  gh-pages-deploy:
     working_directory: ~/site
     <<: *defaults
     steps:
@@ -47,9 +53,16 @@ workflows:
             branches:
               only:
                 - master
-      - gatsby-deploy:
+      - build:
           requires:
             - pre-build
+          filters:
+            branches:
+              only:
+                - master
+      - gh-pages-deploy:
+          requires:
+            - build
           filters:
             branches:
               only:
