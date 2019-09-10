@@ -4,7 +4,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  pre-build:
+  pre-deploy:
     working_directory: ~/site
     <<: *defaults
     steps:
@@ -16,7 +16,7 @@ jobs:
       - restore_cache:
           key: node-v2-{{ checksum "package.json" }}-{{ arch }}
 
-      - run: npm install
+      - run: npm install && npm run build
 
       - save_cache:
           key: node-v2-{{ checksum "package.json" }}-{{ arch }}
@@ -27,13 +27,6 @@ jobs:
           root: ~/site
           paths:
             - node_modules
-
-  build:
-    working_directory: ~/site
-    <<: *defaults
-    steps:
-      - run:
-          command: rm -rf public .cache && npm run build
 
   gh-pages-deploy:
     working_directory: ~/site
@@ -49,21 +42,14 @@ workflows:
   version: 2
   deploy:
     jobs:
-      - pre-build:
-          filters:
-            branches:
-              only:
-                - master
-      - build:
-          requires:
-            - pre-build
+      - pre-deploy:
           filters:
             branches:
               only:
                 - master
       - gh-pages-deploy:
           requires:
-            - build
+            - pre-deploy
           filters:
             branches:
               only:
