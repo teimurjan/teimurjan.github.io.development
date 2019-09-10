@@ -17,7 +17,8 @@ collections:
       - { label: 'Excerpt', name: 'excerpt', widget: 'string' }
       - { label: 'Hidden', name: 'hidden', widget: 'boolean', default: false }
       - { label: 'Tags', name: 'tags', widget: 'list' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - { label: 'Slug', name: 'slug', widget: 'markdown' },
+      - { label: 'Body', name: 'body', widget: 'markdown' },
   - name: 'pages'
     label: 'Pages'
     files:

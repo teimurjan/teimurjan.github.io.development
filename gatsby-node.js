@@ -72,10 +72,10 @@ const createPosts = async ({ actions, graphql }) => {
             fileAbsolutePath
             html
             id
+            slug
             frontmatter {
               excerpt
               date(formatString: "MMM DD, YYYY")
-              slug
               title
               tags
             }
@@ -89,7 +89,7 @@ const createPosts = async ({ actions, graphql }) => {
   const posts = result.data.allMarkdownRemark.edges
   posts.forEach(({ node }) => {
     createPage({
-      path: `/blog/${node.frontmatter.slug}`,
+      path: `/blog/${node.slug}`,
       component: blogPostTemplate,
       context: {
         post: node,

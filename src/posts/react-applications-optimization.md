@@ -1,6 +1,5 @@
 ---
 title: Effective React. Ways to optimize your app.
-slug: 'react-applications-optimization'
 date: 2018-05-06 16:15:47
 tags: ["javascript", "optimization", "react"]
 excerpt: "Make your React app faster."
