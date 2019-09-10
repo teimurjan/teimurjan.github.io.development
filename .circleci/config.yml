@@ -50,7 +50,7 @@ workflows:
                 - master
       - build-and-deploy:
           requires:
-            - pre-deploy
+            - pre-build
           filters:
             branches:
               only:
