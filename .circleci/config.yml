@@ -1,0 +1,56 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:8
+
+version: 2
+jobs:
+  pre-build:
+    working_directory: ~/site
+    <<: *defaults
+    steps:
+      - checkout:
+          path: ~/site/
+      - attach_workspace:
+          at: ~/site/
+
+      - restore_cache:
+          key: node-v2-{{ checksum "package.json" }}-{{ arch }}
+
+      - run: npm install
+
+      - save_cache:
+          key: node-v2-{{ checksum "package.json" }}-{{ arch }}
+          paths:
+            - node_modules
+
+      - persist_to_workspace:
+          root: ~/site
+          paths:
+            - node_modules
+
+  gatsby-deploy:
+    working_directory: ~/site
+    <<: *defaults
+    steps:
+      - checkout:
+          path: ~/site/
+      - attach_workspace:
+          at: ~/site
+      - run:
+          command: git push --force https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_REPO.git master
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - pre-build:
+          filters:
+            branches:
+              only:
+                - master
+      - gatsby-deploy:
+          requires:
+            - pre-build
+          filters:
+            branches:
+              only:
+                - master
