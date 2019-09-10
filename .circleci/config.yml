@@ -4,7 +4,7 @@ defaults: &defaults
 
 version: 2
 jobs:
-  pre-deploy:
+  pre-build:
     working_directory: ~/site
     <<: *defaults
     steps:
@@ -16,7 +16,7 @@ jobs:
       - restore_cache:
           key: node-v2-{{ checksum "package.json" }}-{{ arch }}
 
-      - run: npm install && npm run build
+      - run: npm install
 
       - save_cache:
           key: node-v2-{{ checksum "package.json" }}-{{ arch }}
@@ -28,7 +28,7 @@ jobs:
           paths:
             - node_modules
 
-  gh-pages-deploy:
+  build-and-deploy:
     working_directory: ~/site
     <<: *defaults
     steps:
@@ -37,17 +37,18 @@ jobs:
       - attach_workspace:
           at: ~/site
       - run:
-          command: git add --force public && git commit -m "Update build" && git subtree push --prefix=public https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/$GH_REPO.git master
+          command: npm run build && git add --force public && git commit -m "Update build" && git subtree push --prefix=public https://$GH_USERNAME:$GH_TOKEN@github.com/$GH_USERNAME/$GH_REPO.git master
+
 workflows:
   version: 2
   deploy:
     jobs:
-      - pre-deploy:
+      - pre-build:
           filters:
             branches:
               only:
                 - master
-      - gh-pages-deploy:
+      - build-and-deploy:
           requires:
             - pre-deploy
           filters:
