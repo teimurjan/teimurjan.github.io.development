@@ -22,7 +22,10 @@ const TagResultsTemplate = ({ pageContext, data }) => {
         <TagResultsTitle>{tagHeader}</TagResultsTitle>
         <ResultsList>
           {edges.map(({ node }) => {
-            const { id, slug, title } = node.frontmatter
+            const {
+              frontmatter: { id, title },
+              fields: { slug },
+            } = node
             return (
               <li key={id}>
                 <Link to={`/blog/${slug}`}>{title}</Link>

@@ -17,9 +17,17 @@ import {
   DateThumbnailMonth,
 } from '../../components/post-preview/index.styles'
 
-const BlogPostTemplate = ({ pageContext }) => {
-  const { post } = pageContext
-  const { frontmatter, html } = post
+const BlogPostTemplate = ({
+  pageContext: {
+    post: { frontmatter, html },
+  },
+  content,
+}) => {
+  const contentNode = content ? (
+    <BlogPostContent>{content}</BlogPostContent>
+  ) : (
+    <BlogPostContent dangerouslySetInnerHTML={{ __html: html }} />
+  )
 
   const date = new Date(frontmatter.date)
 
@@ -36,13 +44,15 @@ const BlogPostTemplate = ({ pageContext }) => {
           <Tags tags={frontmatter.tags} />
         </BlogPostHeader>
         <BlogPostDivider />
-        <BlogPostContent dangerouslySetInnerHTML={{ __html: html }} />
+        {contentNode}
       </Container>
     </Layout>
   )
 }
 
 BlogPostTemplate.propTypes = {
+  content: PropTypes.node,
+  contentComponent: PropTypes.func,
   pageContext: PropTypes.shape({
     post: PropTypes.shape({
       frontmatter: PropTypes.shape({
