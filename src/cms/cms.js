@@ -5,7 +5,7 @@ import uploadcare from 'netlify-cms-media-library-uploadcare'
 import cloudinary from 'netlify-cms-media-library-cloudinary'
 
 import $ from 'cheerio'
-import { extractCritical } from 'emotion-server'
+import { renderStylesToString } from 'emotion-server'
 import { renderToString } from 'react-dom/server'
 
 import BlogPostPreview from './preview-templates/blog-post'
