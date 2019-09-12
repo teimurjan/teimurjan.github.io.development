@@ -5,7 +5,7 @@ import CMSBlogPost from '../../cms-components/blog-post'
 
 const BlogPostPreview = ({ entry, widgetFor }) => (
   <CMSBlogPost
-    content={<BlogPostContent>{widgetFor('body')}</BlogPostContent>}
+    content={widgetFor('body')}
     title={entry.getIn(['data', 'title'])}
     tags={entry.getIn(['data', 'tags'])}
     date={new Date(entry.getIn(['data', 'date']))}
