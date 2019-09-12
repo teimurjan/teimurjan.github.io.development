@@ -1,3 +1,3 @@
 import './index.css'
 
-export default () => <div className="cms-container" />
+export default ({ children }) => <div className="cms-container">{children}</div>

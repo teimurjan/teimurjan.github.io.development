@@ -6,6 +6,9 @@ import cloudinary from 'netlify-cms-media-library-cloudinary'
 
 import BlogPostPreview from './preview-templates/blog-post'
 
+import '../components/layout/index.css'
+import '../components/layout/index.override.css'
+
 CMS.registerMediaLibrary(uploadcare)
 CMS.registerMediaLibrary(cloudinary)
 
