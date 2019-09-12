@@ -1,0 +1,43 @@
+.blog-post-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.blog-post-content h2:before {
+  color: var(--primaryColor);
+}
+
+.blog-post-content p,
+h2 {
+  margin-bottom: 1rem;
+}
+.blog-post-content a {
+  color: var(--primaryColor);
+}
+
+@media screen and (max-width: 760px) {
+  .blog-post-content {
+    font-size: 1.1rem;
+  }
+}
+
+.blog-post-title {
+  color: var(--fontOnBackgroundColor);
+  margin: 1rem 0;
+  width: 80%;
+}
+
+.blog-post-header {
+  position: relative;
+}
+
+.blog-post-divider {
+  margin: 1rem 0;
+}
+
+.blog-post-tags span {
+  padding: 10px 15px;
+  background: var(--primaryColor);
+  color: var(--fontOnPrimaryColor);
+  margin-right: 7.5px;
+}

@@ -2,13 +2,6 @@ import styled from '@emotion/styled'
 import { mediaSizeLessThan, sizes, mediaSizeGreaterThan } from '../../media'
 import { DateThumbnail } from '../../components/post-preview/index.styles'
 
-export const BlogPost = styled.div`
-  padding: 0.5rem 20%;
-
-  @media ${mediaSizeLessThan(sizes.md)} {
-    padding: 0.5rem 1rem;
-  }
-`
 export const BlogPostContent = styled.div`
   font-size: 1rem;
   line-height: 1.5;

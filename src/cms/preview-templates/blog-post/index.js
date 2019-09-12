@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { BlogPost } from '../../../templates/blog-post'
-import { BlogPostContent } from '../../../templates/blog-post/index.styles'
+import CMSBlogPost from '../../cms-components/blog-post'
 
 const BlogPostPreview = ({ entry, widgetFor }) => (
-  <BlogPost
+  <CMSBlogPost
     content={<BlogPostContent>{widgetFor('body')}</BlogPostContent>}
     title={entry.getIn(['data', 'title'])}
     tags={entry.getIn(['data', 'tags'])}
