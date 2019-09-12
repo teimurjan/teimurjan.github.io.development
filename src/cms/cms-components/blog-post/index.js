@@ -11,7 +11,8 @@ export const BlogPost = ({ tags, date, title, content }) => (
     <div className="blog-post-header">
       <h1 className="blog-post-title">{title}</h1>
       <div className="blog-post-date">
-        {date.getDate()} {format(date, 'MMM')}
+        <div className="blog-post-date day">{date.getDate()}</div>
+        <div className="blog-post-date month"></div>{format(date, 'MMM')}</div>
       </div>
       <div className="blog-post-tags">
         {tags.map(tag => (

@@ -36,8 +36,37 @@ h2 {
 }
 
 .blog-post-tags span {
-  padding: 10px 15px;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 0.8rem;
   background: var(--primaryColor);
   color: var(--fontOnPrimaryColor);
   margin-right: 7.5px;
+}
+
+.blog-post-date {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  background: var(--primaryColor);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  color: var(--fontOnPrimaryColor);
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+}
+
+.blog-post-date .day {
+  font-size: 1.2rem;
+}
+
+.blog-post-date .month {
+  font-size: 0.6rem;
+  text-transform: uppercase;
 }
