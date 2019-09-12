@@ -7,6 +7,7 @@
     "@emotion/core": "^10.0.6",
     "@emotion/styled": "^10.0.6",
     "@reach/router": "^1.2.1",
+    "cheerio": "^1.0.0-rc.3",
     "date-fns": "^1.29.0",
     "dotenv": "^8.0.0",
     "emotion": "^10.0.6",

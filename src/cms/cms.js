@@ -1,7 +1,10 @@
+import React from 'react'
+
 import CMS from 'netlify-cms-app'
 import uploadcare from 'netlify-cms-media-library-uploadcare'
 import cloudinary from 'netlify-cms-media-library-cloudinary'
 
+import $ from 'cheerio'
 import { extractCritical } from 'emotion-server'
 import { renderToString } from 'react-dom/server'
 
@@ -12,7 +15,9 @@ CMS.registerMediaLibrary(cloudinary)
 
 CMS.registerPreviewTemplate('blog', BlogPostPreview)
 
-const StubBlogPostPreview = (
+
+// REGISTERING STYLES
+const stubBlogPostPreview = (
   <BlogPostPreview
     entry={{
       getIn: ([_, field]) => {
@@ -24,5 +29,12 @@ const StubBlogPostPreview = (
     widgetFor={_ => <div>Blog Post content</div>}
   />
 )
-const { css } = extractCritical(renderToString(<StubBlogPostPreview />))
-CMS.registerPreviewStyle(css, { raw: true })
+const html = renderStylesToString(renderToString(stubBlogPostPreview))
+CMS.registerPreviewStyle(
+  $(html)
+    .find('style')
+    .map((i, style) => $(style).html())
+    .toArray()
+    .join(''),
+  { raw: true }
+)
