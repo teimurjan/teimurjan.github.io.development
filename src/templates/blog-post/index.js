@@ -17,35 +17,45 @@ import {
   DateThumbnailMonth,
 } from '../../components/post-preview/index.styles'
 
+export const BlogPost = ({ tags, date, title, content }) => (
+  <Container>
+    <BlogPostHeader>
+      <BlogPostTitle>{title}</BlogPostTitle>
+      <BlogPostDateThumbnail>
+        <DateThumbnailDay>{date.getDate()}</DateThumbnailDay>
+        <DateThumbnailMonth>{format(date, 'MMM')}</DateThumbnailMonth>
+      </BlogPostDateThumbnail>
+      <Tags tags={tags} />
+    </BlogPostHeader>
+    <BlogPostDivider />
+    {content}
+  </Container>
+)
+
+BlogPost.propTypes = {
+  tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.node.isRequired,
+}
+
 const BlogPostTemplate = ({
   pageContext: {
     post: { frontmatter, html },
   },
   content,
 }) => {
-  const contentNode = content ? (
-    <BlogPostContent>{content}</BlogPostContent>
-  ) : (
-    <BlogPostContent dangerouslySetInnerHTML={{ __html: html }} />
-  )
-
   const date = new Date(frontmatter.date)
 
   return (
     <Layout>
       <Helmet title={frontmatter.title} />
-      <Container>
-        <BlogPostHeader>
-          <BlogPostTitle>{frontmatter.title}</BlogPostTitle>
-          <BlogPostDateThumbnail>
-            <DateThumbnailDay>{date.getDate()}</DateThumbnailDay>
-            <DateThumbnailMonth>{format(date, 'MMM')}</DateThumbnailMonth>
-          </BlogPostDateThumbnail>
-          <Tags tags={frontmatter.tags} />
-        </BlogPostHeader>
-        <BlogPostDivider />
-        {contentNode}
-      </Container>
+      <BlogPost
+        title={frontmatter.title}
+        date={date}
+        content={<BlogPostContent dangerouslySetInnerHTML={{ __html: html }} />}
+        tags={frontmatter.tags}
+      />
     </Layout>
   )
 }

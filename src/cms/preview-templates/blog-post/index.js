@@ -1,19 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import BlogPostTemplate from '../../../templates/blog-post'
+
+import { BlogPost } from '../../../templates/blog-post'
 
 const BlogPostPreview = ({ entry, widgetFor }) => (
-  <BlogPostTemplate
-    content={widgetFor('body')}
-    pageContext={{
-      post: {
-        frontmatter: {
-          title: entry.getIn(['data', 'title']),
-          tags: entry.getIn(['data', 'tags']),
-          date: entry.getIn(['data', 'date']),
-        },
-      },
-    }}
+  <BlogPost
+    content={<BlogPostContent>{widgetFor('body')}</BlogPostContent>}
+    title={entry.getIn(['data', 'title'])}
+    tags={entry.getIn(['data', 'tags'])}
+    date={new Date(entry.getIn(['data', 'date']))}
   />
 )
 
