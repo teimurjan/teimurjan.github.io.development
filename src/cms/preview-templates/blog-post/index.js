@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { BlogPost } from '../../../templates/blog-post'
+import { BlogPostContent } from '../../../templates/blog-post/index.styles'
 
 const BlogPostPreview = ({ entry, widgetFor }) => (
   <BlogPost
