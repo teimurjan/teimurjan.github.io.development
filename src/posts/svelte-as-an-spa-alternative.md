@@ -214,12 +214,12 @@ We’ll declare email and password state variables where the form values for the
 </form>
 ```
 
-State variables look like common Javascript variables, but in order to bind them to the form fields, it is necessary to use `bind:value` directive. There are also couple unfamiliar things: 
+State variables look like common Javascript variables, but in order to make them synchronized with the form values(bind them to the form fields), it is necessary to use `bind:value` directive. There are also couple unfamiliar things: 
 
 * `on:submit|preventDefault` is a short-hand for preventing default events’ behaviour. It’s so comfortable to have it in this way rather than writing `e.preventDefault()` every time.
 * `{#if isLoading}Logging in...{:else}Log in 🔒{/if}` is a piece of Svelte’s template syntax. As there is no JS in the template block, there is a special syntax for using ifs, loops etc.
 
-Finally, let’s add the validation to our form. It can be acheived by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.
+Finally, let’s use our opportunities given by using the state to add the validation to our form. It can be achieved by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.
 
 ```html
 <script>
