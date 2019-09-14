@@ -147,7 +147,7 @@ Returning to the login form we’re building. Let’s create a new file `LoginFo
 </form>
 ```
 
-It’s a dumb styled component that we’ll make smart later. To be able to see this component at our site we render it inside the App component. Edit the `src/App.svelte` so it’ll look like this:
+It’s a dumb styled component that we’ll make smarter later. To see this component at our site we should render it inside the root component - App. Let us go and edit the `src/App.svelte` so it’ll look like this:
 
 ```html
 <script>
@@ -170,7 +170,7 @@ It’s a dumb styled component that we’ll make smart later. To be able to see 
 </section>
 ```
 
-By doing that, we've made the form rendered at localhost:5000.
+If everything has been done correctly and the application still running our form has to appear at <localhost:5000>. Let's level up our Svelte skills by making the form smarter.
 
 # State
 
