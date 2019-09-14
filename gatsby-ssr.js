@@ -6,6 +6,7 @@
 
 // You can delete this file if you're not using it
 import React from 'react'
+import config from './config';
 
 const themeSnippet = `
 (function(){
@@ -37,7 +38,15 @@ const themeSnippet = `
 export const onPreRenderHTML = ({
   getPreBodyComponents,
   replacePreBodyComponents,
+  getHeadComponents,
+  replaceHeadComponents
 }) => {
+  if (config.IS_ADMIN_BUILD) {
+    const headComponents = getHeadComponents();
+    headComponents.push(<script key="adminRedirect" dangerouslySetInnerHTML={{__html: `window.location.href='/admin'` }})
+    replaceHeadComponents()
+  }
+
   const preBodyComponents = getPreBodyComponents()
   preBodyComponents.push(
     <script key="theme" dangerouslySetInnerHTML={{ __html: themeSnippet }} />
