@@ -174,9 +174,9 @@ If everything has been done correctly and the application still running our form
 
 # State
 
-Any component in Svelte is able to have its own state. State is a variable or group of variables which can be used inside the template. In turn the template will be re-rendered once a state piece is changed.
+Any component in Svelte can have its own state. State is a special variable or group of special variables which can be used inside the template. Why do I say "special"? As whenever such a variable is changed the template is notified about it and renders the content with the newest state. This thing helps the application reacts to the user interactions lightning fast.
 
-We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It’ll give us access to the form values, so we’ll create a fake function to handle form submissions too.
+We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It means that our `email` and `password` variables will always be in sync with the form values, so we’ll be ready to submit these values at any time without afraid of having differences between the submission values and the actual values in the form.
 
 ```html
 <script>
