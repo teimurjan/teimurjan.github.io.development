@@ -147,7 +147,7 @@ Returning to the login form we’re building. Let’s create a new file `LoginFo
 </form>
 ```
 
-It’s a dumb styled component that we’ll make smart later. To be able to see this component at our site we render it inside the App component. Edit the `src/App.svelte` so it’ll look like this:
+It’s a dumb styled component that we’ll make smarter later. To see this component at our site we should render it inside the root component - App. Let us go and edit the `src/App.svelte` so it’ll look like this:
 
 ```html
 <script>
@@ -170,13 +170,13 @@ It’s a dumb styled component that we’ll make smart later. To be able to see 
 </section>
 ```
 
-By doing that, we've made the form rendered at localhost:5000.
+If everything has been done correctly and the application still running our form has to appear at <localhost:5000>. Let's level up our Svelte skills by making the form smarter.
 
 # State
 
-Any component in Svelte is able to have its own state. State is a variable or group of variables which can be used inside the template. In turn the template will be re-rendered once a state piece is changed.
+Any component in Svelte can have its own state. State is a special variable or group of special variables which can be used inside the template. Why do I say "special"? As whenever such a variable is changed the template is notified about it and renders the content with the newest state. This thing helps the application reacts to the user interactions lightning fast.
 
-We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It’ll give us access to the form values, so we’ll create a fake function to handle form submissions too.
+We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It means that our `email` and `password` variables will always be in sync with the form values, so we’ll be ready to submit these values at any time without afraid of having differences between the submission values and the actual values in the form.
 
 ```html
 <script>
@@ -214,12 +214,12 @@ We’ll declare email and password state variables where the form values for the
 </form>
 ```
 
-State variables look like common Javascript variables, but in order to bind them to the form fields, it is necessary to use `bind:value` directive. There are also couple unfamiliar things: 
+State variables look like common Javascript variables, but in order to make them synchronized with the form values(bind them to the form fields), it is necessary to use `bind:value` directive. There are also couple unfamiliar things: 
 
 * `on:submit|preventDefault` is a short-hand for preventing default events’ behaviour. It’s so comfortable to have it in this way rather than writing `e.preventDefault()` every time.
 * `{#if isLoading}Logging in...{:else}Log in 🔒{/if}` is a piece of Svelte’s template syntax. As there is no JS in the template block, there is a special syntax for using ifs, loops etc.
 
-Finally, let’s add the validation to our form. It can be acheived by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.
+Finally, let’s use our opportunities given by using the state to add the validation to our form. It can be achieved by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.
 
 ```html
 <script>
@@ -288,7 +288,13 @@ Finally, let’s add the validation to our form. It can be acheived by creating 
 ```
 
 <div align="center">
-    <img width="60%" src="./assets/svelte-as-an-spa-alternative/form-1.gif" />
+
+<div style="width:60%">
+
+![](/media/form-1.gif)
+
+</div>
+
 </div>
 
 The form is almost complete. The only thing left before usage of the form in production is the representation of a success message after the authentication went well.
