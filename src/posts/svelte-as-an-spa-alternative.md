@@ -288,7 +288,13 @@ Finally, let’s use our opportunities given by using the state to add the valid
 ```
 
 <div align="center">
-    <img width="60%" src="./assets/svelte-as-an-spa-alternative/form-1.gif" />
+
+<div style="width:60%">
+
+![](/media/form-1.gif)
+
+</div>
+
 </div>
 
 The form is almost complete. The only thing left before usage of the form in production is the representation of a success message after the authentication went well.
