@@ -9,6 +9,8 @@ const path = require('path')
 const _ = require('lodash')
 const { createFilePath } = require('gatsby-source-filesystem')
 
+const config = require('./config')
+
 exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
   await createMdPages({ actions, graphql })
@@ -16,6 +18,20 @@ exports.createPages = async ({ actions, graphql }) => {
   createAllTags({ actions })
 
   createTags({ actions, posts })
+}
+
+const createRedirectPageToAdmin = ({ actions: { createPage } }) => {
+  if (!config.IS_ADMIN_BUILD && config.ADMIN_REDIRECT_URL) {
+    createPage({
+      path: '/admin',
+      component: () => {
+        if (typeof window !== 'undefined') {
+          window.location.href = config.ADMIN_REDIRECT_URL
+        }
+        return null
+      },
+    })
+  }
 }
 
 const createMdPages = async ({ actions, graphql }) => {
