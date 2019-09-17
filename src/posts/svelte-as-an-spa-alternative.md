@@ -302,13 +302,13 @@ Finally, let’s use our opportunities given by using the state to add the valid
 </div>
 
 The form is almost complete. The only thing setting us apart from the form usage is showing of a success message after the authentication went well.
-Let's create a state variable for tracking successful submissions:
+Let's create a state variable for tracking successful submissions which is `false` by default. After a successful submission of a form, the value of this variable should be set to `true`.
 
 ```js
 let isSuccess = false;
 ```
 
-and modify our `handleSubmit` function to change the value of this variable:
+The function handing form's submission should be also changed to follow the logic of toggling `isSuccess` after a successful operation.
 
 ```js
 const handleSubmit = () => {
@@ -333,7 +333,9 @@ const handleSubmit = () => {
 };
 ```
 
-This modification made the form to go into success state as soon as the submission is done. But if you check your development server, you won't find any changes in the form's behaviour. It's self-consistent as we've changed the code but haven't touched the template yet. The form's logic should follow the rule: if a user has succeeded show a success message, otherwise show the entire login form. Svelte's template syntax allows us to write this logic easily:
+This modification made the form to go into success state as soon as the submission is done.
+
+But if you check your development server, you won't find any changes in the form's behaviour. It's self-consistent as we've changed the code but haven't touched the template yet. We need to add the instruction to the template which will show the success message if a user has been succeeded and the entire login form otherwise. Svelte's template syntax allows us to easily implement it.
 
 ```html
 <form on:submit|preventDefault={handleSubmit}>
@@ -369,7 +371,9 @@ This modification made the form to go into success state as soon as the submissi
 
 ## Props
 
-We've sorted out everything about the internal component's state. Now it's time to go through the external dependencies called properties. Declaration of a property looks so similiar to the state, except the keyword `export`.
+We've sorted out everything about the internal component's state. Now it's time to go through the external dependencies called properties. Props are the inputs or arguments which are passed into the component to describe to the component what should appear or how the component should behave.
+
+Declaration of a property looks so similar to the state, except the keyword `export`.
 
 ```html
 <script>
