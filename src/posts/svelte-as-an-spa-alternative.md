@@ -391,13 +391,15 @@ Declaration of a property looks so similar to the state, except the keyword `exp
 <Nested answer={42}/>
 ```
 
-To make our login form generic and clean, let's factor out the submission logic in a property `submit`. It will be a funciton which returns a resolved promise if the submit action has succeded and rejected promise if there is an error. Let us declare a prop `submit` by the example given above:
+It's all about the properties. Declare and pass - all you need to know to use props.
+
+But how are these properties are applicable to the login form component? Props can make our login form more generic by extracting the submission function into a property. It will allow to use this component with any submission action you need(request to a test server, request to an actual server etc.). This prop will be called \`submit\` and will be a function which returns a resolved promise if the submit action has succeeded and rejected promise if there is an error. Let us declare the prop by the example given above:
 
 ```js
 export let submit;
 ```
 
-And we also need an update in the `handleSubmit` function to use the new `submit` property.
+The submission handler inside the login form should also be edited to use the new `submit` property.
 
 ```js
 const handleSubmit = () => {
@@ -425,7 +427,7 @@ const handleSubmit = () => {
 };
 ```
 
-The component is ready and it's time to use it. If you return to the form and try to submit it, you'll notice that the state of the button has not been changed from loading. In addition there is an exception in the console saying: `Uncaught TypeError: submit is not a function`. Of course, it's because of the missing prop `submit`. `App.svelte` should pass this prop to our login form. Let's declare this function in the App component and pass it to the login form.
+The component seems to be ready. However, if you return to the form and try to submit it, you'll notice that the state of the button has not been changed from loading. In addition there is an exception in the console saying: `Uncaught TypeError: submit is not a function`. Of course, we've declared the prop but have forgotten to pass it. Let's declare a function in the App component and pass it to the login form.
 
 ```js
 const submit = ({ email, password }) =>
