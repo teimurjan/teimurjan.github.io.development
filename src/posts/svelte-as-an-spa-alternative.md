@@ -297,7 +297,7 @@ Finally, let’s use our opportunities given by using the state to add the valid
 
 </div>
 
-The form is almost complete. The only thing left before usage of the form in production is the representation of a success message after the authentication went well.
+The form is almost complete. The only thing setting us apart from the form usage is showing of a success message after the authentication went well.
 Let's create a state variable for tracking successful submissions:
 
 ```js
@@ -329,7 +329,7 @@ const handleSubmit = () => {
 };
 ```
 
-This modification made the form to go into success state as soon as the submission is done. But if you check your development server, you won't find any changes in the form's behaviours. That's becuase the template has not been edited too. The logic should follow the rule: if `isSuccess`, then show a success message, otherwise show the login form. Svelte's template syntax allows us to write this logic easily:
+This modification made the form to go into success state as soon as the submission is done. But if you check your development server, you won't find any changes in the form's behaviour. It's self-consistent as we've changed the code but haven't touched the template yet. The form's logic should follow the rule: if a user has succeeded show a success message, otherwise show the entire login form. Svelte's template syntax allows us to write this logic easily:
 
 ```html
 <form on:submit|preventDefault={handleSubmit}>
