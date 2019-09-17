@@ -295,7 +295,7 @@ Finally, let’s use our opportunities given by using the state to add the valid
 
 <div style="width:60%">
 
-![](/media/form-1.gif)
+![](/media/sep-17-2019-15-45-50.gif)
 
 </div>
 
@@ -435,3 +435,13 @@ const submit = ({ email, password }) =>
 ```
 
 The form is absolutely complete and is ready for the production usage.
+
+<div align="center">
+
+<div style="width:60%">
+
+![](/media/sep-17-2019-15-44-04.gif)
+
+</div>
+
+</div>
