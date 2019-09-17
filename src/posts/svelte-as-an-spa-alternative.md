@@ -69,9 +69,13 @@ Let’s look at the example in `src/App.svelte` file.
 <h1>{name}</h1>
 ```
 
-Script section is an optional Javascript block, which can declare variables and functions that will be used in the template block.
-Style is an optional block with the CSS rules for the template block. It’s important to understand that these rules are scoped to the component. Applying a style to a `p` element won’t affect all the paragraphs on the page.
-Template block is the only required one, which is the presentation of a component. It’s tightly bound to the style and script blocks as they determine how the view will be styled and how it will behave.
+The code above is clearly contained from exactly three sections. The first one - is the `script` which is optional Javascript block with the variables and functions declarations that should be used inside the component.
+
+Right after the Javascript, we have another optional block called `style`. It's almost a common HTML style tag except for one important thing. The rules described inside this block are scoped to the one component. Applying a style to a `p` element won’t affect all the paragraphs on the page. It's fantastic as you have not to come up with the names of the classes no to overwrite anything.
+
+The last but and the only required one block is the `template`. It's a presentation/view of your component. It’s tightly bound to the style and script blocks as they determine how the view will be styled and how it will behave.
+
+Svelte is obviously a library gaining to bring the modularity into the game. It keeps that modularity not only in separating different components but also in isolating the logic, view and the template.
 
 Returning to the login form we’re building. Let’s create a new file `LoginForm.svelte` inside the `src` folder with the following content:
 
@@ -429,3 +433,5 @@ const submit = ({ email, password }) =>
   <LoginForm submit={submit} />
 </section>
 ```
+
+The form is absolutely complete and is ready for the production usage.
