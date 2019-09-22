@@ -176,7 +176,7 @@ It’s a dumb styled component that we’ll make smarter later. To see this comp
 
 If everything has been done correctly and the application still running our form has to appear at <localhost:5000>. Let's level up our Svelte skills by making the form smarter.
 
-# State
+# Going stateful
 
 Any component in Svelte can have its own state. State is a special variable or group of special variables which can be used inside the template. Why do I say "special"? As whenever such a variable is changed the template is notified about it and renders the content with the newest state. This thing helps the application reacts to the user interactions lightning fast.
 
@@ -369,7 +369,7 @@ But if you check your development server, you won't find any changes in the form
 </form>
 ```
 
-## Props
+# Abstract with properties
 
 We've sorted out everything about the internal component's state. Now it's time to go through the external dependencies called properties. Props are the inputs or arguments which are passed into the component to describe to the component what should appear or how the component should behave.
 
@@ -440,7 +440,7 @@ const submit = ({ email, password }) =>
 </section>
 ```
 
-The form is absolutely complete and is ready for the production usage.
+Now the form is working as it has to. It can both show the errors and inform the user if the logging in has been succeeded.
 
 <div align="center">
 
@@ -451,3 +451,13 @@ The form is absolutely complete and is ready for the production usage.
 </div>
 
 </div>
+
+# Context sharing
+
+It seems that everything necessary to build an application is listed. Having the properties, the inner state and we're ready to go. It's partially true. These 2 general points makes it possible to design SPAs of high-complexity. However, if you think about sharing some data among many components you'll find it very difficult. 
+
+The simplest example that can be named is having globally accessible `user` variable. A lot of components should change their behaviour related to the user. It can depend on the user's role, age, status etc.
+
+Svelte has a thing for it - Context API. With reference to [the Svelte's documentation](https://svelte.dev/tutorial/context-api): 
+
+> The context API provides a mechanism for components to 'talk' to each other without passing around data and functions as props, or dispatching lots of events. It's an advanced feature, but a useful one.
