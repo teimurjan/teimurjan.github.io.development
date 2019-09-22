@@ -456,8 +456,65 @@ Now the form is working as it has to. It can both show the errors and inform the
 
 It seems that everything necessary to build an application is listed. Having the properties, the inner state and we're ready to go. It's partially true. These 2 general points makes it possible to design SPAs of high-complexity. However, if you think about sharing some data among many components you'll find it very difficult. 
 
-The simplest example that can be named is having globally accessible `user` variable. A lot of components should change their behaviour related to the user. It can depend on the user's role, age, status etc.
+The simplest example that can be named is having globally accessible `user` variable. A lot of components should change their behaviour related to the user. It can depend on the user's role, age, status etc. As it's not a good way to repeat ourselves and pass the user to each and every component in the app using props. 
 
 Svelte has a thing for it - Context API. With reference to [the Svelte's documentation](https://svelte.dev/tutorial/context-api): 
 
 > The context API provides a mechanism for components to 'talk' to each other without passing around data and functions as props, or dispatching lots of events. It's an advanced feature, but a useful one.
+
+Let's add the user context to the login form we're designing. Create a file `userContext.js` inside the `src` folder with the following content:
+
+```js
+export const key = "userContext";
+
+export const initialValue = null;
+```
+
+`key` is a unique identifier for the context as an application may have unlimited number of different contexts which have to remain accessible. `initialValue` is just a default value for the context before it's set.
+
+The next step is to add the context to our application. Navigate to the `App.svelte` file and add 2 import lines:
+
+```js
+import { onMount, setContext } from "svelte";
+import {
+  key as userContextKey,
+  initialValue as userContextInitialValue
+} from "./userContext";
+```
+
+Looking at the code above you may wonder what we are importing from the `svelte` package. `onMount` is a helper function requiring a callback function as an argument. This callback will be executed when the current component is mounting(at the very start of the component). `setContext` is a setter function for a context. It requires the key of the context and a new value as arguments.
+
+Let's use the `onMount` to set the default value for the context:
+
+```js
+onMount(() => {
+  setContext(userContextKey, userContextInitialValue);
+});
+```
+
+And modify the `submit` function to set the user context:
+
+```js
+const submit = ({ email, password }) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      setContext(userContextKey, {
+        name: "Foo",
+        lastName: "Bar",
+        email: "foo@bar.com"
+      });
+      resolve();
+    }, 1000);
+  });
+```
+
+That's it. Any successful submission will change the user context to a fake user object which can be accessed by a context getter `getContext`:
+
+```js
+<script>
+import { getContext } from 'svelte';
+import { key as userContextKey } from "./userContext";
+
+const user = getContext(key);
+</script>
+```
