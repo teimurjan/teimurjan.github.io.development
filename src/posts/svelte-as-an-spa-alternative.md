@@ -518,3 +518,18 @@ import { key as userContextKey } from "./userContext";
 const user = getContext(key);
 </script>
 ```
+
+# Summary
+
+Svelte is a powerful tool giving a lot of capabilities not only in the performance but also in the wide range of its API. Besides the basics covered in this post, Svelte has the following features out of the box:
+
+* Reactive declarations and statements
+* Await template blocks
+* Dimensions binding
+* Global store like Redux
+* Animation and transition helpers
+* Debugging helper
+
+Summing this up, Svelte is a great library which obsess all the needs for SPAs building and even more. It can compete the biggest players in the market and even win the battle if it'll receive enough popularity and support in the developers community.
+
+Notice: All the code from this article can be found on the `teimurjan/svelte-login-form` [GitHub repository](https://github.com/teimurjan/svelte-login-form). The demo for the login form is available at <https://teimurjan.github.io/svelte-login-form>.
