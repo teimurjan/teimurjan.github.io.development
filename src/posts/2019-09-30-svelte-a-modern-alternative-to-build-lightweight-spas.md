@@ -13,37 +13,36 @@ Web applications are becoming more popular from day to day. It’s like a growin
 
 Svelte is called as a new approach to building user interfaces. It’s new, but what are the things that make it so. Let’s dive into them by creating a login form which almost any application have. 	
 
-# Architecture	
+# Architecture
 
-Svelte is architectured in the way to be faster than any other library. It’s reached by shifting the step of loading a framework for building a virtual DOM. Instead of using a tool during the running process it’s compiled to the VanillaJS at the building stage so the application has no dependencies needed to start.	
+Svelte is architectured in the way to be faster than any other library. It’s reached by shifting the step of loading a framework for building a virtual DOM. Instead of using a tool during the running process it’s compiled to the VanillaJS at the building stage so the application has no dependencies needed to start.
 
-![](./assets/svelte-as-an-spa-alternative/svelte-vs-others.png)
-
+![](/media/svelte-vs-others.png)
 
 The illustration above describes why Svelte is the absolute winner in the start-up performance competition. That’s not gained by any sort of optimization but by the usage of the plain browser Javascript compiler instead of side-compilers.	
 
-# Installation	
+# Installation
 
 Svelte installation is as easy as pie which makes its usage even more pleasant. At first, it’s needed to download the project’s template:	
 
-```sh	
+```sh
 npx degit sveltejs/template svelte-login-form	
-```	
+```
 
 Completion of the command above means that we have a Svelte project template. It’s empty for the moment and the required NPM packages are not installed yet. Let’s fix it.	
 
-```sh	
+```sh
 cd svelte-login-form	
 npm install	
-```	
+```
 
 Now, the application is ready to start by using the following command:	
 
-```sh	
+```sh
 npm dev start	
-```	
+```
 
-# Structure	
+# Structure
 
 Any Svelte component may contain the following sections:	
 
@@ -53,7 +52,7 @@ Any Svelte component may contain the following sections:
 
 Let’s look at the example in `src/App.svelte` file.	
 
-```html	
+```html
 <script>	
   export let name;	
 </script>	
@@ -65,7 +64,7 @@ Let’s look at the example in `src/App.svelte` file.
 </style>	
 
 <h1>{name}</h1>	
-```	
+```
 
 The code above is contained from exactly three sections. The first one - is the `script` which is an optional Javascript block with the variables and functions declarations that should be used inside the component.	
 
@@ -77,7 +76,7 @@ Svelte is a library gaining to bring the modularity into the game. It keeps that
 
 Returning to the login form we’re building. Let’s create a new file `LoginForm.svelte` inside the `src` folder with the following content:	
 
-```html	
+```html
 <style>	
   form {	
     background: #fff;	
@@ -140,11 +139,11 @@ Returning to the login form we’re building. Let’s create a new file `LoginFo
 
   <button type="submit">Log in 🔒</button>	
 </form>	
-```	
+```
 
 It’s a dumb styled component that we’ll make smarter later. To see this component at our site we should render it inside the root component - App. Let us go and edit the `src/App.svelte` so it’ll look like this:	
 
-```html	
+```html
 <script>	
   import LoginForm from "./LoginForm.svelte";	
 </script>	
@@ -163,17 +162,17 @@ It’s a dumb styled component that we’ll make smarter later. To see this comp
 <section>	
   <LoginForm />	
 </section>	
-```	
+```
 
 If everything has been done correctly and the application still running our form has to appear at <localhost:5000>. Let's level up our Svelte skills by making the form smarter.	
 
-# Going stateful	
+# Going stateful
 
 Any component in Svelte can have its state. The state is a special variable or group of special variables which can be used inside the template. Why do I say "special"? As whenever such a variable is changed the template is notified about it and renders the content with the newest state. This thing helps the application reacts to the user interactions lightning fast.	
 
 We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It means that our `email` and `password` variables will always be in sync with the form values, so we’ll be ready to submit these values at any time without afraid of having differences between the submission values and the actual values in the form.	
 
-```html	
+```html
 <script>	
   let email = "";	
   let password = "";	
@@ -205,7 +204,7 @@ We’ll declare email and password state variables where the form values for the
 
     {#if isLoading}Logging in...{:else}Log in 🔒{/if}	
 </form>	
-```	
+```
 
 State variables look like common Javascript variables, but to make them synchronized with the form values(bind them to the form fields), it is necessary to use `bind:value` directive. There are also a couple of unfamiliar things: 	
 
@@ -214,7 +213,7 @@ State variables look like common Javascript variables, but to make them synchron
 
 Finally, let’s use our opportunities given by using the state to add the validation to our form. It can be achieved by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.	
 
-```html	
+```html
 <script>	
   let email = "";	
   let password = "";	
@@ -272,14 +271,13 @@ Finally, let’s use our opportunities given by using the state to add the valid
     </ul>	
   {/if}	
 </form>	
-```	
+```
 
 <div align="center">	
 
 <div style="width:60%">	
 
-![](/media/sep-17-2019-15-45-50.gif)	
-
+![](/media/sep-17-2019-15-45-50.gif)
 
 </div>	
 
@@ -288,13 +286,13 @@ Finally, let’s use our opportunities given by using the state to add the valid
 The form is almost complete. The only thing setting us apart from the form used is showing a success message after the authentication went well.	
 Let's create a state variable for tracking successful submissions which is `false` by default. After successful submission of a form, the value of this variable should be set to `true`.	
 
-```js	
+```js
 let isSuccess = false;	
-```	
+```
 
 The function handling form's submission should be also changed to follow the logic of toggling `isSuccess` after a successful operation.	
 
-```js	
+```js
 const handleSubmit = () => {	
   errors = {};	
   if (email.length === 0) {	
@@ -313,13 +311,13 @@ const handleSubmit = () => {
     }, 1000);	
   }	
 };	
-```	
+```
 
 This modification made the form to go into success state as soon as the submission is done.	
 
 But if you check your development server, you won't find any changes in the form's behavior. It's self-consistent as we've changed the code but haven't touched the template yet. We need to add the instruction to the template which will show the success message if a user has been succeeded and the entire login form otherwise. Svelte's template syntax allows us to easily implement it.	
 
-```html	
+```html
 <form on:submit|preventDefault={handleSubmit}>	
   {#if isSuccess}	
     <div class="success">	
@@ -349,41 +347,41 @@ But if you check your development server, you won't find any changes in the form
     {/if}	
   {/if}	
 </form>	
-```	
+```
 
-# Abstract with properties	
+# Abstract with properties
 
 We've sorted out everything about the internal component's state. Now it's time to go through the external dependencies called properties. Props are the inputs or arguments which are passed into the component to describe to the component what should appear or how the component should behave.	
 
 Declaration of a property looks so similar to the state, except the keyword `export`.	
 
-```html	
+```html
 <script>	
 	export let answer;	
 </script>	
 
 <p>The answer is {answer}</p>	
-```	
+```
 
-```html	
+```html
 <script>	
 	import Nested from './Nested.svelte';	
 </script>	
 
 <Nested answer={42}/>	
-```	
+```
 
 It's all about the properties. Declare and pass - all you need to know to use props.	
 
 But how are these properties apply to the login form component? Props can make our login form more generic by extracting the submission function into a property. It will allow using this component with any submission action you need(request to a test server, request to an actual server, etc.). This prop will be called \`submit\` and will be a function which returns a resolved promise if the submit action has succeeded and rejected promise if there is an error. Let us declare the prop by the example given above:	
 
-```js	
+```js
 export let submit;	
-```	
+```
 
 The submission handler inside the login form should also be edited to use the new `submit` property.	
 
-```js	
+```js
 const handleSubmit = () => {	
   errors = {};	
   if (email.length === 0) {	
@@ -405,20 +403,20 @@ const handleSubmit = () => {
       });	
   }	
 };	
-```	
+```
 
 The component seems to be ready. However, if you return to the form and try to submit it, you'll notice that the state of the button has not been changed from loading. Also there is an exception in the console saying: `Uncaught TypeError: submit is not a function`. Of course, we've declared the prop but have forgotten to pass it. Let's declare a function in the App component and pass it to the login form.	
 
-```js	
+```js
 const submit = ({ email, password }) =>	
   new Promise((resolve, reject) => setTimeout(resolve, 1000));	
-```	
+```
 
-```jsx	
+```jsx
 <section>	
   <LoginForm submit={submit} />	
 </section>	
-```	
+```
 
 Now the form is working as it has to. It can both show the errors and inform the user if the logging in has been succeeded.	
 
@@ -426,14 +424,13 @@ Now the form is working as it has to. It can both show the errors and inform the
 
 <div style="width:60%">	
 
-![](/media/sep-17-2019-15-44-04.gif)	
-
-
-</div>	
+![](/media/sep-17-2019-15-44-04.gif)
 
 </div>	
 
-# Context sharing	
+</div>	
+
+# Context sharing
 
 It seems that everything necessary to build an application is listed. Having the properties, the inner state and we're ready to go. It's partially true. These 2 general points make it possible to design SPAs of high-complexity. However, if you think about sharing some data among many components you'll find it very difficult. 	
 
@@ -442,38 +439,38 @@ The simplest example that can be named is having globally accessible `user` vari
 Svelte has a thing for it - Context API. With reference to [the Svelte's documentation](https://svelte.dev/tutorial/context-api): 	
 
 > The context API provides a mechanism for components to 'talk' to each other without passing around data and functions as props, or dispatching lots of events. It's an advanced feature, but a useful one.	
-Let's add the user context to the login form we're designing. Create a file `userContext.js` inside the `src` folder with the following content:	
+> Let's add the user context to the login form we're designing. Create a file `userContext.js` inside the `src` folder with the following content:	
 
-```js	
+```js
 export const key = "userContext";	
 export const initialValue = null;	
-```	
+```
 
 `key` is a unique identifier for the context as an application may have the unlimited number of different contexts which have to remain accessible. `initialValue` is just a default value for the context before it's set.	
 
 The next step is to add the context to our application. Navigate to the `App.svelte` file and add 2 import lines:	
 
-```js	
+```js
 import { onMount, setContext } from "svelte";	
 import {	
   key as userContextKey,	
   initialValue as userContextInitialValue	
 } from "./userContext";	
-```	
+```
 
 Looking at the code above you may wonder what we are importing from the `svelte` package. `onMount` is a helper function requiring a callback function as an argument. This callback will be executed when the current component is mounting(at the very start of the component). `setContext` is a setter function for a context. It requires the key to the context and new value as the arguments.	
 
 Let's use the `onMount` to set the default value for the context:	
 
-```js	
+```js
 onMount(() => {	
   setContext(userContextKey, userContextInitialValue);	
 });	
-```	
+```
 
 And modify the `submit` function to set the user context:	
 
-```js	
+```js
 const submit = ({ email, password }) =>	
   new Promise((resolve, reject) => {	
     setTimeout(() => {	
@@ -485,19 +482,19 @@ const submit = ({ email, password }) =>
       resolve();	
     }, 1000);	
   });	
-```	
+```
 
 That's it. Any successful submission will change the user context to a fake user object which can be accessed by a context getter `getContext`:	
 
-```js	
+```js
 <script>	
 import { getContext } from 'svelte';	
 import { key as userContextKey } from "./userContext";	
 const user = getContext(key);	
 </script>	
-```	
+```
 
-# Summary	
+# Summary
 
 Svelte is a powerful tool giving a lot of capabilities not only in the performance but also in the wide range of its API. Besides the basics covered in this post, Svelte has the following features out of the box:	
 
@@ -511,4 +508,3 @@ Svelte is a powerful tool giving a lot of capabilities not only in the performan
 Summing this up, Svelte is a great library which obsesses all the needs for SPAs building and even more. It can compete the biggest players in the market and even win the battle if it'll receive enough popularity and support in the developers' community.	
 
 Notice: All the code from this article can be found on the `teimurjan/svelte-login-form` [GitHub repository](https://github.com/teimurjan/svelte-login-form). The demo for the login form is available at <https://teimurjan.github.io/svelte-login-form>.
-
