@@ -11,9 +11,9 @@ tags:
   - react-sketch
 ---
 
-We've passed through the [training machine learning alogrithm](/blog/digits-recognizer-python-flask-react-1), [image processing and integrating the trained algorithm with the Flask backend](/blog/digits-recognizer-python-flask-react-2) and now I am here to put the final by implementing a React application for drawing digits.
+We've passed through the [training machine learning alogrithm](/blog/digits-recognizer-1), [image processing and integrating the trained algorithm with the Flask backend](/blog/digits-recognizer-2) and now I am here to put the final by implementing a React application for drawing digits.
 
-## Set up the environment
+## Set up environment
 
 I used [CRA boilerplate](https://github.com/facebook/create-react-app) but it's not so important. You can configure your application from scratch if you don't cherish the time.
 
@@ -112,7 +112,7 @@ class App extends Component {
 export default App;
 ```
 
-Here are no unfamiliar things, I guess, except the `SketchField` component. It has props that are perfectly named, so as you see we have width and height attributes, the tool with which we'll draw our image, its format, the colors of background and pencil and also the width of the line. But I did not say anything about `ref`. It is used here in order to get our image. So we assign SketchField ref to `this.sketch` and then when "Submit" button is clicked we can get the drawn image by calling `.toDataURL()`.
+Here is no unfamiliar things, I guess, except the `SketchField` component. It has props which are perfectly named, so as you see we have width and height attributes, the tool with which we'll draw our image, its format, the colors of background and pencil and also the width of line. But I did not say anything about `ref`. It is used here in order to get our image. So we assign SketchField ref to `this.sketch` and then when "Submit" button is clicked we can get the drawen image by calling `.toDataURL()`.
 
 One more unknown thing is `makePrediction` function. It is a simple API call with status code validation.
 
@@ -146,9 +146,8 @@ And go to the `localhost:3000`.
 
 <img src="./assets/digits-recognizer-3/guess.gif" style="display: block; margin:1rem auto;"/>
 
-Check out the [DEMO](web-digits-recognizer.herokuapp.com). All code is available on my [Github repository ](https://github.com/teimurjan/digits-recognizer).
+Checkout the [DEMO](web-digits-recognizer.herokuapp.com). All code is available on my [Github repository ](https://github.com/teimurjan/digits-recognizer).
 
 ## Conclusion
 
-I understand that the quality of this classifier is not so good as you want. That's it because of the big difference between training and actual data. But the reason for creating this project is just to learn something new and share this knowledge with others. Thank you for reading this article, hopefully, 
-you've discovered lots of interesting things, keep on studying and improve yourselves. 🙌
+I understand that the quality of this classifier is not so good as you want. That's it because of the big difference between train and actual data. But the reason of creating this project is just to learn something new and share this knowledge with others. Thank you for reading this article, hope you've discovered lots of interesting things, keep on studying and improve yourselves. 🙌
