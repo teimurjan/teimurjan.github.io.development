@@ -1,13 +1,21 @@
 ---
 title: Digits Recognizer using Python and React. Train the model.
-date: 2018-03-23 12:34:00
-tags: ['python', "machine learning", "scikit", "numpy", "sklearn"]
-excerpt: "The first part in the series of creation your own Digits Recognizer using Python"
+date: 2018-02-22T12:34:00.000Z
+excerpt: >-
+  The first part in the series of creation your own Digits Recognizer using
+  Python
+hidden: false
+tags:
+  - python
+  - machine learning
+  - scikit
+  - numpy
+  - sklearn
 ---
 
-Today's topic is like an introduction into the combination of computer vision and machine learning. All that I'll do here is just fitting kNN model with the data of handwritten digits taken from the [MNIST Database](http://yann.lecun.com/exdb/mnist/) and also checking its accuracy.
+Today's topic is like an introduction to the combination of computer vision and machine learning. All that I'll do here is just fitting the kNN model with the data of handwritten digits taken from the [MNIST Database](http://yann.lecun.com/exdb/mnist/) and also checking its accuracy.
 
-## Set up environment
+## Set up the environment
 
 I'll be using [Anaconda](https://anaconda.org/anaconda/python) as my environment so I'll skip the step about installing the dependencies.
 
@@ -56,7 +64,7 @@ plt.xlabel('accuracy')
 plt.ylabel('k')
 ```
 
-As the output we can see such plot:
+As the output we can see such a plot:
 
 ![](./assets/digits-recognizer-1/find-best-k.jpg)
 
@@ -84,4 +92,4 @@ Amazing! We reached 99% accuracy!
 
 ## To be continued
 
-In the [next article](/blog/digits-recognizer-python-flask-react-2) I’ll move this classifier into an API built with Flask.
+In the [next article](/blog/digits-recognizer-2) I’ll move this classifier into an API built with Flask.
