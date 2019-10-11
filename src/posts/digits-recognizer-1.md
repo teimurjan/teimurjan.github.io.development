@@ -1,8 +1,16 @@
 ---
 title: Digits Recognizer using Python and React. Train the model.
-date: 2018-03-23 12:34:00
-tags: ['python', "machine learning", "scikit", "numpy", "sklearn"]
-excerpt: "The first part in the series of creation your own Digits Recognizer using Python"
+date: 2018-02-22T12:34:00.000Z
+excerpt: >-
+  The first part in the series of creation your own Digits Recognizer using
+  Python
+hidden: false
+tags:
+  - python
+  - machine learning
+  - scikit
+  - numpy
+  - sklearn
 ---
 
 Today's topic is like an introduction into the combination of computer vision and machine learning. All that I'll do here is just fitting kNN model with the data of handwritten digits taken from the [MNIST Database](http://yann.lecun.com/exdb/mnist/) and also checking its accuracy.
