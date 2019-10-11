@@ -13,9 +13,9 @@ tags:
   - sklearn
 ---
 
-Today's topic is like an introduction into the combination of computer vision and machine learning. All that I'll do here is just fitting kNN model with the data of handwritten digits taken from the [MNIST Database](http://yann.lecun.com/exdb/mnist/) and also checking its accuracy.
+Today's topic is like an introduction to the combination of computer vision and machine learning. All that I'll do here is just fitting the kNN model with the data of handwritten digits taken from the [MNIST Database](http://yann.lecun.com/exdb/mnist/) and also checking its accuracy.
 
-## Set up environment
+## Set up the environment
 
 I'll be using [Anaconda](https://anaconda.org/anaconda/python) as my environment so I'll skip the step about installing the dependencies.
 
@@ -64,7 +64,7 @@ plt.xlabel('accuracy')
 plt.ylabel('k')
 ```
 
-As the output we can see such plot:
+As the output we can see such a plot:
 
 ![](./assets/digits-recognizer-1/find-best-k.jpg)
 
