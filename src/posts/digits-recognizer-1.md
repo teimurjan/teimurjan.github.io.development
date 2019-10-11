@@ -92,4 +92,4 @@ Amazing! We reached 99% accuracy!
 
 ## To be continued
 
-In the [next article](/blog/digits-recognizer-python-flask-react-2) I’ll move this classifier into an API built with Flask.
+In the [next article](/blog/digits-recognizer-2) I’ll move this classifier into an API built with Flask.
