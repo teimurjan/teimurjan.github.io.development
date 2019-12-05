@@ -17,6 +17,7 @@ collections:
       - { label: 'Excerpt', name: 'excerpt', widget: 'string' }
       - { label: 'Hidden', name: 'hidden', widget: 'boolean', default: false }
       - { label: 'Tags', name: 'tags', widget: 'list' }
+      - { label: 'Canonical URL', name: 'canonical_url', widget: 'string',  required: false }
       - { label: 'Body', name: 'body', widget: 'markdown' }
   - name: 'pages'
     label: 'Pages'

@@ -49,13 +49,37 @@ const BlogPostTemplate = ({
 
   return (
     <Layout>
-      <Helmet title={frontmatter.title} />
+      <Helmet
+        title={frontmatter.title}
+        link={
+          frontmatter.canonical_url
+            ? [
+                {
+                  rel: 'canonical',
+                  key: frontmatter.canonical_url,
+                  href: frontmatter.canonical_url,
+                },
+              ]
+            : []
+        }
+      />
       <BlogPost
         title={frontmatter.title}
         date={date}
         content={<BlogPostContent dangerouslySetInnerHTML={{ __html: html }} />}
         tags={frontmatter.tags}
       />
+      {frontmatter.canonical_url && (
+        <>
+          <BlogPostDivider />
+          <i>
+            Originally published at{' '}
+            <a href={rel.canonical_url}>
+              {new URL(rel.canonical_url).hostname}
+            </a>
+          </i>
+        </>
+      )}
     </Layout>
   )
 }

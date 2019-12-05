@@ -97,6 +97,7 @@ const createPosts = async ({ actions, graphql }) => {
               date(formatString: "MMM DD, YYYY")
               title
               tags
+              canonical_url
             }
           }
         }
