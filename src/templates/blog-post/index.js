@@ -19,6 +19,9 @@ import {
 } from '../../components/post-preview/index.styles'
 import { PrimaryALink } from '../../components/link/index.styles'
 
+const makeURL = urlStr =>
+  typeof window !== 'undefined' ? new window.URL(urlStr) : new url.URL(urlStr)
+
 export const BlogPost = ({ tags, date, title, content, canonicalURL }) => (
   <Container>
     <BlogPostHeader>
@@ -38,7 +41,7 @@ export const BlogPost = ({ tags, date, title, content, canonicalURL }) => (
           <i>
             Originally published at{' '}
             <PrimaryALink href={canonicalURL}>
-              {new url.URL(canonicalURL).hostname}
+              {makeURL(canonicalURL).hostname}
             </PrimaryALink>
           </i>
         </p>
