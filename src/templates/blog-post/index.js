@@ -74,8 +74,8 @@ const BlogPostTemplate = ({
           <BlogPostDivider />
           <i>
             Originally published at{' '}
-            <a href={rel.canonical_url}>
-              {new URL(rel.canonical_url).hostname}
+            <a href={frontmatter.canonical_url}>
+              {new URL(frontmatter.canonical_url).hostname}
             </a>
           </i>
         </>
