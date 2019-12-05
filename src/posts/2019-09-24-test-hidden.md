@@ -6,6 +6,6 @@ excerpt: Test Hidden
 hidden: true
 tags:
   - test
-canonical_url: 'test'
+canonical_url: 'https://example.com'
 ---
 Test
