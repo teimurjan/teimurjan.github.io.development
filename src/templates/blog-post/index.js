@@ -2,7 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
-import { URL } from 'url'
+import * as url from 'url'
 import Layout from '../../components/layout'
 import Tags from '../../components/tags'
 import {
@@ -17,8 +17,9 @@ import {
   DateThumbnailDay,
   DateThumbnailMonth,
 } from '../../components/post-preview/index.styles'
+import { PrimaryALink } from '../../components/link/index.styles'
 
-export const BlogPost = ({ tags, date, title, content }) => (
+export const BlogPost = ({ tags, date, title, content, canonicalURL }) => (
   <Container>
     <BlogPostHeader>
       <BlogPostTitle>{title}</BlogPostTitle>
@@ -30,6 +31,19 @@ export const BlogPost = ({ tags, date, title, content }) => (
     </BlogPostHeader>
     <BlogPostDivider />
     {content}
+    {canonicalURL && (
+      <div>
+        <BlogPostDivider />
+        <p>
+          <i>
+            Originally published at{' '}
+            <PrimaryALink href={canonicalURL}>
+              {new url.URL(canonicalURL).hostname}
+            </PrimaryALink>
+          </i>
+        </p>
+      </div>
+    )}
   </Container>
 )
 
@@ -69,18 +83,8 @@ const BlogPostTemplate = ({
         date={date}
         content={<BlogPostContent dangerouslySetInnerHTML={{ __html: html }} />}
         tags={frontmatter.tags}
+        canonicalURL={frontmatter.canonical_url}
       />
-      {frontmatter.canonical_url && (
-        <>
-          <BlogPostDivider />
-          <i>
-            Originally published at{' '}
-            <a href={frontmatter.canonical_url}>
-              {new URL(frontmatter.canonical_url).hostname}
-            </a>
-          </i>
-        </>
-      )}
     </Layout>
   )
 }
