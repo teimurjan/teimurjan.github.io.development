@@ -8,6 +8,7 @@ tags:
   - svelte
   - javascript
   - spa
+canonical_url: 'https://www.toptal.com/front-end/svelte-framework-guide'
 ---
 Web applications are becoming more popular from day to day. It’s like a growing universe which people opt for its simplicity, speed, and cross-platform availability. Single Page Applications(SPAs) have taken a huge part in this process. Frameworks like Angular, Vue and React help developers to deliver the best user experience in a short period leaving the code supportable and extendable. These tools have been remaining the most popular ones in the area and have many advantages over the newly created packages for a long time. It’s felt like an oligopoly in the SPA world. However, a group of initiative developers targeting this market could enter there with a serious competitor for the existing frameworks - Svelte.	
 
