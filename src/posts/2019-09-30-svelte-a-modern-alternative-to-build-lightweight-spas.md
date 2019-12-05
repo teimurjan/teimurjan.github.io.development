@@ -10,34 +10,34 @@ tags:
   - spa
 canonical_url: 'https://www.toptal.com/front-end/svelte-framework-guide'
 ---
-Web applications are becoming more popular from day to day. It’s like a growing universe which people opt for its simplicity, speed, and cross-platform availability. Single Page Applications(SPAs) have taken a huge part in this process. Frameworks like Angular, Vue and React help developers to deliver the best user experience in a short period leaving the code supportable and extendable. These tools have been remaining the most popular ones in the area and have many advantages over the newly created packages for a long time. It’s felt like an oligopoly in the SPA world. However, a group of initiative developers targeting this market could enter there with a serious competitor for the existing frameworks - Svelte.	
+Web applications are becoming more popular day by day. They’re a growing world which people choose for its simplicity, speed, and cross-platform availability. Single Page Applications (SPAs) have taken a huge part in this process. Frameworks like Angular, Vue.js, and React help developers to deliver the best user experience in a short period leaving the code supportable and extendable. These tools have long remained most popular in the field, with many advantages over the newly created packages. It has felt like an oligopoly in the SPA world. However, a group of forward-looking developers targeting this market could enter with a serious competitor-Svelte.
 
-Svelte is called as a new approach to building user interfaces. It’s new, but what are the things that make it so. Let’s dive into them by creating a login form which almost any application have. 	
+Svelte is a new approach to building user interfaces. Let’s dive in and explore what makes it so fresh by creating a common log-in form.
 
 # Architecture
 
-Svelte is architectured in the way to be faster than any other library. It’s reached by shifting the step of loading a framework for building a virtual DOM. Instead of using a tool during the running process it’s compiled to the VanillaJS at the building stage so the application has no dependencies needed to start.
+Svelte is architected to be faster than any other library. It’s reached by shifting the step of loading a framework for building a virtual DOM. Instead of using a tool during the running process, it’s compiled to vanilla JS at the building stage so the application requires no dependencies to start.
 
-![](/media/svelte-vs-others.png)
+![](/media/1-tgu3z9x9usrchgkf4sywiq.png)
 
-The illustration above describes why Svelte is the absolute winner in the start-up performance competition. That’s not gained by any sort of optimization but by the usage of the plain browser Javascript compiler instead of side-compilers.	
+The table above describes why Svelte is an absolute winner in startup performance. That’s not gained by any sort of optimization but by using the available browser JavaScript compiler instead of a side compiler.
 
 # Installation
 
-Svelte installation is as easy as pie which makes its usage even more pleasant. At first, it’s needed to download the project’s template:	
+Svelte installation is incredibly easy, making its usage very pleasant. The first step is to download the project’s template:
 
 ```sh
 npx degit sveltejs/template svelte-login-form	
 ```
 
-Completion of the command above means that we have a Svelte project template. It’s empty for the moment and the required NPM packages are not installed yet. Let’s fix it.	
+Completing the above command means that we have a Svelte project template. It’s empty for the moment and the required NPM packages are not installed yet. Let’s fix that.
 
 ```sh
 cd svelte-login-form	
 npm install	
 ```
 
-Now, the application is ready to start by using the following command:	
+Now the application is ready to start by using the following command:
 
 ```sh
 npm dev start	
@@ -45,13 +45,13 @@ npm dev start
 
 # Structure
 
-Any Svelte component may contain the following sections:	
+Any Svelte component may contain the following sections:
 
-* script	
-* style	
-* template	
+* Script	
+* Style	
+* Template	
 
-Let’s look at the example in `src/App.svelte` file.	
+Let’s look at the example in the `src/App.svelte` file.	
 
 ```html
 <script>	
@@ -67,15 +67,15 @@ Let’s look at the example in `src/App.svelte` file.
 <h1>{name}</h1>	
 ```
 
-The code above is contained from exactly three sections. The first one - is the `script` which is an optional Javascript block with the variables and functions declarations that should be used inside the component.	
+The code above is contained from exactly three sections:
 
-Right after the Javascript, we have another optional block called `style`. It's almost a common HTML style tag except for one important thing. The rules described inside this block are scoped to the one component. Applying a style to a `p` element won’t affect all the paragraphs on the page. It's fantastic as you have not to come up with the names of the classes no to overwrite anything.	
+1.  `script` tag, which is an optional JavaScript block with the variables and functions declarations that should be used inside the component.
+2. `style` tag, which is another optional block. It's much like a common HTML style tag except for one important difference. The rules described inside this block are scoped to only this component. Applying a style to a `p` element won't affect all the paragraphs on the page. It's fantastic since you do not have to come up with class names and you'll never accidentally override another rule.
+3. The last and the only required block is a template block — in this case, an `h1` tag. It's a presentation/view of your component. It's tightly bound to the style and script blocks as they determine how the view will be styled and how it will behave.
 
-The last but and the only required one block is the `template`. It's a presentation/view of your component. It’s tightly bound to the style and script blocks as they determine how the view will be styled and how it will behave.	
+Svelte is a library trying to bring modularity into the front-end game. It keeps that modularity not only in separating different components but also in isolating the logic, view, and the template.
 
-Svelte is a library gaining to bring the modularity into the game. It keeps that modularity not only in separating different components but also in isolating the logic, view and the template.	
-
-Returning to the login form we’re building. Let’s create a new file `LoginForm.svelte` inside the `src` folder with the following content:	
+Returning to the log-in form we’re building, let’s create a new file `LoginForm.svelte` inside the src folder with the following content:
 
 ```html
 <style>	
@@ -142,7 +142,7 @@ Returning to the login form we’re building. Let’s create a new file `LoginFo
 </form>	
 ```
 
-It’s a dumb styled component that we’ll make smarter later. To see this component at our site we should render it inside the root component - App. Let us go and edit the `src/App.svelte` so it’ll look like this:	
+It’s a dumb styled component that we’ll make smarter later. To see this component on our site we should render it inside the root component — App. Let’s go and edit the `src/App.svelte` so it'll look like this:
 
 ```html
 <script>	
@@ -165,13 +165,13 @@ It’s a dumb styled component that we’ll make smarter later. To see this comp
 </section>	
 ```
 
-If everything has been done correctly and the application still running our form has to appear at <localhost:5000>. Let's level up our Svelte skills by making the form smarter.	
+If everything has been done correctly and the application is still running, our form will appear at [localhost:5000](http://localhost:5000). Let's level up our Svelte skills by making the form smarter.
 
 # Going stateful
 
-Any component in Svelte can have its state. The state is a special variable or group of special variables which can be used inside the template. Why do I say "special"? As whenever such a variable is changed the template is notified about it and renders the content with the newest state. This thing helps the application reacts to the user interactions lightning fast.	
+Any component in Svelte can have its state. The state is a special variable or a group of special variables which can be used inside the template. Why do I say “special”? Whenever such a variable is changed the template is notified about it and renders the content with the newest state. This allows the application to react to user interactions very fast.
 
-We’ll declare email and password state variables where the form values for the appropriate fields will be stored. It means that our `email` and `password` variables will always be in sync with the form values, so we’ll be ready to submit these values at any time without afraid of having differences between the submission values and the actual values in the form.	
+We’ll declare `email` and `password` state variables where the form values for the appropriate fields will be stored. It means that our `email` and `password` variables will always be in sync with the form values, so we'll be ready to submit these values at any time with no fear of having any differences between the submission values and the actual values in the form.
 
 ```html
 <script>	
@@ -207,12 +207,12 @@ We’ll declare email and password state variables where the form values for the
 </form>	
 ```
 
-State variables look like common Javascript variables, but to make them synchronized with the form values(bind them to the form fields), it is necessary to use `bind:value` directive. There are also a couple of unfamiliar things: 	
+State variables look like common JavaScript variables but to make them synchronized with the form values (bind them to the form fields), it is necessary to use bind:value directive. There are also a couple of unfamiliar things:
 
-* `on:submit|preventDefault` is a short-hand for preventing default events’ behaviour. It’s so comfortable to have it in this way rather than writing `e.preventDefault()` every time.	
-* `{#if isLoading}Logging in...{:else}Log in 🔒{/if}` is a piece of Svelte’s template syntax. As there is no JS in the template block, there is a special syntax for using ifs, loops, etc.	
+* `on:submit|preventDefault` is shorthand for preventing default events' behavior. It's more comfortable this way than having to write `e.preventDefault()` every time.
+* `{#if isLoading}Logging in...{:else}Log in 🔒{/if}` is a piece of Svelte's template syntax. As there is no JS in the template block, there is a special syntax for using ifs, loops, etc.
 
-Finally, let’s use our opportunities given by using the state to add the validation to our form. It can be achieved by creating another state variable `errors` which will be filled with the errors when the form with the invalid values is submitting.	
+Finally, let’s use the available options by using the state to add validation to our form. It can be achieved by creating another state variable `errors`, which will be filled with errors when the form is submitted with invalid values.
 
 ```html
 <script>	
@@ -278,20 +278,21 @@ Finally, let’s use our opportunities given by using the state to add the valid
 
 <div style="width:60%">	
 
-![](/media/sep-17-2019-15-45-50.gif)
+![](/media/1-lzdwkog39ylrrlie2j5wsa.gif)
 
 </div>	
 
 </div>	
 
-The form is almost complete. The only thing setting us apart from the form used is showing a success message after the authentication went well.	
-Let's create a state variable for tracking successful submissions which is `false` by default. After successful submission of a form, the value of this variable should be set to `true`.	
+The form is almost complete. The only thing that remains is a success message upon successful authentication.
+
+Let’s create a state variable for tracking successful submissions which is `false` by default. After successful submission of a form, the value of this variable should be set to `true`.
 
 ```js
 let isSuccess = false;	
 ```
 
-The function handling form's submission should be also changed to follow the logic of toggling `isSuccess` after a successful operation.	
+The function handling the form submission should also be changed to follow the logic of toggling `isSuccess` after a successful operation.
 
 ```js
 const handleSubmit = () => {	
@@ -314,9 +315,9 @@ const handleSubmit = () => {
 };	
 ```
 
-This modification made the form to go into success state as soon as the submission is done.	
+This modification makes the form go into success state as soon as the submission is complete.
 
-But if you check your development server, you won't find any changes in the form's behavior. It's self-consistent as we've changed the code but haven't touched the template yet. We need to add the instruction to the template which will show the success message if a user has been succeeded and the entire login form otherwise. Svelte's template syntax allows us to easily implement it.	
+But if you check your development server, you won’t find any changes in the form’s behavior. We changed the code but haven’t touched the template yet. We need to add instructions to the template to show a success message when a user has successfully logged in. Svelte’s template syntax allows us to implement that easily:
 
 ```html
 <form on:submit|preventDefault={handleSubmit}>	
@@ -352,9 +353,9 @@ But if you check your development server, you won't find any changes in the form
 
 # Abstract with properties
 
-We've sorted out everything about the internal component's state. Now it's time to go through the external dependencies called properties. Props are the inputs or arguments which are passed into the component to describe to the component what should appear or how the component should behave.	
+We have sorted out everything about the internal component’s state. Now it’s time to go through the external dependencies called properties, or “props”. Props are inputs or arguments passed into the component to describe to the component what should appear or how the component should behave.
 
-Declaration of a property looks so similar to the state, except the keyword `export`.	
+Declaration of a property looks similar to the state, except for the keyword `export`.
 
 ```html
 <script>	
@@ -372,15 +373,15 @@ Declaration of a property looks so similar to the state, except the keyword `exp
 <Nested answer={42}/>	
 ```
 
-It's all about the properties. Declare and pass - all you need to know to use props.	
+It’s all about the properties. Declare and pass — all you need to know to use props.
 
-But how are these properties apply to the login form component? Props can make our login form more generic by extracting the submission function into a property. It will allow using this component with any submission action you need(request to a test server, request to an actual server, etc.). This prop will be called \`submit\` and will be a function which returns a resolved promise if the submit action has succeeded and rejected promise if there is an error. Let us declare the prop by the example given above:	
+But how do these properties apply to the log-in form component? Props can make our log-in form more generic by extracting the submission function into a property. It will allow you to use this component with any submission action you need (request to a test server, request to an actual server, etc.). This prop will be called `submit` and will be a function which returns a resolved promise if the submit action has succeeded and a rejected promise if there is an error. Let's declare the prop by the example given above:
 
 ```js
 export let submit;	
 ```
 
-The submission handler inside the login form should also be edited to use the new `submit` property.	
+The submission handler inside the log-in form should also be edited to use the new `submit` property.
 
 ```js
 const handleSubmit = () => {	
@@ -406,7 +407,7 @@ const handleSubmit = () => {
 };	
 ```
 
-The component seems to be ready. However, if you return to the form and try to submit it, you'll notice that the state of the button has not been changed from loading. Also there is an exception in the console saying: `Uncaught TypeError: submit is not a function`. Of course, we've declared the prop but have forgotten to pass it. Let's declare a function in the App component and pass it to the login form.	
+The component seems to be ready. However, if you return to the form and try to submit it, you’ll notice that the state of the button has not changed from loading. Also, there is an exception in the console: `Uncaught TypeError: submit is not a function`. Of course, we declared the prop but forgot to pass it. Let's declare a function in the app component and pass it to the log-in form.
 
 ```js
 const submit = ({ email, password }) =>	
@@ -419,13 +420,13 @@ const submit = ({ email, password }) =>
 </section>	
 ```
 
-Now the form is working as it has to. It can both show the errors and inform the user if the logging in has been succeeded.	
+Now the form is working as intended. It can both show errors and inform the user if the login has been successful.
 
 <div align="center">	
 
 <div style="width:60%">	
 
-![](/media/sep-17-2019-15-44-04.gif)
+![](/media/1-e1h8xq_jpf0zyq1vs_syew.gif)
 
 </div>	
 
@@ -433,23 +434,24 @@ Now the form is working as it has to. It can both show the errors and inform the
 
 # Context sharing
 
-It seems that everything necessary to build an application is listed. Having the properties, the inner state and we're ready to go. It's partially true. These 2 general points make it possible to design SPAs of high-complexity. However, if you think about sharing some data among many components you'll find it very difficult. 	
+It seems that everything necessary to build an application is listed. With the properties and the inner state, we’re ready to go. That’s only partially true, though. These two general points make it possible to design high-complexity SPAs. However, if you try sharing data among many different components, you’ll find it very difficult.
 
-The simplest example that can be named is having globally accessible `user` variable. A lot of components should change their behavior related to the user. It can depend on the user's role, age, status, etc. As it's not a good way to repeat ourselves and pass the user to each component in the app using props. 	
+The simplest example is having a globally accessible `user` variable. A lot of components should change their behavior related to the user, depending on the user's role, age, status, etc. However, it isn't DRY to repeat ourselves by passing the user to each component in the app using props.
 
-Svelte has a thing for it - Context API. With reference to [the Svelte's documentation](https://svelte.dev/tutorial/context-api): 	
+Svelte has a solution for this: the [context API](https://svelte.dev/tutorial/context-api).
 
-> The context API provides a mechanism for components to 'talk' to each other without passing around data and functions as props, or dispatching lots of events. It's an advanced feature, but a useful one.	
-> Let's add the user context to the login form we're designing. Create a file `userContext.js` inside the `src` folder with the following content:	
+> The context API provides a mechanism for components to 'talk' to each other without passing around data and functions as props, or dispatching lots of events. It's an advanced feature, but a useful one.
+
+Let’s add the user context to the log-in form we’re designing. Create a file `userContext.js` inside the `src` folder with the following content:
 
 ```js
 export const key = "userContext";	
 export const initialValue = null;	
 ```
 
-`key` is a unique identifier for the context as an application may have the unlimited number of different contexts which have to remain accessible. `initialValue` is just a default value for the context before it's set.	
+`key` is a unique identifier for the context as an application may have an unlimited number of different contexts which have to remain accessible. `initialValue` is just a default value for the context before it's set.
 
-The next step is to add the context to our application. Navigate to the `App.svelte` file and add 2 import lines:	
+The next step is to add the context to our application. Navigate to the `App.svelte` file and add 2 import statements:
 
 ```js
 import { onMount, setContext } from "svelte";	
@@ -459,9 +461,9 @@ import {
 } from "./userContext";	
 ```
 
-Looking at the code above you may wonder what we are importing from the `svelte` package. `onMount` is a helper function requiring a callback function as an argument. This callback will be executed when the current component is mounting(at the very start of the component). `setContext` is a setter function for a context. It requires the key to the context and new value as the arguments.	
+Looking at the code above you may wonder what we are importing from the `svelte` package. `onMount` is a helper function requiring a callback function as an argument. This callback will be executed when the current component is mounting (at the very start of loading the component). `setContext` is a setter function for a context. It requires the key to the context and a new value as its arguments.
 
-Let's use the `onMount` to set the default value for the context:	
+Let’s use the `onMount` function to set the default value for the context:
 
 ```js
 onMount(() => {	
@@ -497,15 +499,16 @@ const user = getContext(key);
 
 # Summary
 
-Svelte is a powerful tool giving a lot of capabilities not only in the performance but also in the wide range of its API. Besides the basics covered in this post, Svelte has the following features out of the box:	
+Svelte is a powerful tool capable of high performance and with a flexible API. Besides the basics covered in this post, Svelte has the following features out of the box:
 
 * Reactive declarations and statements	
 * Await template blocks	
 * Dimensions binding	
-* Global store like Redux	
+* A global store like Redux	
 * Animation and transition helpers	
-* Debugging helper	
+* A debugging helper	
 
-Summing this up, Svelte is a great library which obsesses all the needs for SPAs building and even more. It can compete the biggest players in the market and even win the battle if it'll receive enough popularity and support in the developers' community.	
+To sum up, Svelte is a great library that meets all the needs for building SPAs, and more. It can compete with the biggest players in the market, and even win. What it could use right now, though, is support in the [front-end developers’](https://www.toptal.com/front-end) community.
 
-Notice: All the code from this article can be found on the `teimurjan/svelte-login-form` [GitHub repository](https://github.com/teimurjan/svelte-login-form). The demo for the login form is available at <https://teimurjan.github.io/svelte-login-form>.
+
+Notice: All the code from this article can be found on the `teimurjan/svelte-login-form` [GitHub repository](https://github.com/teimurjan/svelte-login-form). The demo for the log-in form is available [here](https://teimurjan.github.io/svelte-login-form).
