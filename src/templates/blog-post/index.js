@@ -2,6 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
+import { URL } from 'url'
 import Layout from '../../components/layout'
 import Tags from '../../components/tags'
 import {
