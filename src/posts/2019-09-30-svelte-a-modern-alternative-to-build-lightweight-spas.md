@@ -2,7 +2,9 @@
 layout: blog
 title: Svelte - a modern alternative to build lightweight SPAs.
 date: 2019-09-30T07:15:09.723Z
-excerpt: "The most popular tools like React and Angular are the indisputable leaders in\t  the front-end development. But what if there is a faster lighter tool compilable to vanilla JS? Explore the new Svelte tool with the real-world examples.\t"
+excerpt: >-
+  Svelte is a new approach to building user interfaces. Let’s dive in and
+  explore what makes it so fresh by creating a common log-in form.
 hidden: true
 tags:
   - svelte
