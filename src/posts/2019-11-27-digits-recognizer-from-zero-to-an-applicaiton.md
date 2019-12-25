@@ -31,11 +31,19 @@ Our app will use ML in the following way:
 
 We'll need [Anaconda](https://anaconda.org/anaconda/python) to work with ML in Python. It's a nice tool that installs all the required Python packages so you don't need to install them separately by yourself.
 
-### Import dependencies
+Installation process is described [here](https://docs.anaconda.com/anaconda/install/), so it'll be skipped in this article.
+
+### Training ML model
+
+There are some dependencies needed for designing our machine learning model.
+
+* `sklearn.neighbors.KNeighborsClassifier` - is the model that is going to be trained. K Neigbors Classifier is an algorithm which gets some data samples and arrange them on some plane ordering by the given set of characteristics just like in the picture:<br/>
+  ![](/media/knn3.png)
+  <br/>After the data samples are arranged the model is ready for guessing. In order to guess which type of the data samples the green dot belongs we should check the types of `k` nearest neighbors where `k` is the argument set by us. In the situation on the image choosing `k` equal to 1, 2, 3 or 4 will result in the guessed type `Red Triangle` as the majority of closest neighbors in a group of `k` data samples near the green dot contains red triangles. But if we extend k to 5 then the majority is of the blue squares so the guess will be `Blue Square`.
+* 
 
 ```python
-from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import KNeighborsClassifierfrom sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import classification_report
 from sklearn import datasets
 import numpy as np
