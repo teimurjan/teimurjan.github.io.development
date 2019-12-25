@@ -13,9 +13,23 @@ tags:
   - computer vision
   - reactjs
 ---
-## Designing the algorithm
+Machine learning, computer vision, building APIs, creating UI - each of them is a hugely interesting area of engagement. Machine learning and computer vision are more of mathematics and science when API and UI development are about algorithmic thinking and designing flexible architectures. They are so different so it becomes difficult when you have to select the best one to dive into. The purpose of this article is to dispel all doubts and find out a featured scope for you by combining all of them.
 
-I'll be using [Anaconda](https://anaconda.org/anaconda/python) as my environment so I'll skip the step about installing the dependencies.
+The application that is going to be built is simple enough. Simplicity is the core idea as making the app big and compound won't get you a good feeling about any topic but will make you be afraid of its complexity. So the aim of the app is to guess the digits you're drawing in your browser, that's it.
+
+## Machine learning
+
+One of the core parts in our app is the algorithm guessing what number is drawn. This algorithm will be designed using machine learning. Machine learning is a kind of artificial intelligence allowing a system to learn automatically with a given amount of data. In simple words, machine learning is a process of finding a coincidence or set of coincidences in the data during training to apply the found coincidence rules in guessing.
+
+Our app will use ML in the following way:
+
+1. Take images of drawn digits for training.
+2. Learn the system to guess the digits via training data.
+3. Test the system for guessing new/unknown data.
+
+### Setting up environment
+
+We'll need [Anaconda](https://anaconda.org/anaconda/python) to work with ML in Python. It's a nice tool that installs all the required Python packages so you don't need to install them separately by yourself.
 
 ### Import dependencies
 
