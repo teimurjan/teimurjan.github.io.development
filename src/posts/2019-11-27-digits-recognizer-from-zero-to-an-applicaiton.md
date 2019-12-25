@@ -37,7 +37,7 @@ Installation process is described [here](https://docs.anaconda.com/anaconda/inst
 
 There are some dependencies needed for designing our machine learning model.
 
-* `sklearn.neighbors.KNeighborsClassifier` - is the model that is going to be trained. K Neigbors Classifier is an algorithm which gets some data samples and arrange them on some plane ordering by the given set of characteristics just like in the picture:<br/>
+* `sklearn.neighbors.KNeighborsClassifier` - is the model that is going to be trained. K Nearest Neigbors Classifier is an algorithm which gets some data samples and arrange them on some plane ordering by the given set of characteristics just like in the picture:<br/>
   ![](/media/knn3.png)
   <br/>After the data samples are arranged the model is ready for guessing. In order to guess which type of the data samples the green dot belongs we should check the types of `k` nearest neighbors where `k` is the argument set by us. In the situation on the image choosing `k` equal to 1, 2, 3 or 4 will result in the guessed type `Red Triangle` as the majority of closest neighbors in a group of `k` data samples near the green dot contains red triangles. But if we extend k to 5 then the majority is of the blue squares so the guess will be `Blue Square`.
 * 
