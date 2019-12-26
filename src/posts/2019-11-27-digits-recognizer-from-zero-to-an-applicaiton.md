@@ -39,8 +39,13 @@ There are some dependencies needed for designing our machine learning model.
 
 * `sklearn.neighbors.KNeighborsClassifier` - is the model that is going to be trained. K Nearest Neigbors Classifier is an algorithm which gets some data samples and arrange them on some plane ordering by the given set of characteristics just like in the picture:<br/>
   ![](/media/knn3.png)
-  <br/>After the data samples are arranged the model is ready for guessing. In order to guess which type of the data samples the green dot belongs we should check the types of `k` nearest neighbors where `k` is the argument set by us. In the situation on the image choosing `k` equal to 1, 2, 3 or 4 will result in the guessed type `Red Triangle` as the majority of closest neighbors in a group of `k` data samples near the green dot contains red triangles. But if we extend k to 5 then the majority is of the blue squares so the guess will be `Blue Square`.
-* 
+  <br/>After the data samples are arranged the model is ready for guessing. In order to guess which type of the data samples the green dot belongs to we should check the types of `k` nearest neighbors where `k` is the argument set by us. Considering the image above if `k` equal to 1, 2, 3 or 4 is chosen the guess will be `Red Triangle` type as the majority of the closest `k` neighbors of the green dot contains red triangles. But if we extend k to 5 then the majority is of the blue squares so the guess will be `Blue Square`.
+* `sklearn.model_selection.train_test_split` - is the function which will help us to split the data onto the data to use in training and the data to check correctness of our trained model.
+* `sklearn.model_selection.cross_val_score` - is the function to get a value of our model's correctness. The bigger returned value is the better our model guesses.
+* `sklearn.metrics.classification_report` - is the function to show statistical report of model's guesses.
+* `sklearn.datasets` - is the package to get data to train(digits images).
+* `numpy` - is the package widely used in science as it brings a productive and comfortable way to manipulate multi-dimensional data structures in Python.
+* `matplotlib.pyplot` - is the package to visualize data.
 
 ```python
 from sklearn.neighbors import KNeighborsClassifierfrom sklearn.model_selection import train_test_split, cross_val_score
@@ -48,7 +53,6 @@ from sklearn.metrics import classification_report
 from sklearn import datasets
 import numpy as np
 import matplotlib.pyplot as plt
-import cv2
 ```
 
 ### Prepare data
