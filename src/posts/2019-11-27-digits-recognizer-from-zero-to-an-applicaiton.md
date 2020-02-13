@@ -43,9 +43,11 @@ There are some dependencies needed for designing our machine learning model.
 * `sklearn.model_selection.train_test_split` - is the function which will help us to split the data onto the data to use in training and the data to check correctness of our trained model.
 * `sklearn.model_selection.cross_val_score` - is the function to get a value of our model's correctness. The bigger returned value is the better our model guesses.
 * `sklearn.metrics.classification_report` - is the function to show statistical report of model's guesses.
-* `sklearn.datasets` - is the package to get data to train(digits images).
+* `sklearn.datasets` - is the package to get data for training(digits images).
 * `numpy` - is the package widely used in science as it brings a productive and comfortable way to manipulate multi-dimensional data structures in Python.
 * `matplotlib.pyplot` - is the package to visualize data.
+
+Let's import all of them.
 
 ```python
 from sklearn.neighbors import KNeighborsClassifierfrom sklearn.model_selection import train_test_split, cross_val_score
@@ -55,15 +57,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 ```
 
-### Prepare data
-
-The dataset from [MNIST Database](http://yann.lecun.com/exdb/mnist/) is available in the datasets module of sklearn, so let's start with loading the data.
+Now it's necessary to load [MNIST Database](http://yann.lecun.com/exdb/mnist/) which is located in the datasets module of sklearn.
 
 ```python
 digits = datasets.load_digits()
 ```
 
-Now we need to have two different datasets: one for testing and the other for training our model.
+When the data is fetched and ready, we can move to the next step of splitting the data onto 2 parts: training and testing.
 
 ```python
 (X_train, X_test, y_train, y_test) = train_test_split(
@@ -71,9 +71,7 @@ Now we need to have two different datasets: one for testing and the other for tr
 )
 ```
 
-### Fit the model
-
-Let’s find the best parameter k. We can’t just take the k out of our mind, so let’s train model and evaluate accuracy for different k.
+The most important part of the machine learning process is starting right now. It's required to find the best parameter `k` for our algorithm which I've described above. I can’t just take the k out of our mind, so training of the model will be evaluated for different values of `k`.
 
 ```python
 ks = np.arange(2, 10)
@@ -88,84 +86,35 @@ plt.xlabel('accuracy')
 plt.ylabel('k')
 ```
 
-As the output we can see such a plot:
+Running this code will show you the following plot describing accuracy of the algorithm in respect of `k`.
 
 ![](/media/find-best-k.jpg)
 
-Looking at this chart we can understand that the best accuracy was reached when k was 3.
-So from now, we'll be using k=3 for our model.
-
-### Evaluate the model on the test data
-
-```python
-model = KNeighborsClassifier(n_neighbors=3)
-model.fit(X_train, y_train)
-
-z = model.predict(X_test)
-```
-
-Let's now create a classification report to see the accuracy.
-
-```python
-print(classification_report(y_test, z))
-```
-
-![](/media/classification-score.png)
-
-Isn't it amazing that we reached 99% accuracy?
+As it's clearly shown here when `k` is 3 the best accuracy is reached. I found exactly what I needed.
 
 ## Building API
 
-As we'll build the application from scratch we need to create a virtual environment in order to incapsulate all our dependencies. Let's create python3 virtual environment.
+I've prepared the core of the application - an algorithm predicting the digits from images. At the moment it's needed to create an API guessing number is order to get use of the algorithm. To make the job fast and simple I'll use Flask web framework. But before I start, I need to set up a virtual environment with the isolated dependencies.
 
 ```sh
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-Now we have the environment and we can install all needed dependencies.
+As the environment is empty from scratch let's install some libraries we'll use.
 
 ```sh
 pip install flask flask-script scipy scikit-image numpy pillow
 ```
 
-That's all about setting up the environment.
-
-### Configure application
-
-We need the ability of running our application without setting env variables everytime. This goal can be achieved using [flask-script](https://flask-script.readthedocs.io/en/latest/) package. At first we should create a file called manage.py
-
-```sh
-touch manage.py
-```
-
-Next step is getting this manage.py ready.
-
-```python
-from flask_script import Manager
-from app import create_app
-
-app = create_app()
-manager = Manager(app)
-
-
-@manager.command
-def runserver():
-    app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-if __name__ == '__main__':
-    manager.run()
-```
-
-As you see there is an unknown function create_app inside the app package. Now we'll make this function known. I start from creating the package.
+As soon as the installation is completed it's time to build the API.
 
 ```sh
 mkdir app
 touch app/__init__.py
 ```
 
-And then make the target function
+The entry point of the application will be inside `app/__init__.py` file. Let's make a function which will create and start our application.
 
 ```python
 from flask import Flask
@@ -175,14 +124,6 @@ def create_app():
     app = Flask(__name__)
     return app
 ```
-
-It's now our app ready and can be run by calling.
-
-```sh
-python3 manage.py runserver
-```
-
-### Add storage
 
 As we'll deal with the kNN classifier we need to remember the clusters after the training process. The simplies way is to store serialized version of the classifier in a file. Let's create this file.
 
@@ -438,7 +379,30 @@ def create_app():
     return app
 ```
 
-### Testing
+We need the ability of running our application without setting env variables everytime. This goal can be achieved using [flask-script](https://flask-script.readthedocs.io/en/latest/) package. At first we should create a file called manage.py
+
+```sh
+touch manage.py
+```
+
+Next step is getting this manage.py ready.
+
+```python
+from flask_script import Manager
+from app import create_app
+
+app = create_app()
+manager = Manager(app)
+
+
+@manager.command
+def runserver():
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+
+if __name__ == '__main__':
+    manager.run()
+```
 
 Now you can test our app. Let's run the application
 
