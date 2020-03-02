@@ -118,29 +118,58 @@ The entry point of the application will be inside `app/__init__.py` file. Let's 
 
 ```python
 from flask import Flask
+from app.urls import init_urls
 
 
 def create_app():
     app = Flask(__name__)
+    init_urls(app)
     return app
 ```
 
-As we'll deal with the kNN classifier we need to remember the clusters after the training process. The simplies way is to store serialized version of the classifier in a file. Let's create this file.
+As you can see there is a function called `init_urls` which is imported from `urls` package. Let's create this file and declare that function.
 
-```sh
-mkdir storage
-touch storage/classifier.txt
+```python
+from views import PredictDigitView, create_root_view
+
+
+def init_urls(app):
+    app.add_url_rule(
+        '/api/predict',
+        view_func=PredictDigitView.as_view('predict_digit'),
+        methods=['POST']
+    )
+    create_root_view(app)
 ```
 
-### Create settings file
+To make this function working it requires `views` package with a class-based view `PredictDigitView` - a handler for prediction requests and `create_root_view` factory method - a rule to return `index.html` file with the injected React app script on all the requests except one above. After creating `views.py` module it's required to add these handlers using the following code.
 
-Finally we need to create settings file where we'll have the paths of the application's base directory and the classifier storage.
+```python
+from flask import render_template, request, Response
+from flask.views import MethodView
 
-```sh
-touch settings.py
+from app.repo import ClassifierRepo
+from app.services import PredictDigitService
+from settings import CLASSIFIER_STORAGE
+
+
+def create_root_view(app):
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def root(path):
+        return render_template("index.html")
+
+
+class PredictDigitView(MethodView):
+    def post(self):
+        repo = ClassifierRepo(CLASSIFIER_STORAGE)
+        service = PredictDigitService(repo)
+        image_data_uri = request.json['image']
+        prediction = service.handle(image_data_uri)
+        return Response(str(prediction).encode(), status=200)
 ```
 
-The file’s content is
+On the current step there are 3 missing modules: `repo`, `services` and `settings`. Let's create the last as it's the tiniest one. Create a file called `settings.py` inside the root with the content:
 
 ```python
 import os
@@ -149,25 +178,33 @@ BASE_DIR = os.getcwd()
 CLASSIFIER_STORAGE = os.path.join(BASE_DIR, 'storage/classifier.txt')
 ```
 
-### Make handlers
-
-The first step is to specify handlers for incoming requests. We'll develop a SPA so the first handler will always return index.html page.
+This module will be used for specifying path to the file where our trained classifier will be stored. It begs a logical question: why do I need to store the classifier? It's a simple way to improve performance of your app. Instead of training the classifier every time you receive a request, we'll store a trained version of the classifier to use it once the request is received. This mechanism should be stored inside `app/repo.py` folder and looks like this:
 
 ```python
-def create_root_view(app):
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def root(path):
-        return render_template("index.html")
+import pickle
+
+
+class ClassifierRepo:
+    def __init__(self, storage):
+        self.storage = storage
+
+    def get(self):
+        with open(self.storage, 'wb') as out:
+            try:
+                classifier_str = out.read()
+                if classifier_str != '':
+                    return pickle.loads(classifier_str)
+                else:
+                    return None
+            except Exception:
+                return None
+
+    def update(self, classifier):
+        with open(self.storage, 'wb') as in_:
+            pickle.dump(classifier, in_)
 ```
 
-Besides this view we also must create an API endpoint for predictions. For now we’ll just pass handling the request, but return here afterwards.
-
-```python
-class PredictDigitView(MethodView):
-    def post(self):
-        pass
-```
+It's a class with 2 methods to `get` and `update` the trained classifier using `pickle` Python built-in module.
 
 ### Construct the prediction logic
 
