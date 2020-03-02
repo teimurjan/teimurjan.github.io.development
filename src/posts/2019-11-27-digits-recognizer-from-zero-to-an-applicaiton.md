@@ -127,10 +127,10 @@ def create_app():
     return app
 ```
 
-As you can see there is a function called `init_urls` which is imported from `urls` package. Let's create this file and declare that function.
+As you can see there is a function called `init_urls` which is imported from `app.urls` package. Let's create this file and declare that function.
 
 ```python
-from views import PredictDigitView, create_root_view
+from app.views import PredictDigitView, create_root_view
 
 
 def init_urls(app):
@@ -142,7 +142,7 @@ def init_urls(app):
     create_root_view(app)
 ```
 
-To make this function working it requires `views` package with a class-based view `PredictDigitView` - a handler for prediction requests and `create_root_view` factory method - a rule to return `index.html` file with the injected React app script on all the requests except one above. After creating `views.py` module it's required to add these handlers using the following code.
+To make this function working it requires `app.views` package with a class-based view `PredictDigitView` - a handler for prediction requests and `create_root_view` factory method - a rule to return `index.html` file with the injected React app script on all the requests except one above. After creating `app/views.py` module it's required to add these handlers using the following code.
 
 ```python
 from flask import render_template, request, Response
@@ -206,13 +206,62 @@ class ClassifierRepo:
 
 It's a class with 2 methods to `get` and `update` the trained classifier using `pickle` Python built-in module.
 
-### Construct the prediction logic
+API is almost working except it lacks `app.services` module. What's its purpose? It's used for:
 
-For our prediction view we need 2 things: image processor and kNN classifier. As we’ve [already trained our classifier](https://teimurjan.github.io/blog/digits-recognizer-python-flask-react-1/) the only thing to realize is the image processing.
+1. Getting the trained classifier from storage.
+2. Transforming the image passed as an argument into a format of the classifier input.
+3. Calculating prediction score for the image from the classifier.
+4. Returning the prediction score.
+
+Let's code this algorithm:
+
+```python
+from sklearn.datasets import load_digits
+
+from app.classifier import ClassifierFactory
+from app.utils import to_classifier_input_format
+
+
+class PredictDigitService:
+    def __init__(self, repo):
+        self.repo = repo
+
+    def handle(self, image_data_uri):
+        classifier = self.repo.get()
+        if classifier is None:
+            digits = load_digits()
+            classifier = ClassifierFactory.create_with_fit(
+                digits.data,
+                digits.target
+            )
+            self.repo.update(classifier)
+        x = to_classifier_input_format(image_data_uri)
+        prediction = classifier.predict(x)[0]
+        return prediction
+``
+
+The `PredictDigitService` has 2 major dependencies: `ClassifierFactory` and `to_classifier_input_format`. The first one is just a factory object which creates and train classifier. `to_classifier_input_format` is a function which transforms the image received on the server to the format the classifier understands. The code for the factory should look like this:
+
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+
+
+class ClassifierFactory:
+    @staticmethod
+    def create_with_fit(data, target):
+        model = KNeighborsClassifier(n_neighbors=3)
+        model.fit(data, target)
+        return model
+```
+
+According to the function from `app.utils` package - it's not about API now. It's about image processing.
+
+## Image processing
 
 Image processor will be represented by the lots of functions to convert our image from data URI to the flat numpy array of the 8x8 grayscale image with intensity form 0 to 16(like the original ones from the digits dataset).
 
-Firstly we need to convert image from data URI to the Image object.
+Firstly we need to convert the image from data URI to the Image object.
 
 ```python
 import numpy as np
@@ -228,7 +277,7 @@ def data_uri_to_image(uri):
     return Image.open(BytesIO(image))
 ```
 
-Then because of the specificity of our front end(will see it later) we need to replace the image background from transparent to white.
+Because our front-end application will be sending the images with the transparent backgrounds we need to replace it with the ones.
 
 ```python
 def replace_transparent_background(image):
@@ -248,9 +297,11 @@ def replace_transparent_background(image):
     return Image.fromarray(image_arr)
 ```
 
-Another thing to do is avoid from the white frame of the image and replace it with the small one just like in the test data. We’ll do it in 2 steps:
+By default the image is using RGB format but we need to use the grayscaled version. We can do it by using `.convert('L')` on the image we have. All RGB pixels will be aggregated by the formula: L = R  _299/1000 + G_  587/1000 + B * 114/1000.
 
-* Remove the whole frame
+After all the image looks similar to the ones we used for training. However it has much bigger white frame around and has the invalid size. Let's remove the frame, add the frame of the size we need and resize the whole image after.
+
+* Remove the whole frame.
 
 ```python
 def crop_image_frame(image, color=255):
@@ -260,7 +311,7 @@ def crop_image_frame(image, color=255):
     return Image.fromarray(cropped_image_arr)
 ```
 
-* Add the frame that we need
+* Add the frame that we need.
 
 ```python
 def pad_image(image, height=0, width=30, color=255):
@@ -272,29 +323,30 @@ def pad_image(image, height=0, width=30, color=255):
    ))
 ```
 
-After that let’s resize the image to 8x8 format.
+* Resize the image.
 
 ```python
 def resize_image(image):
     return image.resize((8, 8), Image.ANTIALIAS)
 ```
 
-The original images’ features show the intensity of gray color from 0 to 16. To reach this gain we have only rescale_intensity function which just change the scale of our image. So, in our case if we have a pixel with the value 255(white) it will be scaled into 16. But the intensity of gray color is 0 in white. That’s why we need to invert white to 0(black) and only after that change the intensity scale.
-
+After the transitions above the image looks excellent. But there is two differences.
+- The original images’ features show the intensity of gray color from 0 to 16 when our images' features show it from 0 to 255. We can down the intensity using `rescale_intensity` function.
 ```python
-def white_to_black(image):
-    image_arr = np.array(image)
-    image_arr[image_arr > 230] = 0
-    return Image.fromarray(image_arr)
-
-
 def to_flat_grayscaled_image_arr(image):
     image_arr = np.array(image)
     image_arr = exposure.rescale_intensity(image_arr, out_range=(0, 16))
     return image_arr.flatten()
 ```
+- The original images have black background when our images have white. We'll simply replace the pixels above 230(white) with 0(black).
+```python
+def white_to_black(image):
+    image_arr = np.array(image)
+    image_arr[image_arr > 230] = 0
+    return Image.fromarray(image_arr)
+```
 
-Now we can combine all the image utils together. The only addition is to convert the image from RGB to L format. So all RGB pixels will be aggregated by the formula: L = R  _299/1000 + G_  587/1000 + B * 114/1000.
+We can combine all the functions together now.
 
 ```python
 def to_classifier_input_format(data_uri):
@@ -310,145 +362,12 @@ def to_classifier_input_format(data_uri):
     ])
 ```
 
-### Handle the request
-
-The first thing to do is to create the repo for getting and updating our classifier.
-
-```python
-import pickle
-
-
-class ClassifierRepo:
-    def __init__(self, storage):
-        self.storage = storage
-
-    def get(self):
-        with open(self.storage, 'rb') as out:
-            try:
-                classifier_str = out.read()
-                if classifier_str != '':
-                    return pickle.loads(classifier_str)
-                else:
-                    return None
-            except Exception:
-                return None
-
-    def update(self, classifier):
-        with open(self.storage, 'wb') as in_:
-            pickle.dump(classifier, in_)
-```
-
-Also we need a factory to create the fitted classifier.
-
-```python
-from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-
-
-class ClassifierFactory:
-    @staticmethod
-    def create_with_fit(data, target):
-        model = KNeighborsClassifier(n_neighbors=3)
-        model.fit(data, target)
-        return model
-```
-
-It’s almost done. The only thing to finish our view is to gather all the things above into a service.
-
-```python
-from sklearn.datasets import load_digits
-
-from app.classifier import ClassifierFactory
-from app.utils import to_classifier_input_format
-
-
-class PredictDigitService:
-    def __init__(self, repo):
-        self.repo = repo
-
-    def handle(self, image_data_uri):
-        classifier = self.repo.get()
-        if classifier is None:
-            digits = load_digits()
-            classifier = ClassifierFactory.create(
-                digits.data, digits.target
-            )
-            self.repo.update(classifier)
-        x = to_classifier_input_format(image_data_uri)
-        prediction = classifier.predict(x)[0]
-        return prediction
-```
-
-So, let's add this service in our view.
-
-```python
-class PredictDigitView(MethodView):
-    def post(self):
-        repo = ClassifierRepo(CLASSIFIER_STORAGE)
-        service = PredictDigitService(repo)
-        image_data_uri = request.json['image']
-        prediction = service.handle(image_data_uri)
-        return Response(str(prediction).encode(), status=200)
-```
-
-And initialize handlers by calling this function inside the **create_app**.
-
-```python
-def init_urls(app):
-    app.add_url_rule(
-        '/api/predict',
-        view_func=PredictDigitView.as_view('predict_digit'),
-        methods=['POST']
-    )
-    create_root_view(app)
-```
-
-So the final version of \_\_init\_\_.py inside the app folder
-
-```python
-from flask import Flask
-from .urls import init_urls
-
-
-def create_app():
-    app = Flask(__name__)
-    init_urls(app)
-    return app
-```
-
-We need the ability of running our application without setting env variables everytime. This goal can be achieved using [flask-script](https://flask-script.readthedocs.io/en/latest/) package. At first we should create a file called manage.py
+Now you can test our app. Let's run the application and send an image in base64 format.
+(download [this image](http://training.databricks.com/databricks_guide/digit.png), then convert it to base64 using [this resource](https://www.base64-image.de/), copy the code and save it in the file called test_request.json under the `image` key).
 
 ```sh
-touch manage.py
+export FLASK_APP=app.py && flask run
 ```
-
-Next step is getting this manage.py ready.
-
-```python
-from flask_script import Manager
-from app import create_app
-
-app = create_app()
-manager = Manager(app)
-
-
-@manager.command
-def runserver():
-    app.run(debug=True, host='0.0.0.0', port=5000)
-
-
-if __name__ == '__main__':
-    manager.run()
-```
-
-Now you can test our app. Let's run the application
-
-```sh
-python3 manage.py runserver
-```
-
-And send an image in base64 format. You can do it by downloading [this image](http://training.databricks.com/databricks_guide/digit.png), then convert it to base64 using [this resource](https://www.base64-image.de/), copy the code and save it in the file called test_request.json. Now we can send this file to get a prediction.
-
 ```sh
 curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d @test_request.json -i && echo -e '\n\n'
 ```
@@ -456,7 +375,7 @@ curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application
 You should see the following output.
 
 ```
-(venv) Teimurs-MacBook-Pro:digits-recognizer teimurgasanov$ curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d @test_request.json -i && echo -e '\n\n'
+curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d @test_request.json -i && echo -e '\n\n'
 HTTP/1.1 100 Continue
 
 HTTP/1.0 200 OK
@@ -468,7 +387,7 @@ Date: Tue, 27 Mar 2018 07:02:08 GMT
 4
 ```
 
-As you see our web app correctly detected that it is 4.
+Great, our web app correctly detected that it is 4.
 
 ### Final result
 
