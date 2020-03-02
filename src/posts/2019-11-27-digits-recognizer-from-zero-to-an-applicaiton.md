@@ -389,30 +389,22 @@ Date: Tue, 27 Mar 2018 07:02:08 GMT
 
 Great, our web app correctly detected that it is 4.
 
-### Final result
+## React app
 
-You can find the code from this article in my [Github repository](https://github.com/teimurjan/digits-recognizer).
-
-## Developing UI
-
-I used [CRA boilerplate](https://github.com/facebook/create-react-app) but it's not so important. You can configure your application from scratch if you don't cherish the time.
+I used [CRA boilerplate](https://github.com/facebook/create-react-app) but you can configure your application from scratch if you don't cherish the time.
 
 ```sh
 create-react-app frontend
 cd frontend
 ```
 
-So after setting up React environment we also need one more dependency for drawing. My choice fell on [react-sketch](https://github.com/tbolis/react-sketch). It perfectly matches our needs.
+After setting up React environment we also need one more dependency for drawing. My choice fell on [react-sketch](https://github.com/tbolis/react-sketch). It perfectly matches my needs.
 
 ```sh
 npm i react-sketch
 ```
 
-Now we have everything to make up our drawer.
-
-### Implement the app
-
-The whole App can be written in just 80 lines of code. 🙂
+Tools are ready and let's write the code.
 
 ```js
 import React, { Component } from "react";
@@ -438,6 +430,22 @@ const SKETCH_CONTAINER_STYLE = {
   height: pixels(MAIN_CONTAINER_WIDTH_PX - 2),
   backgroundColor: "white"
 };
+
+const validateStatusCode = response =>
+  new Promise((resolve, reject) => {
+    const status = response.status;
+    const next = status < 400 ? resolve : reject;
+    response.text().then(next);
+  });
+
+export const makePrediction = image =>
+  fetch("/api/predict", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ image })
+  }).then(validateStatusCode);
 
 class App extends Component {
   state = {
@@ -491,32 +499,6 @@ class App extends Component {
 
 export default App;
 ```
-
-Here is no unfamiliar things, I guess, except the `SketchField` component. It has props which are perfectly named, so as you see we have width and height attributes, the tool with which we'll draw our image, its format, the colors of background and pencil and also the width of line. But I did not say anything about `ref`. It is used here in order to get our image. So we assign SketchField ref to `this.sketch` and then when "Submit" button is clicked we can get the drawen image by calling `.toDataURL()`.
-
-One more unknown thing is `makePrediction` function. It is a simple API call with status code validation.
-
-```js
-const validateStatusCode = response =>
-  new Promise((resolve, reject) => {
-    const status = response.status;
-    const next = status < 400 ? resolve : reject;
-    response.text().then(next);
-  });
-
-export const makePrediction = image =>
-  fetch("/api/predict", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ image })
-  }).then(validateStatusCode);
-```
-
-### Test the app
-
-Let's now test our application. Start it with:
 
 ```sh
 npm run start
