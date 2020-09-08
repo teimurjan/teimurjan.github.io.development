@@ -4,35 +4,43 @@ import {
   MenuWrapper,
   MenuIcon,
   MenuDropdown,
-  MenuIconBar,
+  MenuIconSquare1,
+  MenuIconSquare2,
+  MenuIconSquare3,
+  MenuIconSquare4,
 } from './index.styles'
-import { listenMediaSizeLessThan, sizes } from '../../media'
-import useModalScrollLock from '../../hooks/useModalScrollLock'
+import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { Container } from '../container/index.styles'
 
-const MenuHamburger = ({ isOpen, ...props }) => (
-  <MenuIcon isOpen={isOpen} {...props}>
-    <MenuIconBar />
-    <MenuIconBar />
-    <MenuIconBar />
+const MenuHamburger = React.forwardRef(({ isOpen, ...props }, ref) => (
+  <MenuIcon ref={ref} data-open={isOpen} {...props}>
+    <MenuIconSquare1 />
+    <MenuIconSquare2 />
+    <MenuIconSquare3 />
+    <MenuIconSquare4 />
   </MenuIcon>
-)
+))
 
 export const Menu = ({ children }) => {
+  const dropdownRef = React.useRef()
+  const hamburgerRef = React.useRef()
+
   const [isOpen, setIsOpen] = React.useState(false)
-  const [lockScroll, unlockScroll] = useModalScrollLock({ isOpen })
 
   const toggle = React.useCallback(() => {
     setIsOpen(!isOpen)
   }, [isOpen])
 
-  const close = React.useCallback(() => {
+  const close = React.useCallback(e => {
     setIsOpen(false)
   }, [])
 
+  useOnClickOutside([dropdownRef, hamburgerRef], close)
+
   return (
     <MenuWrapper>
-      <MenuHamburger isOpen={isOpen} onClick={toggle} />
-      <MenuDropdown onClick={close} isOpen={isOpen}>
+      <MenuHamburger ref={hamburgerRef} isOpen={isOpen} onClick={toggle} />
+      <MenuDropdown ref={dropdownRef} onClick={close} data-open={isOpen}>
         {children}
       </MenuDropdown>
     </MenuWrapper>

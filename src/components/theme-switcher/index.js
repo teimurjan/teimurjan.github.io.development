@@ -3,6 +3,7 @@ import { ThemeSwitcherWrapper } from './index.styles'
 import { useTheme } from '../../theme'
 
 const ThemeSwitcher = ({ className }) => {
+  // eslint-disable-next-line no-unused-vars
   const [_, toggleTheme] = useTheme()
 
   const onToggleClick = React.useCallback(

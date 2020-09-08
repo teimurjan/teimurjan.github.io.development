@@ -13,10 +13,7 @@ const config = require('./config')
 
 exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
-  await createMdPages({ actions, graphql })
-
   createAllTags({ actions })
-
   createTags({ actions, posts })
 }
 
@@ -32,47 +29,6 @@ const createRedirectPageToAdmin = ({ actions: { createPage } }) => {
       },
     })
   }
-}
-
-const createMdPages = async ({ actions, graphql }) => {
-  const { createPage } = actions
-
-  const result = await graphql(`
-    query {
-      allMarkdownRemark(
-        sort: { fields: [frontmatter___date], order: DESC }
-        filter: { fileAbsolutePath: { regex: "//src/md-pages/.*.md$/" } }
-      ) {
-        edges {
-          node {
-            fileAbsolutePath
-            html
-            id
-            frontmatter {
-              path
-              title
-            }
-          }
-        }
-      }
-      site {
-        siteMetadata {
-          title
-        }
-      }
-    }
-  `)
-  const mdPageTemplate = path.resolve('src/templates/md-page/index.js')
-  const mdPages = result.data.allMarkdownRemark.edges
-  mdPages.forEach(({ node }) => {
-    createPage({
-      path: node.frontmatter.path,
-      component: mdPageTemplate,
-      context: { markdownRemark: node, site: result.data.site },
-    })
-  })
-
-  return mdPages
 }
 
 const createPosts = async ({ actions, graphql }) => {

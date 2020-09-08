@@ -1,15 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
-import { Global, css } from '@emotion/core'
 import { StaticQuery, graphql } from 'gatsby'
 
 import Header from '../header'
 import Footer from '../footer'
 
 import { LayoutWrapper, LayoutContent } from './index.styles'
-
-import { mediaSizeLessThan, sizes } from '../../media'
 
 import favicon from '../../../favicon.ico'
 

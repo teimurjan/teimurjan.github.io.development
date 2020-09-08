@@ -29,14 +29,6 @@ module.exports = {
           'gatsby-remark-copy-images',
           'gatsby-remark-copy-linked-files',
           {
-            resolve: 'gatsby-remark-autolink-headers',
-            options: {
-              icon: `#`,
-              className: `remark-anchor`,
-              offsetY: '80',
-            },
-          },
-          {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 590,

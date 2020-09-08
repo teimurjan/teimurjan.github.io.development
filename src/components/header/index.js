@@ -23,9 +23,21 @@ const Header = ({ siteTitle }) => (
         <Menu>
           <MenuItemLink to="/blog">Blog</MenuItemLink>
           <MenuItemA target="_blank" href="/cv.pdf">
-            Get resume
+            Resume
           </MenuItemA>
-          <MenuItem>
+          <MenuItem
+            css={css`
+              display: flex;
+              align-items: center;
+            `}
+          >
+            <span
+              css={css`
+                margin-right: 10px;
+              `}
+            >
+              Toggle Theme
+            </span>
             <ThemeSwitcher
               css={css`
                 @media ${mediaSizeLessThan(sizes.sm)} {

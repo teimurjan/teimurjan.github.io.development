@@ -40,15 +40,16 @@ html {
 }
 
 html[data-theme='dark'] {
-  --primaryColor: #2bbc8a;
-  --primaryDarkColor: #1f8b66;
-  --primaryLightColor: #7dbaa5;
+  --primaryColor: #ff5780;
+  --primaryDarkColor: #d84a6d;
+  --primaryLightColor: #ff6e92;
 
-  --backgroundColor: #1d1f21;
+  --backgroundColor: #11133c;
+  --lightBackgroundColor: #261362;
   --backgroundSecondaryColor: #2b2b2b;
 
   --fontOnPrimaryColor: #333333;
-  --fontOnBackgroundColor: #eadede;
+  --fontOnBackgroundColor: #e5cbe6;
   --fontOnBackgroundSecondaryColor: #eadede;
   --fontSecondaryOnBackgroundSecondaryColor: #999999;
 
@@ -62,10 +63,10 @@ html[data-theme='dark'] {
 }
 
 #themeSwitcherCircle {
-  width: 30px;
-  height: 30px;
+  width: 24px;
+  height: 24px;
   position: absolute;
-  top: 3px;
+  top: 2px;
   left: 3px;
   transition: left 300ms ease-in-out;
   background: var(--primaryDarkColor);
@@ -77,14 +78,14 @@ html[data-theme='dark'] {
 }
 
 html[data-theme='dark'] #themeSwitcherCircle {
-  left: 31px;
+  left: 24px;
 }
 
 #themeSwitcherCircle::after {
   font-family: 'Font Awesome 5 Free';
   content: '\f185';
   display: block;
-  font-size: 20px;
+  font-size: 14px;
   color: #ffd03c;
   margin-left: -1px;
   font-weight: 900;
@@ -273,7 +274,15 @@ pre > code.highlight {
   height: 100%;
 }
 
-.remark-anchor {
-  margin-left: 0;
-  text-decoration: none;
+::-webkit-scrollbar {
+  width: 7.5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--backgroundColor);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--fontOnBackgroundColor);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primaryColor);
 }
