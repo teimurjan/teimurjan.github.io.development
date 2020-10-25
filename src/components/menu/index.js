@@ -7,10 +7,9 @@ import {
   MenuIconSquare1,
   MenuIconSquare2,
   MenuIconSquare3,
-  MenuIconSquare4,
+  MenuIconSquare4
 } from './index.styles'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { Container } from '../container/index.styles'
 
 const MenuHamburger = React.forwardRef(({ isOpen, ...props }, ref) => (
   <MenuIcon ref={ref} data-open={isOpen} {...props}>
@@ -20,6 +19,12 @@ const MenuHamburger = React.forwardRef(({ isOpen, ...props }, ref) => (
     <MenuIconSquare4 />
   </MenuIcon>
 ))
+
+MenuHamburger.displayName = 'MenuHamburger'
+
+MenuHamburger.propTypes = {
+  isOpen: PropTypes.bool.isRequired
+}
 
 export const Menu = ({ children }) => {
   const dropdownRef = React.useRef()
@@ -32,7 +37,9 @@ export const Menu = ({ children }) => {
   }, [isOpen])
 
   const close = React.useCallback(e => {
-    setIsOpen(false)
+    if (e.target.dataset.noCloseOnClick !== 'true') {
+      setIsOpen(false)
+    }
   }, [])
 
   useOnClickOutside([dropdownRef, hamburgerRef], close)
@@ -48,5 +55,5 @@ export const Menu = ({ children }) => {
 }
 
 Menu.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 }

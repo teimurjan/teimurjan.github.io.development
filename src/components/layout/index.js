@@ -31,8 +31,8 @@ const Layout = ({ children }) => (
           link={[
             {
               rel: 'icon',
-              href: `${favicon}`,
-            },
+              href: `${favicon}`
+            }
           ]}
         />
         <Header siteTitle={data.site.siteMetadata.title} />
@@ -44,7 +44,7 @@ const Layout = ({ children }) => (
 )
 
 Layout.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 }
 
 export default Layout

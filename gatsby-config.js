@@ -1,8 +1,9 @@
+const path = require('path')
 const config = require('./config')
 
 module.exports = {
   siteMetadata: {
-    title: 'teimurjan',
+    title: 'teimurjan'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -11,15 +12,22 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'posts',
-        path: `${__dirname}/src/posts`,
-      },
+        path: path.join(__dirname, '/src/posts')
+      }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'markdown-pages',
-        path: `${__dirname}/src/md-pages`,
-      },
+        path: path.join(__dirname, '/src/md-pages')
+      }
+    },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'images',
+        path: path.join(__dirname, '/src/images')
+      }
     },
     {
       resolve: 'gatsby-transformer-remark',
@@ -32,9 +40,11 @@ module.exports = {
             resolve: 'gatsby-remark-images',
             options: {
               maxWidth: 590,
-              wrapperStyle: 'height: 100%;',
-            },
+              wrapperStyle: 'height: 100%;'
+            }
           },
+          'gatsby-transformer-sharp',
+          'gatsby-plugin-sharp',
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
@@ -68,27 +78,27 @@ module.exports = {
               showLineNumbers: false,
               // If setting this to true, the parser won't handle and highlight inline
               // code used in markdown i.e. single backtick code like `this`.
-              noInlineHighlight: false,
-            },
+              noInlineHighlight: false
+            }
           },
           {
             resolve: 'gatsby-plugin-google-tagmanager',
             options: {
               id: config.GOOGLE_TAG_MANAGER_ID,
-              includeInDevelopment: false,
-            },
-          },
-        ],
-      },
+              includeInDevelopment: false
+            }
+          }
+        ]
+      }
     },
     'gatsby-plugin-catch-links',
     {
       resolve: 'gatsby-plugin-netlify-cms',
       options: {
         modulePath: config.IS_ADMIN_BUILD
-          ? `${__dirname}/src/cms/cms.js`
-          : undefined,
-      },
-    },
-  ],
+          ? path.join(__dirname, '/src/cms/cms.js')
+          : undefined
+      }
+    }
+  ]
 }

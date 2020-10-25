@@ -7,61 +7,35 @@ import { Container } from '../../components/container/index.styles'
 import { Input } from '../../components/input/index.styles'
 import { TagsTitle, TagButton, TagButtonsWrapper } from './index.styles'
 
-class TagsPage extends React.Component {
-  static propTypes = {
-    data: PropTypes.shape({
-      allMarkdownRemark: PropTypes.shape({
-        group: PropTypes.arrayOf(
-          PropTypes.shape({
-            fieldValue: PropTypes.string.isRequired,
-            totalCount: PropTypes.number.isRequired,
-          }).isRequired
-        ),
-      }),
-      site: PropTypes.shape({
-        siteMetadata: PropTypes.shape({
-          title: PropTypes.string.isRequired,
-        }),
-      }),
-    }),
+const TagsPage = ({
+  data: {
+    allMarkdownRemark: { group }
   }
+}) => {
+  const [filterText, setFilterText] = React.useState('')
 
-  state = {
-    filterText: '',
-  }
+  const onFilterTextChange = e => setFilterText(e.currentTarget.value)
 
-  onFilterTextChange = e => this.setState({ filterText: e.currentTarget.value })
-
-  render() {
-    const {
-      data: {
-        allMarkdownRemark: { group },
-      },
-    } = this.props
-    return (
-      <Layout>
-        <Container>
-          <TagsTitle>Find by tag:</TagsTitle>
-          <Input
-            value={this.state.filterText}
-            onChange={this.onFilterTextChange}
-          />
-          <TagButtonsWrapper>
-            {group
-              .filter(tag => tag.fieldValue.includes(this.state.filterText))
-              .map(tag => (
-                <TagButton
-                  key={tag.fieldValue}
-                  to={`/blog/tags/${kebabCase(tag.fieldValue)}/`}
-                >
-                  {tag.fieldValue}
-                </TagButton>
-              ))}
-          </TagButtonsWrapper>
-        </Container>
-      </Layout>
-    )
-  }
+  return (
+    <Layout>
+      <Container>
+        <TagsTitle>Find by tag:</TagsTitle>
+        <Input value={filterText} onChange={onFilterTextChange} />
+        <TagButtonsWrapper>
+          {group
+            .filter(tag => tag.fieldValue.includes(filterText))
+            .map(tag => (
+              <TagButton
+                key={tag.fieldValue}
+                to={`/blog/tags/${kebabCase(tag.fieldValue)}/`}
+              >
+                {tag.fieldValue}
+              </TagButton>
+            ))}
+        </TagButtonsWrapper>
+      </Container>
+    </Layout>
+  )
 }
 
 export const query = graphql`
@@ -76,3 +50,21 @@ export const query = graphql`
 `
 
 export default TagsPage
+
+TagsPage.propTypes = {
+  data: PropTypes.shape({
+    allMarkdownRemark: PropTypes.shape({
+      group: PropTypes.arrayOf(
+        PropTypes.shape({
+          fieldValue: PropTypes.string.isRequired,
+          totalCount: PropTypes.number.isRequired
+        }).isRequired
+      )
+    }),
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.shape({
+        title: PropTypes.string.isRequired
+      })
+    })
+  })
+}

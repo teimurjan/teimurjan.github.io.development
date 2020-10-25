@@ -2,11 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
 
 html,
-body {
-  height: 100%;
-}
-
-html,
 body,
 h1,
 h2,
@@ -18,17 +13,17 @@ h6 {
 }
 
 html {
-  --primaryColor: #c42b2b;
-  --primaryDarkColor: #691515;
-  --primaryLightColor: #ad6565;
+  --primaryColor: #5863F8;
+  --primaryDarkColor: #414ac8;
+  --primaryLightColor: #6970d4;
 
-  --backgroundColor: #ededed;
-  --backgroundSecondaryColor: #c17676;
+  --backgroundColor: #f8f7fa;
+  --lightBackgroundColor: #414ac8;
+  --lightestBackgroundColor: #6970d4;
 
   --fontOnPrimaryColor: #f2f2f2;
-  --fontOnBackgroundColor: #333333;
-  --fontOnBackgroundSecondaryColor: #f2f2f2;
-  --fontSecondaryOnBackgroundSecondaryColor: #ededed;
+  --fontOnBackgroundColor: #474545;
+  --fontOnLightBackgroundColor: #f2f2f2;
 
   --codeBackgroundColor: #474545;
   --codePrimaryColor: #ff6459;
@@ -45,13 +40,12 @@ html[data-theme='dark'] {
   --primaryLightColor: #ff6e92;
 
   --backgroundColor: #11133c;
-  --lightBackgroundColor: #261362;
-  --backgroundSecondaryColor: #2b2b2b;
+  --lightBackgroundColor: #1c1450;
+  --lightestBackgroundColor: #23145e;
 
   --fontOnPrimaryColor: #333333;
   --fontOnBackgroundColor: #e5cbe6;
-  --fontOnBackgroundSecondaryColor: #eadede;
-  --fontSecondaryOnBackgroundSecondaryColor: #999999;
+  --fontOnLightBackgroundColor: #cecbe6;
 
   --codeBackgroundColor: #2b2b2b;
   --codePrimaryColor: #2bbc8a;

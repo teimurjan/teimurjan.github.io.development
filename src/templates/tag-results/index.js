@@ -10,7 +10,7 @@ const TagResultsTemplate = ({ pageContext, data }) => {
   const { tag } = pageContext
   const { edges, totalCount } = data.allMarkdownRemark || {
     edges: [],
-    totalCount: 0,
+    totalCount: 0
   }
   const tagHeader = `${totalCount} post${
     totalCount === 1 ? '' : 's'
@@ -24,7 +24,7 @@ const TagResultsTemplate = ({ pageContext, data }) => {
           {edges.map(({ node }) => {
             const {
               frontmatter: { id, title },
-              fields: { slug },
+              fields: { slug }
             } = node
             return (
               <li key={id}>
@@ -41,7 +41,7 @@ const TagResultsTemplate = ({ pageContext, data }) => {
 
 TagResultsTemplate.propTypes = {
   pageContext: PropTypes.shape({
-    tag: PropTypes.string.isRequired,
+    tag: PropTypes.string.isRequired
   }),
   data: PropTypes.shape({
     allMarkdownRemark: PropTypes.shape({
@@ -51,13 +51,13 @@ TagResultsTemplate.propTypes = {
           node: PropTypes.shape({
             frontmatter: PropTypes.shape({
               path: PropTypes.string.isRequired,
-              title: PropTypes.string.isRequired,
-            }),
-          }),
+              title: PropTypes.string.isRequired
+            })
+          })
         }).isRequired
-      ),
-    }),
-  }),
+      )
+    })
+  })
 }
 
 export default TagResultsTemplate

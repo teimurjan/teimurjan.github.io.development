@@ -4,7 +4,7 @@ import {
   FooterIcons,
   FooterLinkIcon,
   FooterInner,
-  EmailLink,
+  EmailLink
 } from './index.styles'
 import { Container } from '../container/index.styles'
 

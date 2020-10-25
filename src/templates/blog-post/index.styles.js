@@ -46,4 +46,4 @@ export const BlogPostDateThumbnail = styled(DateThumbnail)`
 
 export const BlogPostDivider = styled.hr`
   margin: 1rem 0;
-`;
+`

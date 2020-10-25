@@ -5,7 +5,7 @@ import { Container } from '../container/index.styles'
 
 export const HeaderWrapper = styled.div`
   position: fixed;
-  width 100%;
+  width: 100%;
   z-index: 2;
   background: var(--backgroundColor);
   top: 0;
@@ -23,15 +23,15 @@ export const HeaderWrapper = styled.div`
 export const HeaderInner = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   height: 100%;
+  justify-content: space-between;
 `
 
 export const HeaderTitle = styled.h2`
-  margin: 0;
-  font-size: 2rem;
+  margin: -2.5px 0 0 0;
+  font-size: 1.8rem;
   @media ${mediaSizeLessThan(sizes.sm)} {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
   font-family: 'Bungee', cursive;
 `

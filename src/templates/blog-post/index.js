@@ -10,12 +10,12 @@ import {
   BlogPostTitle,
   BlogPostHeader,
   BlogPostDateThumbnail,
-  BlogPostDivider,
+  BlogPostDivider
 } from './index.styles'
 import { Container } from '../../components/container/index.styles'
 import {
   DateThumbnailDay,
-  DateThumbnailMonth,
+  DateThumbnailMonth
 } from '../../components/post-preview/index.styles'
 import { PrimaryALink } from '../../components/link/index.styles'
 
@@ -55,13 +55,13 @@ BlogPost.propTypes = {
   date: PropTypes.instanceOf(Date).isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.node.isRequired,
+  canonicalURL: PropTypes.string
 }
 
 const BlogPostTemplate = ({
   pageContext: {
-    post: { frontmatter, html },
-  },
-  content,
+    post: { frontmatter, html }
+  }
 }) => {
   const date = new Date(frontmatter.date)
 
@@ -75,8 +75,8 @@ const BlogPostTemplate = ({
                 {
                   rel: 'canonical',
                   key: frontmatter.canonical_url,
-                  href: frontmatter.canonical_url,
-                },
+                  href: frontmatter.canonical_url
+                }
               ]
             : []
         }
@@ -93,17 +93,18 @@ const BlogPostTemplate = ({
 }
 
 BlogPostTemplate.propTypes = {
-  content: PropTypes.node,
   contentComponent: PropTypes.func,
   pageContext: PropTypes.shape({
     post: PropTypes.shape({
+      html: PropTypes.string.isRequired,
       frontmatter: PropTypes.shape({
         date: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-      }),
-    }),
-  }).isRequired,
+        canonical_url: PropTypes.string,
+        tags: PropTypes.arrayOf(PropTypes.string).isRequired
+      })
+    })
+  }).isRequired
 }
 
 export default BlogPostTemplate

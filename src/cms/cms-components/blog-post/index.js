@@ -16,7 +16,7 @@ export const BlogPost = ({ tags, date, title, content }) => (
       </div>
       <div className="blog-post-tags">
         {tags.map(tag => (
-          <span>{tag}</span>
+          <span key={tag}>{tag}</span>
         ))}
       </div>
     </div>
@@ -29,7 +29,7 @@ BlogPost.propTypes = {
   tags: PropTypes.arrayOf(PropTypes.string).isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
   title: PropTypes.string.isRequired,
-  content: PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired
 }
 
 export default BlogPost

@@ -8,4 +8,3 @@ export const ThemeSwitcherWrapper = styled.div`
   position: relative;
   cursor: pointer;
 `
-

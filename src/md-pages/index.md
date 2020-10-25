@@ -1,6 +1,6 @@
 ---
 title: ''
-path: /
+path: /new
 ---
 ## Let's get acquainted 🖐
 

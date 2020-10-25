@@ -29,20 +29,20 @@ BlogPage.propTypes = {
               slug: PropTypes.string.isRequired,
               readingTime: PropTypes.shape({
                 minutes: PropTypes.number.isRequired,
-                text: PropTypes.string.isRequired,
-              }),
+                text: PropTypes.string.isRequired
+              })
             }),
             frontmatter: PropTypes.shape({
               date: PropTypes.string.isRequired,
               title: PropTypes.string.isRequired,
               tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-              excerpt: PropTypes.string.isRequired,
-            }),
-          }),
+              excerpt: PropTypes.string.isRequired
+            })
+          })
         })
-      ),
-    }),
-  }).isRequired,
+      )
+    })
+  }).isRequired
 }
 
 export const query = graphql`

@@ -1,24 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { ThemeSwitcherWrapper } from './index.styles'
-import { useTheme } from '../../theme'
 
-const ThemeSwitcher = ({ className }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [_, toggleTheme] = useTheme()
-
-  const onToggleClick = React.useCallback(
-    e => {
-      e.stopPropagation()
-      toggleTheme()
-    },
-    [toggleTheme]
-  )
-
+const ThemeSwitcher = ({ className, onToggle }) => {
   return (
-    <ThemeSwitcherWrapper className={className} onClick={onToggleClick}>
+    <ThemeSwitcherWrapper className={className} onClick={onToggle}>
       <div id="themeSwitcherCircle" />
     </ThemeSwitcherWrapper>
   )
+}
+
+ThemeSwitcher.propTypes = {
+  className: PropTypes.string,
+  onToggle: PropTypes.func
 }
 
 export default ThemeSwitcher

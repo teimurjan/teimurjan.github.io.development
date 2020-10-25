@@ -1,11 +1,11 @@
-import { Link } from 'gatsby'
 import styled from '@emotion/styled'
 import { mediaSizeLessThan, sizes } from '../../media'
+import { CardWrapper } from '../card/index.styles'
 
 const EXCERPT_HEIGHT = '2.4rem'
 
 export const PostPreviewExcerpt = styled.div`
-  color: var(--fontOnBackgroundSecondaryColor);
+  color: var(--fontOnLightBackgroundColor);
   font-size: 0.9rem;
   transition: all 0.3s linear 0s;
   max-height: 0;
@@ -21,15 +21,15 @@ export const PostPreviewExcerpt = styled.div`
   }
 `
 
-export const PostPreviewWrapperLink = styled(Link)`
+export const PostPreviewWrapper = styled(CardWrapper)`
   display: block;
   height: 150px;
   margin: 0.5rem auto;
   transition: all 0.3s ease-in-out 0s;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.5);
-  transform: ${props => (props.hide ? `scale(0,0)` : `scale(1,1)`)};
+  transform: ${props => (props.hide ? 'scale(0,0)' : 'scale(1,1)')};
   transform-style: preserve-3d;
-  background: var(--backgroundSecondaryColor);
+  background: var(--lightBackgroundColor);
   position: relative;
   &:hover {
     box-shadow: 0px 1px 35px 0px rgba(0, 0, 0, 0.5);
@@ -49,7 +49,7 @@ export const PostPreviewWrapperLink = styled(Link)`
 
 export const PostPreviewTitle = styled.h4`
   font-size: 1.25rem;
-  color: var(--fontOnBackgroundSecondaryColor);
+  color: var(--fontOnLightBackgroundColor);
   margin-bottom: 0.25rem;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -62,9 +62,8 @@ export const PostPreviewTitle = styled.h4`
 `
 
 export const PostPreviewInfo = styled.div`
-  padding: 0 0.75rem;
   position: absolute;
-  width: 100%;
+  width: 90%;
   bottom: 0;
 `
 
@@ -112,7 +111,7 @@ export const LevelOverlay = styled.div`
 `
 
 export const PostPreviewFooter = styled.div`
-  color: var(--fontSecondaryOnBackgroundSecondaryColor);
+  color: var(--fontOnLightBackgroundColor);
   font-size: 0.9rem;
   padding-bottom: 0.5rem;
 

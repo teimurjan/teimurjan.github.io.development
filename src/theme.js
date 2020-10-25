@@ -13,7 +13,7 @@ export const useTheme = () => {
 
   const toggleTheme = React.useCallback(() => {
     window.__setTheme(theme === 'light' ? 'dark' : 'light')
-  })
+  }, [theme])
 
   return [theme, toggleTheme]
 }

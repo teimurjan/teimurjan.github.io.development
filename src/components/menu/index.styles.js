@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/core'
 import { PrimaryLink, PrimaryALink } from '../link/index.styles'
-import { mediaSizeLessThan, sizes } from '../../media'
+import { mediaSizeLessThan, mediaSizeGreaterThan, sizes } from '../../media'
 
 export const MenuWrapper = styled.div`
   position: relative;
@@ -21,9 +21,13 @@ export const MenuIcon = styled.div`
     outline-color: transparent;
     outline-style: none;
   }
+
+  @media ${mediaSizeGreaterThan(sizes.md)} {
+    display: none;
+  }
 `
 
-const _MenuIconSquare = styled.div`
+const MenuIconSquare = styled.div`
   position: absolute;
   height: ${menuIconSquareSize}px;
   width: ${menuIconSquareSize}px;
@@ -31,75 +35,83 @@ const _MenuIconSquare = styled.div`
   transition: all 0.3s;
 `
 
-export const MenuIconSquare1 = styled(_MenuIconSquare)`
+export const MenuIconSquare1 = styled(MenuIconSquare)`
   left: 0;
   top: 0;
 
-  ${MenuIcon}:hover &, ${MenuIcon}[data-open="true"] & {
+  ${MenuIcon} [data-open="true"] & {
     transform: translate(-50%, -50%);
   }
 `
 
-export const MenuIconSquare2 = styled(_MenuIconSquare)`
+export const MenuIconSquare2 = styled(MenuIconSquare)`
   right: 0;
   top: 0;
 
-  ${MenuIcon}:hover &, ${MenuIcon}[data-open="true"] & {
+  ${MenuIcon} [data-open="true"] & {
     transform: translate(50%, -50%);
   }
 `
 
-export const MenuIconSquare3 = styled(_MenuIconSquare)`
+export const MenuIconSquare3 = styled(MenuIconSquare)`
   left: 0;
   bottom: 0;
 
-  ${MenuIcon}:hover &, ${MenuIcon}[data-open="true"] & {
+  ${MenuIcon} [data-open="true"] & {
     transform: translate(-50%, 50%);
   }
 `
 
-export const MenuIconSquare4 = styled(_MenuIconSquare)`
+export const MenuIconSquare4 = styled(MenuIconSquare)`
   right: 0;
   bottom: 0;
 
-  ${MenuIcon}:hover &, ${MenuIcon}[data-open="true"] & {
+  ${MenuIcon} [data-open="true"] & {
     transform: translate(50%, 50%);
   }
 `
 
 export const MenuDropdown = styled.div`
-  align-items: center;
   display: flex;
-  transition: transform 350ms ease-in-out;
-  transform-origin: top right;
-  transform: scale(0);
-  position: absolute;
-  flex-direction: column;
-  background: var(--lightBackgroundColor);
-  top: 50px;
-  border-radius: 20px;
-  padding: 10px;
-  max-width: 100%;
-  width: 500px;
-  max-width: 100vw;
-  right: 0;
+  align-items: center;
 
-  &[data-open='true'] {
-    transform: scale(1);
+  @media ${mediaSizeLessThan(sizes.md)} {
+    margin-left: 0;
+    right: 0;
+    transition: transform 350ms ease-in-out;
+    transform-origin: top right;
+    transform: scale(0);
+    position: absolute;
+    flex-direction: column;
+    background: var(--lightBackgroundColor);
+    top: 50px;
+    border-radius: 20px;
+    padding: 10px;
+    width: 500px;
+    max-width: calc(100vw - 50px);
+
+    &[data-open='true'] {
+      transform: scale(1);
+    }
   }
 `
 
 const menuItemCSS = css`
-  padding: 10px;
-  width: 100%;
-`
-
-const menuItemLinkCSS = css`
-  ${menuItemCSS}
+  padding-left: 50px;
   border-radius: 16px;
+  cursor: pointer;
+  color: var(--primaryColor);
+  font-weight: bold;
+  text-transform: uppercase;
 
   &:hover {
     background: var(--backgroundColor);
+  }
+
+  @media ${mediaSizeLessThan(sizes.md)} {
+    color: var(--fontOnLightBackgroundColor);
+    padding: 10px;
+    width: 100%;
   }
 `
 
@@ -107,9 +119,29 @@ export const MenuItem = styled.div`
   ${menuItemCSS}
 `
 export const MenuItemLink = styled(PrimaryLink)`
-  ${menuItemLinkCSS}
+  ${menuItemCSS}
 `
 
 export const MenuItemA = styled(PrimaryALink)`
-  ${menuItemLinkCSS}
+  ${menuItemCSS}
+`
+
+export const MenuItemFlex = styled(MenuItem)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const ToggleThemeLabel = styled.span`
+  margin-right: 15px;
+
+  &:after {
+    content: 'Mode';
+  }
+
+  @media ${mediaSizeLessThan(sizes.md)} {
+    &:after {
+      content: 'Mode';
+    }
+  }
 `

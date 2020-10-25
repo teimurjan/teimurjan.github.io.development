@@ -5,7 +5,7 @@ import { PrimaryALink } from '../link/index.styles'
 
 export const FooterWrapper = styled.div`
   position: fixed;
-  width 100%;
+  width: 100%;
   z-index: 2;
   background: var(--backgroundColor);
   bottom: 0;

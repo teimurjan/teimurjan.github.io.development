@@ -24,12 +24,13 @@ const themeSnippet = `
       window.__onThemeChange(newTheme);
     }
 
+    const DEFAULT_THEME = 'dark';
     window.__theme = (() => {
         if (typeof localStorage === 'undefined') {
             return undefined
         }
 
-        return localStorage.getItem('theme');
+        return localStorage.getItem('theme') || DEFAULT_THEME;
     })();
     window.__applyTheme(window.__theme);
 })();
@@ -39,14 +40,14 @@ export const onPreRenderHTML = ({
   getPreBodyComponents,
   replacePreBodyComponents,
   getHeadComponents,
-  replaceHeadComponents,
+  replaceHeadComponents
 }) => {
   if (config.IS_ADMIN_BUILD) {
     const headComponents = getHeadComponents()
     headComponents.push(
       <script
         key="adminRedirect"
-        dangerouslySetInnerHTML={{ __html: `window.location.href='/admin'` }}
+        dangerouslySetInnerHTML={{ __html: "window.location.href='/admin'" }}
       />
     )
     replaceHeadComponents(headComponents)

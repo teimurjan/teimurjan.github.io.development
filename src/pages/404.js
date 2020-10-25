@@ -1,7 +1,7 @@
 import React from 'react'
 import {
   NotFoundPageWrapper,
-  NotFoundPageTitle,
+  NotFoundPageTitle
 } from '../pages-styles/404.styles'
 import { PrimaryButtonLink } from '../components/button-link/index.styles'
 import Layout from '../components/layout'

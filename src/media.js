@@ -3,7 +3,7 @@ export const sizes = {
   sm: 480,
   md: 768,
   lg: 992,
-  xl: 1200,
+  xl: 1200
 }
 
 export const mediaSizeLessThan = size => `(max-width: ${size}px)`
