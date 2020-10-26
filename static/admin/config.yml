@@ -19,16 +19,16 @@ collections:
       - { label: 'Tags', name: 'tags', widget: 'list' }
       - { label: 'Canonical URL', name: 'canonical_url', widget: 'string',  required: false }
       - { label: 'Body', name: 'body', widget: 'markdown' }
-    - name: 'markdown'
-      label: 'Markdown'
-      folder: 'src/markdown'
-      create: true
-      fields:
-        - {
-            label: 'Template Key',
-            name: 'templateKey',
-            widget: 'hidden',
-            default: 'md-page',
-          }
-        - { label: 'Title', name: 'title', widget: 'string', required: false }
-        - { label: 'Body', name: 'body', widget: 'markdown' }
+  - name: 'markdown'
+    label: 'Markdown'
+    folder: 'src/markdown'
+    create: true
+    fields:
+      - {
+          label: 'Template Key',
+          name: 'templateKey',
+          widget: 'hidden',
+          default: 'md-page',
+        }
+      - { label: 'Title', name: 'title', widget: 'string', required: false }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
