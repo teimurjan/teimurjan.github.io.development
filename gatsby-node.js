@@ -15,21 +15,6 @@ exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
   createAllTags({ actions })
   createTags({ actions, posts })
-  createRedirectPageToAdmin({ actions })
-}
-
-const createRedirectPageToAdmin = ({ actions: { createPage } }) => {
-  if (!config.IS_ADMIN_BUILD && config.ADMIN_REDIRECT_URL) {
-    createPage({
-      path: '/admin',
-      component: () => {
-        if (typeof window !== 'undefined') {
-          window.location.href = config.ADMIN_REDIRECT_URL
-        }
-        return null
-      }
-    })
-  }
 }
 
 const createPosts = async ({ actions, graphql }) => {
@@ -62,12 +47,12 @@ const createPosts = async ({ actions, graphql }) => {
     }
   `)
 
-  const blogPostTemplate = path.resolve('src/templates/blog-post/index.js')
+  const BlogPostTemplate = path.resolve('src/templates/blog-post/index.js')
   const posts = result.data.allMarkdownRemark.edges
   posts.forEach(({ node }) => {
     createPage({
       path: `/blog${node.fields.slug}`,
-      component: blogPostTemplate,
+      component: BlogPostTemplate,
       context: {
         post: node
       }
@@ -80,22 +65,22 @@ const createPosts = async ({ actions, graphql }) => {
 const createAllTags = ({ actions }) => {
   const { createPage } = actions
 
-  const allTagsTemplate = path.resolve('src/templates/tags/index.js')
+  const AllTagsTemplate = path.resolve('src/templates/tags/index.js')
   createPage({
     path: '/blog/tags',
-    component: allTagsTemplate
+    component: AllTagsTemplate
   })
 }
 
 const createTags = ({ actions, posts }) => {
   const { createPage } = actions
 
-  const tagTemplate = path.resolve('src/templates/tag-results/index.js')
+  const TagTemplate = path.resolve('src/templates/tag-results/index.js')
   const tags = getTagsFromPosts(posts)
   tags.forEach(tag => {
     createPage({
       path: `/blog/tags/${_.kebabCase(tag)}`,
-      component: tagTemplate,
+      component: TagTemplate,
       context: {
         tag
       }
