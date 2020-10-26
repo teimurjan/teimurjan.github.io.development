@@ -15,7 +15,7 @@ exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
   createAllTags({ actions })
   createTags({ actions, posts })
-  createRedirectPageToAdmin()
+  createRedirectPageToAdmin({ actions })
 }
 
 const createRedirectPageToAdmin = ({ actions: { createPage } }) => {
