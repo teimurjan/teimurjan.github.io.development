@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet'
 import PropTypes from 'prop-types'
 import Layout from '../../components/layout'
 import { Container } from '../../components/container/index.styles'
-import { MdPageTitle, MdPageContent } from './index.styles'
+import { MarkdownTitle, MarkdownContent } from './index.styles'
 
 const MarkdownPage = ({ pageContext }) => {
   const { markdownRemark, site } = pageContext
@@ -20,8 +20,8 @@ const MarkdownPage = ({ pageContext }) => {
     <Layout>
       {title && <Helmet title={`${siteTitle} - ${title}`} />}
       <Container>
-        {title && <MdPageTitle>{title}</MdPageTitle>}
-        <MdPageContent dangerouslySetInnerHTML={{ __html: html }} />
+        {title && <MarkdownTitle>{title}</MarkdownTitle>}
+        <MarkdownContent dangerouslySetInnerHTML={{ __html: html }} />
       </Container>
     </Layout>
   )

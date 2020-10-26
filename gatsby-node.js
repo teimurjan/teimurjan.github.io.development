@@ -15,6 +15,7 @@ exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
   createAllTags({ actions })
   createTags({ actions, posts })
+  createRedirectPageToAdmin()
 }
 
 const createRedirectPageToAdmin = ({ actions: { createPage } }) => {
@@ -26,7 +27,7 @@ const createRedirectPageToAdmin = ({ actions: { createPage } }) => {
           window.location.href = config.ADMIN_REDIRECT_URL
         }
         return null
-      },
+      }
     })
   }
 }
@@ -68,8 +69,8 @@ const createPosts = async ({ actions, graphql }) => {
       path: `/blog${node.fields.slug}`,
       component: blogPostTemplate,
       context: {
-        post: node,
-      },
+        post: node
+      }
     })
   })
 
@@ -81,8 +82,8 @@ const createAllTags = ({ actions }) => {
 
   const allTagsTemplate = path.resolve('src/templates/tags/index.js')
   createPage({
-    path: `/blog/tags`,
-    component: allTagsTemplate,
+    path: '/blog/tags',
+    component: allTagsTemplate
   })
 }
 
@@ -96,8 +97,8 @@ const createTags = ({ actions, posts }) => {
       path: `/blog/tags/${_.kebabCase(tag)}`,
       component: tagTemplate,
       context: {
-        tag,
-      },
+        tag
+      }
     })
   })
 }
@@ -115,12 +116,12 @@ const getTagsFromPosts = posts =>
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
-  if (node.internal.type === `MarkdownRemark`) {
+  if (node.internal.type === 'MarkdownRemark') {
     const value = createFilePath({ node, getNode })
     createNodeField({
-      name: `slug`,
+      name: 'slug',
       node,
-      value,
+      value
     })
   }
 }

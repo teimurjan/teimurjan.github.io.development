@@ -1,19 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Bungee');
+@import url('https://use.fontawesome.com/releases/v5.6.3/css/all.css');
 
 html,
-body,
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Nunito Sans', sans-serif;
+h3 {
+  font-family: 'Bungee', cursive;
 }
 
 html {
-  --primaryColor: #5863F8;
+  --primaryColor: #5863f8;
   --primaryDarkColor: #414ac8;
   --primaryLightColor: #6970d4;
 
@@ -25,9 +27,10 @@ html {
   --fontOnBackgroundColor: #474545;
   --fontOnLightBackgroundColor: #f2f2f2;
 
-  --codeBackgroundColor: #474545;
-  --codePrimaryColor: #ff6459;
+  --codeBackgroundColor: #2b323a;
+  --codePrimaryColor: #6970d4;
   --codeSecondaryColor: #00bbbb;
+  --codeTagColor: #93cbff;
 
   --mobileMenuBackground: var(--backgroundColor);
 
@@ -47,9 +50,10 @@ html[data-theme='dark'] {
   --fontOnBackgroundColor: #e5cbe6;
   --fontOnLightBackgroundColor: #cecbe6;
 
-  --codeBackgroundColor: #2b2b2b;
-  --codePrimaryColor: #2bbc8a;
-  --codeSecondaryColor: #e09142;
+  --codeBackgroundColor: #23292f;
+  --codePrimaryColor: #5bec95;
+  --codeSecondaryColor: #bb8df7;
+  --codeTagColor: #93cbff;
 
   --mobileMenuBackground: var(--backgroundColor);
 
@@ -94,10 +98,6 @@ body.locked-scroll {
   height: 100vh;
   overflow-y: hidden;
 }
-
-@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
-@import url('https://fonts.googleapis.com/css?family=Bungee');
-@import url('https://use.fontawesome.com/releases/v5.6.3/css/all.css');
 
 hr {
   background: var(--primaryColor);
@@ -170,7 +170,7 @@ pre[class*='language-'] {
 .token.tag,
 .token.operator,
 .token.number {
-  color: #e09142;
+  color: var(--codeTagColor);
 }
 .token.property,
 .token.function {

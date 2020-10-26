@@ -5,13 +5,18 @@ import SkillCard from '../components/skill-card'
 import { mediaSizeLessThan, sizes } from '../media'
 
 export const IndexPageWrapper = styled.div`
+  padding-top: 20px;
+
+  @media ${mediaSizeLessThan(sizes.md)} {
+    padding-top: 10px;
+  }
+`
+export const IndexPageColumnsWrapper = styled(IndexPageWrapper)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 40px;
 
   @media ${mediaSizeLessThan(sizes.md)} {
-    padding-top: 0;
     flex-direction: column-reverse;
   }
 `
@@ -61,7 +66,7 @@ export const IndexPageCardsContainer = styled.div`
   }
 `
 
-const fadeIn = keyframes`
+const fadeInFromLeft = keyframes`
   from {
     transform: translateX(-100%);
     opacity: 0;
@@ -76,6 +81,22 @@ export const IndexPageAnimatedSkillCard = styled(SkillCard)`
   transform: translateX(-100%);
   opacity: 0;
 
+  animation: ${fadeInFromLeft} 400ms ease forwards;
+  animation-delay: ${props => props.delay}ms;
+`
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`
+export const IndexPageAnimatedContent = styled.div`
+  opacity: 0;
+
   animation: ${fadeIn} 400ms ease forwards;
   animation-delay: ${props => props.delay}ms;
 `
@@ -86,5 +107,4 @@ export const IndexPageDescriptionContainer = styled.div`
 
 export const IndexPageDescription = styled.p`
   color: var(--fontOnBackgroundColor);
-  font-size: 1.1rem;
 `

@@ -28,7 +28,7 @@ const Header = () => {
       <Container>
         <HeaderInner>
           <HeaderTitle>
-            <HeaderLink to="/">home</HeaderLink>
+            <HeaderLink to="/">Home</HeaderLink>
           </HeaderTitle>
           <Menu>
             <MenuItemLink to="/blog">Blog</MenuItemLink>

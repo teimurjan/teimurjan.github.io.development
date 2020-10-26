@@ -18,8 +18,8 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'markdown-pages',
-        path: path.join(__dirname, '/src/md-pages')
+        name: 'markdown',
+        path: path.join(__dirname, '/src/markdown')
       }
     },
     {

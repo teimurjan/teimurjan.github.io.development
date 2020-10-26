@@ -11,7 +11,7 @@ export const SkillCardValue = styled.div`
   margin: -20px -15px;
   font-size: 1.25rem;
   width: 150px;
-  max-width: 45%;
+  max-width: 35%;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
 `
 

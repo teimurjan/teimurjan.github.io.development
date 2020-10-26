@@ -7,19 +7,30 @@ import {
   IndexPageTitle,
   IndexPageSubTitle,
   IndexPageWrapper,
+  IndexPageColumnsWrapper,
   IndexPageDescription,
   IndexPageDescriptionContainer,
   IndexPageContentContainer,
   IndexPageCardsContainer,
-  IndexPageAnimatedSkillCard
+  IndexPageAnimatedSkillCard,
+  IndexPageAnimatedContent
 } from '../pages-styles/index.styles'
 import { Container } from '../components/container/index.styles'
+import { MarkdownContent } from '../templates/markdown/index.styles'
 
-const IndexPage = ({ data: { image } }) => {
+const skillCardsProps = [
+  { text: 'Age', emoji: '🙍🏼‍♂️', value: '23' },
+  { text: 'Years of experience', emoji: '👨🏼‍💻', value: '5+' },
+  { text: 'Satisfied employers', emoji: '💼', value: '8' },
+  { text: 'Portfolio projects', emoji: '💥', value: '20+' },
+  { text: 'Public talks', emoji: '🎙', value: '3' }
+]
+
+const IndexPage = ({ data: { image, experience, education } }) => {
   return (
     <Layout>
       <Container>
-        <IndexPageWrapper>
+        <IndexPageColumnsWrapper>
           <IndexPageContentContainer>
             <IndexPageTitle>Teimur Gasanov</IndexPageTitle>
             <IndexPageSubTitle>Senior Frontend Engineer</IndexPageSubTitle>
@@ -32,40 +43,31 @@ const IndexPage = ({ data: { image } }) => {
               </IndexPageDescription>
             </IndexPageDescriptionContainer>
             <IndexPageCardsContainer>
-              <IndexPageAnimatedSkillCard
-                delay={0}
-                emoji="🙍🏼‍♂️"
-                text="Age"
-                value="23"
-              />
-              <IndexPageAnimatedSkillCard
-                delay={300}
-                emoji="👨🏼‍💻"
-                text="Years of experience"
-                value="5+"
-              />
-              <IndexPageAnimatedSkillCard
-                delay={600}
-                emoji="💼"
-                text="Satisfied employers"
-                value="8"
-              />
-              <IndexPageAnimatedSkillCard
-                delay={900}
-                emoji="💥"
-                text="Portfolio projects"
-                value="20+"
-              />
-              <IndexPageAnimatedSkillCard
-                delay={1200}
-                emoji="🎙"
-                text="Public talks"
-                value="3"
-              />
+              {skillCardsProps.map((skillCardProps, i) => (
+                <IndexPageAnimatedSkillCard
+                  key={skillCardProps.value}
+                  delay={i * 200}
+                  {...skillCardProps}
+                />
+              ))}
             </IndexPageCardsContainer>
           </IndexPageContentContainer>
           <IndexPageImage fluid={image.childImageSharp.fluid} />
-        </IndexPageWrapper>
+        </IndexPageColumnsWrapper>
+        <IndexPageAnimatedContent delay={skillCardsProps.length * 200}>
+          <IndexPageWrapper>
+            <IndexPageTitle>Experience</IndexPageTitle>
+            <MarkdownContent
+              dangerouslySetInnerHTML={{ __html: experience.html }}
+            />
+          </IndexPageWrapper>
+          <IndexPageWrapper>
+            <IndexPageTitle>Educaiton</IndexPageTitle>
+            <MarkdownContent
+              dangerouslySetInnerHTML={{ __html: education.html }}
+            />
+          </IndexPageWrapper>
+        </IndexPageAnimatedContent>
       </Container>
     </Layout>
   )
@@ -75,6 +77,12 @@ IndexPage.propTypes = {
   data: PropTypes.shape({
     image: PropTypes.shape({
       childImageSharp: PropTypes.shape({ fluid: PropTypes.object.isRequired })
+    }),
+    experience: PropTypes.shape({
+      html: PropTypes.string.isRequired
+    }),
+    education: PropTypes.shape({
+      html: PropTypes.string.isRequired
     })
   })
 }
@@ -86,6 +94,26 @@ export const query = graphql`
         fluid(maxWidth: 1000, traceSVG: { color: "#ff5780" }) {
           ...GatsbyImageSharpFluid_tracedSVG
         }
+      }
+    }
+    experience: markdownRemark(
+      fileAbsolutePath: { regex: "//src/markdown/experience.md$/" }
+    ) {
+      fileAbsolutePath
+      html
+      id
+      frontmatter {
+        title
+      }
+    }
+    education: markdownRemark(
+      fileAbsolutePath: { regex: "//src/markdown/education.md$/" }
+    ) {
+      fileAbsolutePath
+      html
+      id
+      frontmatter {
+        title
       }
     }
   }
