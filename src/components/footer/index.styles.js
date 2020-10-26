@@ -53,12 +53,9 @@ export const FooterIcons = styled.div`
 export const EmailLink = styled(PrimaryALink)`
   text-transform: uppercase;
   font-size: 0.8rem;
+  font-weight: bold;
 
   &:before {
-    content: 'teymurgg321@gmail.com';
-
-    @media ${mediaSizeLessThan(sizes.md)} {
-      content: 'email me';
-    }
+    content: 'email me';
   }
 `

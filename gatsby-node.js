@@ -9,8 +9,6 @@ const path = require('path')
 const _ = require('lodash')
 const { createFilePath } = require('gatsby-source-filesystem')
 
-const config = require('./config')
-
 exports.createPages = async ({ actions, graphql }) => {
   const posts = await createPosts({ actions, graphql })
   createAllTags({ actions })

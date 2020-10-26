@@ -1,5 +1,5 @@
 ---
-title: ''
+title: 'Education'
 ---
 ### Ala-too Internatinal University
 
