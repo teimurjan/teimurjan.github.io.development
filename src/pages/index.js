@@ -36,7 +36,7 @@ const IndexPage = ({ data: { image, experience, education } }) => {
             <IndexPageSubTitle>Senior Frontend Engineer</IndexPageSubTitle>
             <IndexPageDescriptionContainer>
               <IndexPageDescription>
-                I am an experienced engineer qualified in the frontend area.
+                I am an engineer with significant experience in web development.
                 Having excellent communication, management, and problem-solving
                 skills, I&apos;m good at finding reliable solutions for atypical
                 problems.
