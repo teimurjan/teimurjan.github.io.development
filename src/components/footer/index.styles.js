@@ -54,8 +54,8 @@ export const EmailLink = styled(PrimaryALink)`
   text-transform: uppercase;
   font-size: 0.8rem;
   font-weight: bold;
+`
 
-  &:before {
-    content: 'email me';
-  }
+export const EmailIcon = styled.i`
+  margin-left: 10px;
 `

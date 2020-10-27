@@ -28,7 +28,9 @@ const Header = () => {
       <Container>
         <HeaderInner>
           <HeaderTitle>
-            <HeaderLink to="/">Home</HeaderLink>
+            <HeaderLink to="/">
+              <i className="fas fa-home" />
+            </HeaderLink>
           </HeaderTitle>
           <Menu>
             <MenuItemLink to="/blog">Blog</MenuItemLink>

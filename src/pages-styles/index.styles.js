@@ -41,7 +41,6 @@ export const IndexPageImage = styled(GatsbyImage)`
 `
 
 export const IndexPageTitle = styled.h1`
-  font-family: 'Bungee', cursive;
   color: var(--primaryColor);
   font-size: 3rem;
   text-transform: uppercase;

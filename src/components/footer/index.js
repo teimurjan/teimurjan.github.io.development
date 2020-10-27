@@ -4,7 +4,8 @@ import {
   FooterIcons,
   FooterLinkIcon,
   FooterInner,
-  EmailLink
+  EmailLink,
+  EmailIcon
 } from './index.styles'
 import { Container } from '../container/index.styles'
 
@@ -12,7 +13,9 @@ const Footer = () => (
   <FooterWrapper>
     <Container>
       <FooterInner>
-        <EmailLink href="mailto: teymurgg321@gmail.com" />
+        <EmailLink href="mailto: teymurgg321@gmail.com">
+          email me <EmailIcon className="fas fa-envelope"></EmailIcon>
+        </EmailLink>
         <FooterIcons>
           <FooterLinkIcon target="_blank" href="https://github.com/teimurjan">
             <i className="fab fa-github" />

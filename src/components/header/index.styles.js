@@ -33,7 +33,6 @@ export const HeaderTitle = styled.h2`
   @media ${mediaSizeLessThan(sizes.sm)} {
     font-size: 1.4rem;
   }
-  font-family: 'Bungee', cursive;
 `
 
 export const HeaderLink = styled(Link)`

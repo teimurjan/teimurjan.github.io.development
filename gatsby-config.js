@@ -3,7 +3,7 @@ const config = require('./config')
 
 module.exports = {
   siteMetadata: {
-    title: 'teimurjan'
+    title: 'Teimur Gasanov - Senior Frontend Engineer'
   },
   plugins: [
     'gatsby-plugin-react-helmet',
