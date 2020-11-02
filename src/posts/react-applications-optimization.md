@@ -8,9 +8,9 @@ tags:
   - optimization
   - react
 ---
-Everybody, everywhere and every time wants to get the fastest response from the application. It's humanity's nature. We are not the most patient creatures all over the galaxy. This should be the thought of any Frontend engineer. All the materials for this post are given from my public talk at GDG IWD 2018 Kyrgyzstan, Bishkek and can be found [<b>here</b>](https://github.com/teimurjan/react-optimization-presentation).
+Everybody, everywhere and every time wants to get the fastest response from the application. It's humanity's nature. We are not the most patient creatures all over the galaxy. This should be the thought of any Frontend engineer. All the materials for this post are given from my public talk at GDG IWD 2018 Kyrgyzstan, Bishkek, and can be found [<b>here</b>](https://github.com/teimurjan/react-optimization-presentation).
 
-## Optimization wayst
+## Optimization ways
 
 To improve the performance we need to identify the areas which may be improved. First of all, we are talking about a Javascript application which is always a result of running a file of instructions - bundle file. The smaller this file is the faster it'll be loaded. Respectively the web page's loading time will be reduced.
 
@@ -65,9 +65,9 @@ loader: ExtractTextPlugin.extract({
 
 By these simple actions, we could divide one big bundle into two smaller ones and then reduce the CSS file's size by about 25%.
 
-### JS size reduction
+### Javascript
 
-Now it's a more interesting part as we'll talk about JS bundle optimization. Here I suggest, beginning with the setting environment variable `NODE_ENV=production`. Why do we need to do that? Because without knowing that we are in production React will be using its development file which is 7 times greater than the minified one for production.
+Let's move to a more compound part - Javascript file optimization. Here I suggest, beginning with the setting environment variable `NODE_ENV=production`. Why do we need to do that? Because without knowing that we are in production React will be using its development file which is 7 times greater than the minified one for production.
 
 ```js
 const webpack = require("webpack");
@@ -83,7 +83,7 @@ module.exports = {
 };
 ```
 
-File with React.js library is ready for use, but what's with our own code? How to make it minified? UglifyJsPlugin is our assistant in solving this problem. This plugin reduces the bundle's size for about 47%! 🙀
+Well, React supports optimization out of the box, but our code is not. How to make it minified? UglifyJsPlugin is our assistant in solving this problem. This plugin reduces the bundle's size by about 47%! 🙀
 
 ```js
 const webpack = require("webpack");
@@ -99,7 +99,7 @@ module.exports = {
 
 ### Analysis
 
-Suppose that you've done everything written earlier but your problems have not dissapeared. In that case we might need to abandon some libraries. To detect useless and heavy libraries we can use 2 popular tools:
+Suppose that you've done everything written earlier but your problems have not disappeared. In that case, we might need to abandon some libraries. To detect useless and heavy libraries we can use 2 popular tools:
 
 * source-map-explorer(needs a source map file)
 
@@ -119,11 +119,13 @@ module.exports = {
 };
 ```
 
-These tools are similar but in my opinion, the last one is more nice-looking.
+These tools are almost the same, but the last one is much prettier.
 
 ### Code splitting
 
-So all the least dependencies are removed but you want more and more optimization. That's where code splitting steps in! First of all, we need to divide our clients and dependencies' code. It will be a very useful act if you often update your code but the libraries remain the same because the browser will not update the cached libraries' bundle.
+We're done with the single bundle manipulations. It's time to split it into chunks so we don't have to load a huge pie at once.
+
+First of all, we need to divide the client and vendor code. It will be a useful action if your code is updated often but the libraries remain the same. The browser won't update the libraries' as they are cached. It'll only re-fetch your updated code.
 
 ```js
 const webpack = require("webpack");
@@ -144,8 +146,9 @@ module.exports = {
 
 In this example, we extracted from the main bundle some vendors like react(-dom), react-router(-dom).
 
-But we'll not stop at this point as we can divide our main bundle further and further using route-based code splitting. This way of optimization requires changing not only the configs but also the code.
-At first, let's edit webpack's output settings.
+Now, the client code can also be split based on the routes. This way of optimization requires changing not only the configs but also the code. The process can be done in 2 simple steps:
+
+1. Modify wepack's configuration.
 
 ```js
 const webpack = require("webpack");
@@ -162,20 +165,7 @@ module.exports = {
 };
 ```
 
-Now we should choose the component to be extracted into a chunk.
-
-```js
-// home.js
-import React from "react";
-
-export default () => (
-  <div className="wrapper">
-    <h2>Home</h2>
-  </div>
-);
-```
-
-The only thing to make chunking work is to wrap our component in a [react-loadable](https://github.com/jamiebuilds/react-loadable) component.
+2. Make a component loaded asynchronously.
 
 ```js
 // home-container.js
@@ -188,16 +178,15 @@ export default Loadable({
 });
 ```
 
-At this moment we can use this container to load the Home component as a separate file.
+The component exported from \`home-container.js\` file can be used as a separate chunk file.
 
 ## Rendering
 
-Lastly, we finished bundle's size reduction and could move to our React.js code.
+Lastly, we finished the bundle's size reduction and can move to React.
 
 ### Reconciliation
 
-To optimize something, we have to know how it's working. So, one of the main things affecting performance is reconciliation.
-Reconciliation is an algorithm of updating React's Virtual DOM. Here is a simple scheme illustrating how it works.
+To optimize something, we have to know how it's working. So, one of the main things affecting performance is reconciliation. Reconciliation is an algorithm for updating React's Virtual DOM. Here is a simple scheme illustrating how it works.
 
 ![](./assets/react-applications-optimization/reconciliation.png)
 
@@ -213,8 +202,7 @@ export default class extends React.Component {
 }
 ```
 
-It means that your component will always handle pass the update signal.
-To avoid this, React.PureComponent can be used. This thing is a copy of React.Component but with one significant change. It has different realization of `shouldComponentUpdate` method.
+It means that your component will always handle pass the update signal. To avoid this, React.PureComponent can be used. This thing is a copy of React.Component but with a significant change. It has a different realization of `shouldComponentUpdate` method.
 
 ```js
 export default class extends React.PureComponent {
@@ -240,7 +228,7 @@ const obj2 = { foo: "bar" };
 obj1 === obj2; // false
 ```
 
-As you see having the same content does not mean shallow equality. arr1/obj1 and arr2/obj2 are just the pointers to the values located in your machine's memory. So when the device takes arr1 and arr2 pointers' values, they are from different locations. That's why they are not shallow equal. And this issue often causes performance drops. I will note 2 the most common mistakes inducing this drops:
+Having the same content does not mean shallow equality. arr1/obj1 and arr2/obj2 are just the pointers to the values located in your machine's memory. So when the device takes arr1 and arr2 pointers' values, they are from different locations. That's why they are not shallow equal. And this issue often causes performance drops. I will note 2 of the most common mistakes inducing these drops:
 
 * arrow functions and .bind(this) in `render`
 * using a constant object in `render`
@@ -406,7 +394,7 @@ To handle this issue, you need to use the id of elements as the key. If you don'
 
 ### Avoiding lifecycle
 
-aIt's commonly said that using functional components is a way to get rid of component lifecycle in favor of faster rendering. It's not true if we render a component with \`React.createElement\` or as JSX. However, if a component is rendered as a pure function call the lifecycle will be completely ignored. 
+aIt's commonly said that using functional components is a way to get rid of the component lifecycle in favor of faster rendering. It's not true if we render a component with \`React.createElement\` or as JSX. However, if a component is rendered as a pure function call the lifecycle will be completely ignored. 
 
 ```js
 const TodoFactory = ({ todo, onClick }) => (
@@ -420,7 +408,7 @@ export default ({ todos }) => (
 );
 ```
 
-Here is [the link](https://github.com/missive/functional-components-benchmark) to benchmark.
+Here is [the link](https://github.com/missive/functional-components-benchmark) to the benchmark.
 
 ## Conclusion
 
