@@ -8,15 +8,18 @@ tags:
   - optimization
   - react
 ---
+Everybody, everywhere and every time wants to get the fastest response from the application. It's humanity's nature. We are not the most patient creatures all over the galaxy. This should be the thought of any Frontend engineer. All the materials for this post are given from my public talk at GDG IWD 2018 Kyrgyzstan, Bishkek and can be found [<b>here</b>](https://github.com/teimurjan/react-optimization-presentation).
 
-Everybody, everywhere and every time wants to get the fastest response from the application that he or she uses. It's humanity's nature, we are not the most patient creatures all over the galaxy. That's why I'm here. My wish is to show how to make your app be the best friend of every user. All the materials for this post are given from my public talk at GDG IWD 2018 Kyrgyzstan, Bishkek and can be found [<b>here</b>](https://github.com/teimurjan/react-optimization-presentation).
+## Optimization wayst
 
-## Optimization types
+To improve the performance we need to identify the areas which may be improved. First of all, we are talking about a Javascript application which is always a result of running a file of instructions - bundle file. The smaller this file is the faster it'll be loaded. Respectively the web page's loading time will be reduced.
 
-Before the start, we need to identify the areas which may be improved. First of all, we are talking about the javascript app which we build as the one bundle file. So as the beginning we need to make this file as small as possible to reduce the web page's loading time. The next and final step is to avoid redundant re-rendering of the components.
+The secondary influencer is rendering. Before a user sees a painting on the page, there is an unknown amount of rendering operations. Some of them are useful and some are not. The time between a user's interaction and the result painted on the page is the straight-forward factor of the app's efficiency.
 
-* Reduce `bundle.js`
-* Avoid least calls of `render()`
+From the above, we can conclude with the following action items:
+
+* Reduce `bundle.js` size.
+* Avoid unnecessary calls of `render()`.
 
 ## Bundle size
 
@@ -59,6 +62,7 @@ loader: ExtractTextPlugin.extract({
   ]
 });
 ```
+
 By these simple actions, we could divide one big bundle into two smaller ones and then reduce the CSS file's size by about 25%.
 
 ### JS size reduction
@@ -139,7 +143,7 @@ module.exports = {
 ```
 
 In this example, we extracted from the main bundle some vendors like react(-dom), react-router(-dom).
- 
+
 But we'll not stop at this point as we can divide our main bundle further and further using route-based code splitting. This way of optimization requires changing not only the configs but also the code.
 At first, let's edit webpack's output settings.
 
@@ -186,7 +190,7 @@ export default Loadable({
 
 At this moment we can use this container to load the Home component as a separate file.
 
-## React
+## Rendering
 
 Lastly, we finished bundle's size reduction and could move to our React.js code.
 
@@ -271,7 +275,7 @@ render() {
 }
 ```
 
-At first sight, all is well, but here is a mistake. When you use `() => this.props.onTodoClick(todo.id)` in such a way, a new function will be created at every call of render. As you know JS functions are objects than as we've seen earlier new object means new location(address) in the memory. That's why our PureComponent will always find differences with the new node. To solve this issue, you may pass `onTodoClick` as a prop and call it inside the Todo component.
+At first sight, all is well, but here is a mistake. When you use `() => this.props.onTodoClick(todo.id)` in such a way, a new function will be created at every call of render. As you know JS functions are objects than as we've seen earlier new object means a new location(address) in the memory. That's why our PureComponent will always find differences with the new node. To solve this issue, you may pass `onTodoClick` as a prop and call it inside the Todo component.
 
 ```js
 class Todo extends React.Component {
@@ -372,7 +376,7 @@ export default class extends React.PureComponent {
 ```
 
 ### Components' keys
- 
+
 Another most common problem is when the index of an element is used as the key. That's because there are not too many people who know the keys' mission. Keys are like unique ids in a hash map to make operations on them faster. Here is what happens when you use indexes as the keys(I'll represent components schematically).
 
 ```js
@@ -402,7 +406,7 @@ To handle this issue, you need to use the id of elements as the key. If you don'
 
 ### Avoiding lifecycle
 
-React.js developers say that using stateless(functional) components is a way for optimization but not for now. They are going to implement a component's lifecycle avoidance for these components in the future. But after some discovering, I've found out that it is possible to even for now. You don't need any extra dependencies. You have to call functional components as the functions without mounting them as XML.
+aIt's commonly said that using functional components is a way to get rid of component lifecycle in favor of faster rendering. It's not true if we render a component with \`React.createElement\` or as JSX. However, if a component is rendered as a pure function call the lifecycle will be completely ignored. 
 
 ```js
 const TodoFactory = ({ todo, onClick }) => (
