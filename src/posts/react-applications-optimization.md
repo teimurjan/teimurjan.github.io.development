@@ -148,7 +148,7 @@ In this example, we extracted from the main bundle some vendors like react(-dom)
 
 Now, the client code can also be split based on the routes. This way of optimization requires changing not only the configs but also the code. The process can be done in 2 simple steps:
 
-1. Modify wepack's configuration.
+1. Modify webpack configuration.
 
 ```js
 const webpack = require("webpack");
@@ -182,17 +182,19 @@ The component exported from \`home-container.js\` file can be used as a separate
 
 ## Rendering
 
-Lastly, we finished the bundle's size reduction and can move to React.
+The size of the bundle is reduced as much as we can. It's time to optimize rendering.
 
 ### Reconciliation
 
-To optimize something, we have to know how it's working. So, one of the main things affecting performance is reconciliation. Reconciliation is an algorithm for updating React's Virtual DOM. Here is a simple scheme illustrating how it works.
+Before an improvement, we have to know how the mechanism is working. The most valuable process in React is reconciliation - an algorithm used to update React's Virtual DOM. Here is a simple scheme illustrating how it works.
 
-![](./assets/react-applications-optimization/reconciliation.png)
+Below is an elementary visualization of this algorithm.
 
-We have a state update in the root component - (1). Consider this update as a signal. The signal goes deeper to the (1)'s children. (2)'s SCU method returns `false`, so this component and all his children will ignore this signal. As for the (3), its SCU returns `true` then it will handle the signal(it will be re-rendered if React's comparison algorithm will find differences between us and current nodes) and pass the signal deeper. Child (6)'s SCU also returns `true` and React also find here some differences. (6) will be re-rendered. (7)'s SCU result is `false`, then no re-render needed.
+![](/media/reconciliation.png)
 
-That's how React's updates work. As you notice `shouldComponentUpdate` plays a huge role in this process. Here is how default SCU looks like:
+Assume we have a state update in the root component - **(1)**. Consider this update as a signal. The signal goes deeper to the **(1)**'s children. **(2)**'s SCU method returns `false`, so this component ignores the signal and not pass it deeper. **(3)**'s SCU returns `true` meaning the signal won't be ignored and the node will be re-rendered if React's comparison algorithm finds differences between the previous and current nodes. To detect these differences the same process is made for the children. Child **(6)**'s SCU returns `true` and the comparison algorithm recognizes that this node is changed, so it'll be rerendered. **(6)** will be re-rendered. **(7)**'s SCU result is `false`, then no rerender needed.
+
+That's how React updates work. As you notice `shouldComponentUpdate` plays a huge role in this process. Here is how default SCU looks like:
 
 ```js
 export default class extends React.Component {
@@ -202,7 +204,7 @@ export default class extends React.Component {
 }
 ```
 
-It means that your component will always handle pass the update signal. To avoid this, React.PureComponent can be used. This thing is a copy of React.Component but with a significant change. It has a different realization of `shouldComponentUpdate` method.
+It means that your component will always handle the update signal. To avoid this, `React.PureComponent` can be used. This thing is a copy of `React.Component` but with a significant change. It has a different realization of `shouldComponentUpdate` method.
 
 ```js
 export default class extends React.PureComponent {
@@ -228,14 +230,14 @@ const obj2 = { foo: "bar" };
 obj1 === obj2; // false
 ```
 
-Having the same content does not mean shallow equality. arr1/obj1 and arr2/obj2 are just the pointers to the values located in your machine's memory. So when the device takes arr1 and arr2 pointers' values, they are from different locations. That's why they are not shallow equal. And this issue often causes performance drops. I will note 2 of the most common mistakes inducing these drops:
+The same objects' content does not mean they are shallowly equal. `arr1/obj1` and `arr2/obj2` are just the pointers to the values located in a machine's memory. These pointers are different because the machine doesn't care about the content. This issue often causes performance drops. There are the most popular mistakes below:
 
-* arrow functions and .bind(this) in `render`
+* arrow functions and `.bind(this)` in `render`
 * using a constant object in `render`
 
 ### Arrow functions and .bind(this)
 
-Why I've mentioned arrow functions and .bind(this)? Suppose you have such todo component:
+Suppose you have such a component:
 
 ```js
 class Todo extends React.Component {
@@ -249,7 +251,7 @@ class Todo extends React.Component {
 }
 ```
 
-and you use it:
+You use it in the following way:
 
 ```js
 render() {
@@ -263,7 +265,7 @@ render() {
 }
 ```
 
-At first sight, all is well, but here is a mistake. When you use `() => this.props.onTodoClick(todo.id)` in such a way, a new function will be created at every call of render. As you know JS functions are objects than as we've seen earlier new object means a new location(address) in the memory. That's why our PureComponent will always find differences with the new node. To solve this issue, you may pass `onTodoClick` as a prop and call it inside the Todo component.
+When you use `() => this.props.onTodoClick(todo.id)` in such a way, a new function will be created at every call of render. As you know JS functions are objects. We've seen earlier a new object means a new pointer in the memory. That's why our `React.PureComponent` will always detect differences. As a possible solution `onTodoClick` can be passed as a prop and called inside the `Todo` component.
 
 ```js
 class Todo extends React.Component {
@@ -293,7 +295,7 @@ class TodoList extends React.PureComponent {
 }
 ```
 
-There is the same problem with .bind(this) because this function also creates a new object on every render. So instead of doing this
+\`.bind(this)\` causes a similar problem because binding a context creates a completely new function too.
 
 ```js
 render() {
@@ -310,7 +312,7 @@ render() {
 }
 ```
 
-you can bind the method in the constructor
+Instead of doing like that, binding `this` can be moved to the constructor, so it'll only be called once:
 
 ```js
 constructor(props) {
@@ -319,7 +321,7 @@ constructor(props) {
 }
 ```
 
-or even better use ES6 arrow function(no need to bind context in this way)
+Usage of the ES6 arrow function is even better because you don't need to bind context in this way:
 
 ```js
 handleClick = todoId => {
@@ -331,7 +333,7 @@ handleClick = todoId => {
 
 ### Constant object in render
 
-There are a lot of components in React which takes different static options as props. For example, we have a todo list that takes options as an object prop.
+Passing a static property to a component is a frequent fact. For example, we have a `TodoList` that demands `option` prop.
 
 ```js
 export default class extends React.PureComponent {
@@ -348,7 +350,7 @@ export default class extends React.PureComponent {
 }
 ```
 
-It's not so clear but for every call of render, the options are a newly created object. But as the values are always the same, we can just extract it to a variable.
+It's not obvious that the options are a newly created object on every call of `render`. The values are always the same, the pointers are not. Let's extract this property to a variable, so the object is created outside of the `render`.
 
 ```js
 const TODO_LIST_OPTIONS = {
@@ -363,9 +365,9 @@ export default class extends React.PureComponent {
 }
 ```
 
-### Components' keys
+### Keys
 
-Another most common problem is when the index of an element is used as the key. That's because there are not too many people who know the keys' mission. Keys are like unique ids in a hash map to make operations on them faster. Here is what happens when you use indexes as the keys(I'll represent components schematically).
+Another most common problem is using the index of an element as the key. Keys' mission is not familiar to many young engineers. Keys are the unique identifiers making operations with the components faster. Let's review the code below:
 
 ```js
 // You have this 4 components
@@ -385,16 +387,15 @@ const elements = [
 ];
 ```
 
-As you see after deletion Container #1 indexes of all the elements after it has changed. In this way, the keys also have changed.
+After deletion Container #1, indexes of all the subsequent elements are changed. If the keys are the indexes, they will be changed, however, the components are the same. When the comparison algorithm is run, all the components with the updated keys will be rerendered despite the actual state of their nodes. Imagine if there are 1000 elements and the first one is deleted. 999 rerenders happen uselessly.
 
-![](./assets/react-applications-optimization/keys-table.png)
+![](/media/keys-table.png)
 
-So after deletion, an element at index `n`, all the elements with an index greater than `n` will be re-rendered. Now imagine if you have 1000 elements and you delete the first one. 😅
-To handle this issue, you need to use the id of elements as the key. If you don't have id you can generate them when the component is mounting. NOT IN RENDER! Otherwise, the components' keys will be different after every update.
+You need to create a rule for yourself not to use dynamic keys. It's good if your objects have an \`id\` attribute to rely on.  If they don't have \`id\`s can be generated before the components are used (outside of `render`).
 
 ### Avoiding lifecycle
 
-aIt's commonly said that using functional components is a way to get rid of the component lifecycle in favor of faster rendering. It's not true if we render a component with \`React.createElement\` or as JSX. However, if a component is rendered as a pure function call the lifecycle will be completely ignored. 
+It's said that using functional components is a way to get rid of the component lifecycle in favor of faster rendering. It's not true if we render a component with \`React.createElement\` or as JSX. However, if a component is rendered as a pure function call the lifecycle will be completely ignored. 
 
 ```js
 const TodoFactory = ({ todo, onClick }) => (
@@ -412,4 +413,4 @@ Here is [the link](https://github.com/missive/functional-components-benchmark) t
 
 ## Conclusion
 
-There were explained the most common and efficient methods above. These methods were implemented using `React 16.2`, `Webpack 3.8.1`. But it is not so important as you had to understand the idea and optimization ways, not the implementation. Hope this post answered some of your questions and would be helpful in your future.
+Above, you can find the most popular and efficient methods to optimize an application. These methods are implemented using `React 16.2` and `Webpack 3.8.1`, though I'd advise you to ignore it. The idea of the article is to show possible bottlenecks without binding to a version of a library. Following this guide will make you understand the threats of your app's slowness and the ways to fight them.
