@@ -35,7 +35,7 @@ python3 -m venv virtualenv
 source virtualenv/bin/activate
 ```
 
-### Training model
+### Training Model
 
 There are some dependencies needed for creating our machine learning model.
 
@@ -91,7 +91,7 @@ Executing this code will show you the following plot describing the algorithm's 
 
 As you can see, **k** equal to 3 gives the best accuracy.
 
-## Building API
+## API
 
 The application core (an algorithm predicting the digits from images) is ready. Now we need to decorate the algorithm with an API layer to make it available for usage. Let's use Flask web framework to have this job clean and concise.
 
@@ -266,7 +266,7 @@ There will be six functions:
 
 1. Replace a transparent background with a color.
 
-   ![](/media/replace_transparent_background.png)
+![](/media/replace_transparent_background.png)
 
 ```python
 def replace_transparent_background(image):
@@ -287,7 +287,7 @@ def replace_transparent_background(image):
 
 2. Trim open borders.
 
-   ![](/media/trim_borders.png)
+![](/media/trim_borders.png)
 
 ```python
 def trim_borders(image):
@@ -303,7 +303,7 @@ def trim_borders(image):
 
 3. Add borders of equal size.
 
-   ![](/media/pad_image.png)
+![](/media/pad_image.png)
 
 ```python
 def pad_image(image):
@@ -319,7 +319,7 @@ def to_grayscale(image):
 
 5. Invert colors.
 
-   ![](/media/invert_colors.png)
+![](/media/invert_colors.png)
 
 ```python
 def invert_colors(image):
@@ -328,7 +328,7 @@ def invert_colors(image):
 
 6. Resize the image to 8x8 format.
 
-   ![](/media/resize_image.png)
+![](/media/resize_image.png)
 
 ```python
 def resize_image(image):
@@ -362,7 +362,7 @@ Date: Tue, 27 Mar 2018 07:02:08 GMT
 
 Great, our web app correctly detected that it is 4.
 
-## React app
+## UI
 
 I used [CRA boilerplate](https://github.com/facebook/create-react-app) but you can configure your application from scratch if you don't cherish the time.
 
@@ -379,96 +379,82 @@ npm i react-sketch
 
 Tools are ready and let's write the code.
 
-```js
-import React, { Component } from "react";
-import logo from "./assets/logo.svg";
-import "./assets/App.css";
+```jsx
+import React, { useRef, useState } from "react";
 import { SketchField, Tools } from "react-sketch";
+
 import { makePrediction } from "./api";
 
-const pixels = count => `${count}px`;
-const percents = count => `${count}px`;
+import logo from "./assets/logo.svg";
+import "./assets/App.css";
+
+const pixels = (count) => `${count}px`;
+const percents = (count) => `${count}px`;
 
 const MAIN_CONTAINER_WIDTH_PX = 200;
 const MAIN_CONTAINER_HEIGHT = 100;
 const MAIN_CONTAINER_STYLE = {
   width: pixels(MAIN_CONTAINER_WIDTH_PX),
   height: percents(MAIN_CONTAINER_HEIGHT),
-  margin: "0 auto"
+  margin: "0 auto",
 };
 
 const SKETCH_CONTAINER_STYLE = {
   border: "1px solid black",
   width: pixels(MAIN_CONTAINER_WIDTH_PX - 2),
   height: pixels(MAIN_CONTAINER_WIDTH_PX - 2),
-  backgroundColor: "white"
+  backgroundColor: "white",
 };
 
-const validateStatusCode = response =>
-  new Promise((resolve, reject) => {
-    const status = response.status;
-    const next = status < 400 ? resolve : reject;
-    response.text().then(next);
-  });
+const App = () => {
+  const sketchRef = useRef(null);
+  const [errors, setErrors] = useState();
+  const [value, setValue] = useState();
+  const [prediction, setPrediction] = useState();
 
-export const makePrediction = image =>
-  fetch("/api/predict", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ image })
-  }).then(validateStatusCode);
+  const handleSubmit = () => {
+    const image = sketchRef.current.toDataURL();
 
-class App extends Component {
-  state = {
-    prediction: undefined,
-    errors: undefined
+    setPrediction(undefined);
+    setErrors(undefined);
+
+    makePrediction(image).then(setPrediction).catch(setErrors);
   };
 
-  handleSubmit = e => {
-    const image = this.sketch.toDataURL();
-    this.setState({
-      prediction: undefined,
-      errors: undefined
-    });
-    makePrediction(image)
-      .then(prediction => this.setState({ prediction }))
-      .catch(errors => this.setState({ errors }));
+  const handleClear = (e) => sketchRef.current.clear();
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
   };
 
-  handleClear = e => this.sketch.clear();
-
-  render() {
-    const { prediction, errors } = this.state;
-    return (
-      <div className="App" style={MAIN_CONTAINER_STYLE}>
-        <div>
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Draw a digit</h1>
-          </header>
-          <div style={SKETCH_CONTAINER_STYLE}>
-            <SketchField
-              ref={sketch => (this.sketch = sketch)}
-              width="100%"
-              height="100%"
-              tool={Tools.Pencil}
-              imageFormat="jpg"
-              backgroundColor="white"
-              lineColor="gray"
-              lineWidth={8}
-            />
-          </div>
-          {prediction && <h3>Predicted value is: {prediction}</h3>}
-          <button onClick={this.handleClear}>Clear</button>
-          <button onClick={this.handleSubmit}>Guess the number</button>
-          {errors && <p style={{ color: "red" }}>Something went wrong</p>}
+  return (
+    <div className="App" style={MAIN_CONTAINER_STYLE}>
+      <div>
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <h1 className="App-title">Draw a digit</h1>
+        </header>
+        <div style={SKETCH_CONTAINER_STYLE}>
+          <SketchField
+            ref={sketchRef}
+            onChange={handleChange}
+            width="100%"
+            height="100%"
+            tool={Tools.Pencil}
+            imageFormat="jpg"
+            lineColor="#111"
+            lineWidth={10}
+            value={value}
+          />
         </div>
+        {prediction && <h3>Predicted value is: {prediction}</h3>}
+        <button onClick={handleClear}>Clear</button>
+        <button onClick={handleSubmit}>Guess the number</button>
+        {errors && <p style={{ color: "red" }}>Something went wrong</p>}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default App;
 ```
@@ -485,8 +471,8 @@ And go to the `localhost:3000`.
 
 </div>
 
-Checkout the [DEMO](web-digits-recognizer.herokuapp.com). All code is available on my [Github repository ](https://github.com/teimurjan/digits-recognizer).
+Check out the [DEMO](web-digits-recognizer.herokuapp.com). All code is available on my [Github repository ](https://github.com/teimurjan/digits-recognizer).
 
 ### Conclusion
 
-I understand that the quality of this classifier is not so good as you want. That's it because of the big difference between train and actual data. But the reason of creating this project is just to learn something new and share this knowledge with others. Thank you for reading this article, hope you've discovered lots of interesting things, keep on studying and improve yourselves. 🙌
+I understand that the quality of this classifier is not so good as you want. That's it because of the big difference between the training and the actual data. But the reason for creating this project is just to learn something new and share this knowledge with others. Thank you for reading this article, hope you've discovered lots of interesting things, keep on studying and improve yourselves. 🙌
