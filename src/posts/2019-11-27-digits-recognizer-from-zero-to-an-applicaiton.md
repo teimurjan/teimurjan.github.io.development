@@ -1,10 +1,9 @@
 ---
 layout: blog
-title: 'Digits Recognizer: from zero to an applicaiton.'
+title: "Digits Recognizer: from zero to an applicaiton."
 date: 2019-11-26T09:35:31.085Z
-excerpt: >-
-  Machine learning, computer vision, building APIs, creating front-end - that's
-  all interesting. The question is: how to combine them all?
+excerpt: "Machine learning, computer vision, building APIs, creating front-end -
+  that's all interesting. The question is: how to combine them all?"
 hidden: false
 tags:
   - python
@@ -13,57 +12,57 @@ tags:
   - computer vision
   - reactjs
 ---
-Machine learning, computer vision, building APIs, creating UI - each of them is a hugely interesting area of engagement. Machine learning and computer vision are more of mathematics and science when API and UI development are about algorithmic thinking and designing flexible architectures. They are so different so it becomes difficult when you have to select the best one to dive into. The purpose of this article is to dispel all doubts and find out a featured scope for you by combining all of them.
+Machine learning, computer vision, building powerful APIs, and creating beautiful UIs - each topic here is an exciting area of engagement. The first couple requires more mathematics and science. API and UI development is about algorithmic thinking and designing flexible architectures. They are so different, so it becomes problematic to select the one you want to learn. The purpose of this article is to dispel all doubts and find out a subject matching you by using all of them.
 
-The application that is going to be built is simple enough. Simplicity is the core idea as making the app big and compound won't get you a good feeling about any topic but will make you be afraid of its complexity. So the aim of the app is to guess the digits you're drawing in your browser, that's it.
+The application that we're going to build is a simple digit recognizer.  You draw, the machine predicts. Simplicity is essential because it allows not to focus on details but to see the whole picture.
 
 ## Machine learning
 
-One of the core parts in our app is the algorithm guessing what number is drawn. This algorithm will be designed using machine learning. Machine learning is a kind of artificial intelligence allowing a system to learn automatically with a given amount of data. In simple words, machine learning is a process of finding a coincidence or set of coincidences in the data during training to apply the found coincidence rules in guessing.
+One of the core parts of our app is the algorithm guessing the drawn number. Machine learning will be our tool to achieve a good guess quality. This kind of artificial intelligence allows a system to learn automatically with a given amount of data. In simple words, machine learning is a process of finding a coincidence or set of coincidences in the data to rely on them in guessing.
 
-Our app will use ML in the following way:
+Our process contains three steps:
 
-1. Take images of drawn digits for training.
-2. Learn the system to guess the digits via training data.
-3. Test the system for guessing new/unknown data.
+1. Get images of drawn digits for training.
+2. Learn the system to guess the numbers via training data.
+3. Test the system with new/unknown data.
 
-### Setting up environment
+### Environment
 
-We'll need [Anaconda](https://anaconda.org/anaconda/python) to work with ML in Python. It's a nice tool that installs all the required Python packages so you don't need to install them separately by yourself.
+We'll need [a virtual environment](https://anaconda.org/anaconda/pythonhttps://docs.anaconda.com/anaconda/install/) to work with the machine learning in Python. It's an excellent tool that manages all the required Python packages, so you don't need to care about it. Let's install it with the following terminal commands:
 
-Installation process is described [here](https://docs.anaconda.com/anaconda/install/), so it'll be skipped in this article.
-
-### Training ML model
-
-There are some dependencies needed for designing our machine learning model.
-
-* `sklearn.neighbors.KNeighborsClassifier` - is the model that is going to be trained. K Nearest Neigbors Classifier is an algorithm which gets some data samples and arrange them on some plane ordering by the given set of characteristics just like in the picture:<br/>
-  ![](/media/knn3.png)
-  <br/>After the data samples are arranged the model is ready for guessing. In order to guess which type of the data samples the green dot belongs to we should check the types of `k` nearest neighbors where `k` is the argument set by us. Considering the image above if `k` equal to 1, 2, 3 or 4 is chosen the guess will be `Red Triangle` type as the majority of the closest `k` neighbors of the green dot contains red triangles. But if we extend k to 5 then the majority is of the blue squares so the guess will be `Blue Square`.
-* `sklearn.model_selection.train_test_split` - is the function which will help us to split the data onto the data to use in training and the data to check correctness of our trained model.
-* `sklearn.model_selection.cross_val_score` - is the function to get a value of our model's correctness. The bigger returned value is the better our model guesses.
-* `sklearn.metrics.classification_report` - is the function to show statistical report of model's guesses.
-* `sklearn.datasets` - is the package to get data for training(digits images).
-* `numpy` - is the package widely used in science as it brings a productive and comfortable way to manipulate multi-dimensional data structures in Python.
-* `matplotlib.pyplot` - is the package to visualize data.
-
-Let's import all of them.
-
-```python
-from sklearn.neighbors import KNeighborsClassifierfrom sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.metrics import classification_report
-from sklearn import datasets
-import numpy as np
-import matplotlib.pyplot as plt
+```
+python3 -m venv virtualenv
+source virtualenv/bin/activate
 ```
 
-Now it's necessary to load [MNIST Database](http://yann.lecun.com/exdb/mnist/) which is located in the datasets module of sklearn.
+### Training model
+
+There are some dependencies needed for creating our machine learning model.
+
+* **sklearn.neighbors.KNeighborsClassifier** - is the classifier we'll use. K Nearest Neighbors Classifier is an algorithm which gets some data samples and arranges them on some plane ordered by a given set of characteristics:
+* **sklearn.model_selection.train_test_split** - is the function that will help us split the data into the training data and the data to check the model's correctness.
+* **sklearn.model_selection.cross_val_score** - is the function to get a mark for the model's correctness. The bigger value, the better correctness.
+* **sklearn.metrics.classification_report** - is the function to show a statistical report of the model's guesses.
+* **sklearn.datasets** - is the package to get data for training (images of digits).
+* **numpy** - is the package widely used in science as it brings a productive and comfortable way to manipulate multi-dimensional data structures in Python.
+* **matplotlib.pyplot** - is the package to visualize data.
+
+After arranging data samples, the model is ready to guess. To detect the type of the green dot, we should check the types of **k** nearest neighbors where **k** is the argument set. Considering the image above, if **k** equal to 1, 2, 3, or 4, the guess will be **Red Triangle** as most of the green dot's closest **k** neighbors contain red triangles. If we increase **k** to 5, then the majority is of the blue squares, so that the guess will be **Blue Square**.
+![](/media/knn3.png)
+
+Let's start with installing all of them:
+
+```
+pip install sklearn numpy matplotlib scipy
+```
+
+Now we need to load MNIST Database, which is a dataset of digit images from **sklearn**.
 
 ```python
 digits = datasets.load_digits()
 ```
 
-When the data is fetched and ready, we can move to the next step of splitting the data onto 2 parts: training and testing.
+When the data is fetched and ready, we can move to the next step of splitting the data into two parts: training and testing.
 
 ```python
 (X_train, X_test, y_train, y_test) = train_test_split(
@@ -71,7 +70,7 @@ When the data is fetched and ready, we can move to the next step of splitting th
 )
 ```
 
-The most important part of the machine learning process is starting right now. It's required to find the best parameter `k` for our algorithm which I've described above. I can’t just take the k out of our mind, so training of the model will be evaluated for different values of `k`.
+The most important part of the machine learning process is starting right now. It's required to find the best parameter **k** for our cause. We can't just take the **k** out of our minds. We should evaluate the model with different values of **k**.
 
 ```python
 ks = np.arange(2, 10)
@@ -86,79 +85,68 @@ plt.xlabel('accuracy')
 plt.ylabel('k')
 ```
 
-Running this code will show you the following plot describing accuracy of the algorithm in respect of `k`.
+Executing this code will show you the following plot describing the algorithm's accuracy in respect of **k**.
 
 ![](/media/find-best-k.jpg)
 
-As it's clearly shown here when `k` is 3 the best accuracy is reached. I found exactly what I needed.
+As you can see, **k** equal to 3 gives the best accuracy.
 
 ## Building API
 
-I've prepared the core of the application - an algorithm predicting the digits from images. At the moment it's needed to create an API guessing number is order to get use of the algorithm. To make the job fast and simple I'll use Flask web framework. But before I start, I need to set up a virtual environment with the isolated dependencies.
+The application core (an algorithm predicting the digits from images) is ready. Now we need to decorate the algorithm with an API layer to make it available for usage. Let's use Flask web framework to have this job clean and concise.
+
+We'll start by installing Flask and the dependencies related to the image processing in the virtual environment.
 
 ```sh
-python3 -m venv venv
-source venv/bin/activate
+pip install Flask Pillow scikit-image
 ```
 
-As the environment is empty from scratch let's install some libraries we'll use.
-
-```sh
-pip install flask flask-script scipy scikit-image numpy pillow
-```
-
-As soon as the installation is completed it's time to build the API.
+When the installation completes, we move to the creation of the app's entry point file.
 
 ```sh
 mkdir app
 touch app/__init__.py
 ```
 
-The entry point of the application will be inside `app/__init__.py` file. Let's make a function which will create and start our application.
+The content of the file will look like:
 
 ```python
 from flask import Flask
-from app.urls import init_urls
+from app.views import PredictDigitView, IndexView
 
+app = Flask(__name__)
 
-def create_app():
-    app = Flask(__name__)
-    init_urls(app)
-    return app
+app.add_url_rule(
+    '/api/predict',
+    view_func=PredictDigitView.as_view('predict_digit'),
+    methods=['POST']
+)
+
+app.add_url_rule(
+    '/',
+    view_func=IndexView.as_view('index'),
+    methods=['GET']
+)
+
+if __name__ == 'main':
+  app.run()
 ```
 
-As you can see there is a function called `init_urls` which is imported from `app.urls` package. Let's create this file and declare that function.
-
-```python
-from app.views import PredictDigitView, create_root_view
-
-
-def init_urls(app):
-    app.add_url_rule(
-        '/api/predict',
-        view_func=PredictDigitView.as_view('predict_digit'),
-        methods=['POST']
-    )
-    create_root_view(app)
-```
-
-To make this function working it requires `app.views` package with a class-based view `PredictDigitView` - a handler for prediction requests and `create_root_view` factory method - a rule to return `index.html` file with the injected React app script on all the requests except one above. After creating `app/views.py` module it's required to add these handlers using the following code.
+You will get an error saying that `PredictDigitView` and `IndexView` are not defined. Here is the next step - creating a file that will initialize the views.
 
 ```python
 from flask import render_template, request, Response
-from flask.views import MethodView
+from flask.views import MethodView, View
+
+from flask.views import View
 
 from app.repo import ClassifierRepo
 from app.services import PredictDigitService
 from settings import CLASSIFIER_STORAGE
 
-
-def create_root_view(app):
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def root(path):
-        return render_template("index.html")
-
+class IndexView(View):
+    def dispatch_request(self):
+        return render_template('index.html')
 
 class PredictDigitView(MethodView):
     def post(self):
@@ -169,7 +157,15 @@ class PredictDigitView(MethodView):
         return Response(str(prediction).encode(), status=200)
 ```
 
-On the current step there are 3 missing modules: `repo`, `services` and `settings`. Let's create the last as it's the tiniest one. Create a file called `settings.py` inside the root with the content:
+Again an error with an unresolved import. The views package relies on three files we do not have:
+
+* settings
+* repo
+* service
+
+We'll implement them one by one.
+
+Settings is a module with configurations and constant variables. It will store the path to the serialized classifier for us. It begs a logical question: why do I need to save the classifier? It's a simple way to improve the performance of your app. Instead of training the classifier every time you receive a request, we'll store a classifier's prepared version working out of the box.
 
 ```python
 import os
@@ -178,7 +174,7 @@ BASE_DIR = os.getcwd()
 CLASSIFIER_STORAGE = os.path.join(BASE_DIR, 'storage/classifier.txt')
 ```
 
-This module will be used for specifying path to the file where our trained classifier will be stored. It begs a logical question: why do I need to store the classifier? It's a simple way to improve performance of your app. Instead of training the classifier every time you receive a request, we'll store a trained version of the classifier to use it once the request is received. This mechanism should be stored inside `app/repo.py` folder and looks like this:
+The mechanism for setting, getting the classifier will be initialized in the next package on our list - repo. It's a class with two methods to retrieve and update the trained classifier using `pickle` Python built-in module.
 
 ```python
 import pickle
@@ -204,14 +200,12 @@ class ClassifierRepo:
             pickle.dump(classifier, in_)
 ```
 
-It's a class with 2 methods to `get` and `update` the trained classifier using `pickle` Python built-in module.
+We almost made our API. It only lacks the service module. What's its purpose?
 
-API is almost working except it lacks `app.services` module. What's its purpose? It's used for:
-
-1. Getting the trained classifier from storage.
-2. Transforming the image passed as an argument into a format of the classifier input.
-3. Calculating prediction score for the image from the classifier.
-4. Returning the prediction score.
+1. Get the trained classifier from storage.
+2. Transform the image passed from UI to a format classifier understands.
+3. Calculate the prediction with the formatted image via the classifier.
+4. Return the prediction.
 
 Let's code this algorithm:
 
@@ -219,8 +213,7 @@ Let's code this algorithm:
 from sklearn.datasets import load_digits
 
 from app.classifier import ClassifierFactory
-from app.utils import to_classifier_input_format
-
+from app.image_processing import process_image
 
 class PredictDigitService:
     def __init__(self, repo):
@@ -235,12 +228,18 @@ class PredictDigitService:
                 digits.target
             )
             self.repo.update(classifier)
-        x = to_classifier_input_format(image_data_uri)
+        
+        x = process_image(image_data_uri)
+        if x is None:
+            return 0
+
         prediction = classifier.predict(x)[0]
         return prediction
-``
+```
 
-The `PredictDigitService` has 2 major dependencies: `ClassifierFactory` and `to_classifier_input_format`. The first one is just a factory object which creates and train classifier. `to_classifier_input_format` is a function which transforms the image received on the server to the format the classifier understands. The code for the factory should look like this:
+The `PredictDigitService` has 2 dependencies: `ClassifierFactory` and `process_image`. 
+
+We'll start by creating a class to create and train our model.
 
 ```python
 from sklearn.model_selection import train_test_split
@@ -255,119 +254,93 @@ class ClassifierFactory:
         return model
 ```
 
-According to the function from `app.utils` package - it's not about API now. It's about image processing.
+The API is up for it. Let's move to the image processing step.
 
 ## Image processing
 
-Image processor will be represented by the lots of functions to convert our image from data URI to the flat numpy array of the 8x8 grayscale image with intensity form 0 to 16(like the original ones from the digits dataset).
+To set up the image processor, we need to create lots of functions to convert the raw image to the classifier input type.
 
-Firstly we need to convert the image from data URI to the Image object.
+![](/media/vis.png)
 
-```python
-import numpy as np
-from skimage import exposure
-import base64
-from PIL import Image
-from io import BytesIO
+There will be six functions:
 
+1. Replace a transparent background with a color.
 
-def data_uri_to_image(uri):
-    encoded_data = uri.split(',')[1]
-    image = base64.b64decode(encoded_data)
-    return Image.open(BytesIO(image))
-```
-
-Because our front-end application will be sending the images with the transparent backgrounds we need to replace it with the ones.
+   ![](/media/replace_transparent_background.png)
 
 ```python
 def replace_transparent_background(image):
     image_arr = np.array(image)
+
+    if len(image_arr.shape) == 2:
+        return image
+
     alpha1 = 0
     r2, g2, b2, alpha2 = 255, 255, 255, 255
 
-    red, green, blue, alpha = (
-        image_arr[:, :, 0],
-        image_arr[:, :, 1],
-        image_arr[:, :, 2],
-        image_arr[:, :, 3]
-    )
+    red, green, blue, alpha = image_arr[:, :, 0], image_arr[:, :, 1], image_arr[:, :, 2], image_arr[:, :, 3]
     mask = (alpha == alpha1)
     image_arr[:, :, :4][mask] = [r2, g2, b2, alpha2]
 
     return Image.fromarray(image_arr)
 ```
 
-By default the image is using RGB format but we need to use the grayscaled version. We can do it by using `.convert('L')` on the image we have. All RGB pixels will be aggregated by the formula: L = R  _299/1000 + G_  587/1000 + B * 114/1000.
+2. Trim open borders.
 
-After all the image looks similar to the ones we used for training. However it has much bigger white frame around and has the invalid size. Let's remove the frame, add the frame of the size we need and resize the whole image after.
-
-* Remove the whole frame.
+   ![](/media/trim_borders.png)
 
 ```python
-def crop_image_frame(image, color=255):
-    image_arr = np.array(image)
-    cropped_image_arr = image_arr[~np.all(image_arr == color, axis=1)]
-    cropped_image_arr = cropped_image_arr[:, ~np.all(cropped_image_arr == color, axis=0)]
-    return Image.fromarray(cropped_image_arr)
+def trim_borders(image):
+    bg = Image.new(image.mode, image.size, image.getpixel((0,0)))
+    diff = ImageChops.difference(image, bg)
+    diff = ImageChops.add(diff, diff, 2.0, -100)
+    bbox = diff.getbbox()
+    if bbox:
+        return image.crop(bbox)
+    
+    return image
 ```
 
-* Add the frame that we need.
+3. Add borders of equal size.
+
+   ![](/media/pad_image.png)
 
 ```python
-def pad_image(image, height=0, width=30, color=255):
-   return Image.fromarray(np.pad(
-       np.array(image),
-       ((height, height), (width, width)),
-       'constant',
-       constant_values=color
-   ))
+def pad_image(image):
+    return ImageOps.expand(image, border=30, fill='#fff')
 ```
 
-* Resize the image.
+4. Convert the image to grayscale mode.
+
+```python
+def to_grayscale(image):
+    return image.convert('L')
+```
+
+5. Invert colors.
+
+   ![](/media/invert_colors.png)
+
+```python
+def invert_colors(image):
+    return ImageOps.invert(image)
+```
+
+6. Resize the image to 8x8 format.
+
+   ![](/media/resize_image.png)
 
 ```python
 def resize_image(image):
     return image.resize((8, 8), Image.ANTIALIAS)
 ```
 
-After the transitions above the image looks excellent. But there is two differences.
-- The original images’ features show the intensity of gray color from 0 to 16 when our images' features show it from 0 to 255. We can down the intensity using `rescale_intensity` function.
-```python
-def to_flat_grayscaled_image_arr(image):
-    image_arr = np.array(image)
-    image_arr = exposure.rescale_intensity(image_arr, out_range=(0, 16))
-    return image_arr.flatten()
-```
-- The original images have black background when our images have white. We'll simply replace the pixels above 230(white) with 0(black).
-```python
-def white_to_black(image):
-    image_arr = np.array(image)
-    image_arr[image_arr > 230] = 0
-    return Image.fromarray(image_arr)
-```
-
-We can combine all the functions together now.
-
-```python
-def to_classifier_input_format(data_uri):
-    raw_image = data_uri_to_image(data_uri)
-    image_with_background = replace_transparent_background(raw_image)
-    grayscaled_image = image_with_background.convert('L')
-    cropped_image = crop_image_frame(grayscaled_image)
-    padded_image = pad_image(cropped_image)
-    inverted_image = white_to_black(padded_image)
-    resized_image = resize_image(inverted_image)
-    return np.array([
-        to_flat_grayscaled_image_arr(resized_image)
-    ])
-```
-
-Now you can test our app. Let's run the application and send an image in base64 format.
-(download [this image](http://training.databricks.com/databricks_guide/digit.png), then convert it to base64 using [this resource](https://www.base64-image.de/), copy the code and save it in the file called test_request.json under the `image` key).
+Now you can test the app. Run the application and send an image in base64 format. (download [this image](http://training.databricks.com/databricks_guide/digit.png), then convert it to base64 using [this resource](https://www.base64-image.de/), copy the code and save it in the file called `test_request.json` under the `image` key).
 
 ```sh
-export FLASK_APP=app.py && flask run
+export FLASK_APP=app && flask run
 ```
+
 ```sh
 curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d @test_request.json -i && echo -e '\n\n'
 ```
