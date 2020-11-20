@@ -7,7 +7,6 @@ excerpt: "Machine learning, computer vision, building APIs, creating front-end -
 hidden: false
 tags:
   - python
-  - javascript
   - machine learning
   - computer vision
   - reactjs
