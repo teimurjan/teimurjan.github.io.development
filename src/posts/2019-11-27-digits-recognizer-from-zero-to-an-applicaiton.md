@@ -113,15 +113,16 @@ pip install Flask Pillow scikit-image
 When the installation completes, we move to the creation of the app's entry point file.
 
 ```sh
-mkdir app
-touch app/__init__.py
+touch app.py
 ```
 
 The content of the file will look like:
 
 ```python
+import os
+
 from flask import Flask
-from app.views import PredictDigitView, IndexView
+from views import PredictDigitView, IndexView
 
 app = Flask(__name__)
 
@@ -138,7 +139,8 @@ app.add_url_rule(
 )
 
 if __name__ == 'main':
-  app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 ```
 
 You will get an error saying that `PredictDigitView` and `IndexView` are not defined. Here is the next step - creating a file that will initialize the views.
@@ -149,8 +151,8 @@ from flask.views import MethodView, View
 
 from flask.views import View
 
-from app.repo import ClassifierRepo
-from app.services import PredictDigitService
+from repo import ClassifierRepo
+from services import PredictDigitService
 from settings import CLASSIFIER_STORAGE
 
 class IndexView(View):
@@ -164,6 +166,7 @@ class PredictDigitView(MethodView):
         image_data_uri = request.json['image']
         prediction = service.handle(image_data_uri)
         return Response(str(prediction).encode(), status=200)
+
 ```
 
 Again an error about an unresolved import. The views package relies on three files we do not have:
@@ -187,7 +190,6 @@ The mechanism for setting, getting the classifier will be initialized in the nex
 
 ```python
 import pickle
-
 
 class ClassifierRepo:
     def __init__(self, storage):
@@ -221,8 +223,8 @@ Let's code this algorithm:
 ```python
 from sklearn.datasets import load_digits
 
-from app.classifier import ClassifierFactory
-from app.image_processing import process_image
+from classifier import ClassifierFactory
+from image_processing import process_image
 
 class PredictDigitService:
     def __init__(self, repo):
@@ -244,6 +246,7 @@ class PredictDigitService:
 
         prediction = classifier.predict(x)[0]
         return prediction
+
 ```
 
 The `PredictDigitService` has 2 dependencies: `ClassifierFactory` and `process_image`. 
@@ -267,7 +270,17 @@ The API is up for it. Let's move to the image processing step.
 
 ## Image processing
 
-To set up the image processor, we need to create lots of functions to convert the raw image to the classifier input type.
+To set up the image processor, we need to add some useful imports:
+
+```python
+import numpy as np
+from skimage import exposure
+import base64
+from PIL import Image, ImageOps, ImageChops
+from io import BytesIO
+```
+
+We also have to create lots of functions to convert the raw image to the classifier input type.
 
 ![](/media/vis.png)
 
