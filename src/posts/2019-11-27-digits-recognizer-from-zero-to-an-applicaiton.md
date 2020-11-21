@@ -49,19 +49,27 @@ There are some dependencies needed for creating our machine learning model.
 After arranging data samples, the model is ready to guess. To detect the type of the green dot, we should check the types of **k** nearest neighbors where **k** is the argument set. Considering the image above, if **k** equal to 1, 2, 3, or 4, the guess will be **Red Triangle** as most of the green dot's closest **k** neighbors contain red triangles. If we increase **k** to 5, then the majority is of the blue squares, so that the guess will be **Blue Square**.
 ![](/media/knn3.png)
 
-Let's start with installing all of them:
+Let's start with installing and importing all of them:
 
 ```
 pip install sklearn numpy matplotlib scipy
 ```
 
+```python
+from sklearn.datasets import load_digits
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split, cross_val_score
+import numpy as np
+import matplotlib.pyplot as plt 
+```
+
 Now we need to load MNIST Database, which is a dataset of digit images from **sklearn**.
 
 ```python
-digits = datasets.load_digits()
+digits = load_digits()
 ```
 
-When the data is fetched and ready, we can move to the next step of splitting the data into two parts: training and testing.
+When the data is fetched and ready, we can move to the next step of splitting the data into two parts: training and testing. We'll use 75% of the data to train our model to guess digits and the rest for testing out its correctness.
 
 ```python
 (X_train, X_test, y_train, y_test) = train_test_split(
@@ -79,9 +87,11 @@ for k in ks:
     score = cross_val_score(model, X_train, y_train, cv=5)
     score.mean()
     scores.append(score.mean())
+
 plt.plot(scores, ks)
 plt.xlabel('accuracy')
 plt.ylabel('k')
+plt.show()
 ```
 
 Executing this code will show you the following plot describing the algorithm's accuracy in respect of **k**.
