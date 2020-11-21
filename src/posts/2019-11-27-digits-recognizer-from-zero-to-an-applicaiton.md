@@ -156,7 +156,7 @@ class PredictDigitView(MethodView):
         return Response(str(prediction).encode(), status=200)
 ```
 
-Again an error with an unresolved import. The views package relies on three files we do not have:
+Again an error about an unresolved import. The views package relies on three files we do not have:
 
 * settings
 * repo
@@ -327,27 +327,27 @@ def invert_colors(image):
 
 6. Resize the image to 8x8 format.
 
-![](/media/resize_image.png)
+![](/media/final.png)
 
 ```python
 def resize_image(image):
-    return image.resize((8, 8), Image.ANTIALIAS)
+    return image.resize((8, 8), Image.LINEAR)
 ```
 
-Now you can test the app. Run the application and send an image in base64 format. (download [this image](http://training.databricks.com/databricks_guide/digit.png), then convert it to base64 using [this resource](https://www.base64-image.de/), copy the code and save it in the file called `test_request.json` under the `image` key).
+Now you can test the app. Run the application and enter the command below to send a request with [this image](https://miro.medium.com/max/282/1*xpszL7jJrV5UTV7Xa-fgWQ.png) to the API.
 
 ```sh
-export FLASK_APP=app && flask run
+export FLASK_APP=app
+flask run
 ```
 
 ```sh
-curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d @test_request.json -i && echo -e '\n\n'
+curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d "{\"image\": \"data:image/png;base64,$(curl https://miro.medium.com/max/282/1*xpszL7jJrV5UTV7Xa-fgWQ.png | base64)\"}" -i
 ```
 
 You should see the following output.
 
 ```
-curl 'http://localhost:5000/api/predict' -X "POST" -H "Content-Type: application/json" -d @test_request.json -i && echo -e '\n\n'
 HTTP/1.1 100 Continue
 
 HTTP/1.0 200 OK
@@ -359,24 +359,54 @@ Date: Tue, 27 Mar 2018 07:02:08 GMT
 4
 ```
 
-Great, our web app correctly detected that it is 4.
+Great, we correctly detected that it is 4.
 
 ## UI
 
-I used [CRA boilerplate](https://github.com/facebook/create-react-app) but you can configure your application from scratch if you don't cherish the time.
+To quickly bootstrap the frontend application, we'll use [CRA boilerplate](https://github.com/facebook/create-react-app).
 
 ```sh
 create-react-app frontend
 cd frontend
 ```
 
-After setting up React environment we also need one more dependency for drawing. My choice fell on [react-sketch](https://github.com/tbolis/react-sketch). It perfectly matches my needs.
+After setting up the workplace, we also need a dependency to draw digits. The [react-sketch](https://github.com/tbolis/react-sketch) package perfectly matches our needs.
 
 ```sh
 npm i react-sketch
 ```
 
-Tools are ready and let's write the code.
+The application is of one component only. We can divide this component into two parts: logic and view. From the logic perspective, it has the following responsibilities: submit images and clear the sketch.
+
+Whenever a user clicks submit, the component will extract the image from the sketch component and appeal to the API module's `makePrediction` function. If the request to the backend succeeds, we'll set the prediction state variable. Otherwise, we'll update the error state.
+When a consumer clicks on reset, the sketch will clear.
+
+```jsx
+import React, { useRef, useState } from "react";
+
+import { makePrediction } from "./api";
+
+const App = () => {
+  const sketchRef = useRef(null);
+  const [error, setError] = useState();
+  const [prediction, setPrediction] = useState();
+
+  const handleSubmit = () => {
+    const image = sketchRef.current.toDataURL();
+
+    setPrediction(undefined);
+    setError(undefined);
+
+    makePrediction(image).then(setPrediction).catch(setError);
+  };
+
+  const handleClear = (e) => sketchRef.current.clear();
+
+  return null
+}
+```
+
+The logic is sufficient. What about the view? Initially, we should show the drawing plane, submit and reset buttons. When interacted, we should also represent a prediction or an error.
 
 ```jsx
 import React, { useRef, useState } from "react";
@@ -384,11 +414,11 @@ import { SketchField, Tools } from "react-sketch";
 
 import { makePrediction } from "./api";
 
-import logo from "./assets/logo.svg";
-import "./assets/App.css";
+import logo from "./logo.svg";
+import "./App.css";
 
 const pixels = (count) => `${count}px`;
-const percents = (count) => `${count}px`;
+const percents = (count) => `${count}%`;
 
 const MAIN_CONTAINER_WIDTH_PX = 200;
 const MAIN_CONTAINER_HEIGHT = 100;
@@ -407,24 +437,19 @@ const SKETCH_CONTAINER_STYLE = {
 
 const App = () => {
   const sketchRef = useRef(null);
-  const [errors, setErrors] = useState();
-  const [value, setValue] = useState();
+  const [error, setError] = useState();
   const [prediction, setPrediction] = useState();
 
   const handleSubmit = () => {
     const image = sketchRef.current.toDataURL();
 
     setPrediction(undefined);
-    setErrors(undefined);
+    setError(undefined);
 
-    makePrediction(image).then(setPrediction).catch(setErrors);
+    makePrediction(image).then(setPrediction).catch(setError);
   };
 
   const handleClear = (e) => sketchRef.current.clear();
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
 
   return (
     <div className="App" style={MAIN_CONTAINER_STYLE}>
@@ -436,33 +461,32 @@ const App = () => {
         <div style={SKETCH_CONTAINER_STYLE}>
           <SketchField
             ref={sketchRef}
-            onChange={handleChange}
             width="100%"
             height="100%"
             tool={Tools.Pencil}
             imageFormat="jpg"
             lineColor="#111"
             lineWidth={10}
-            value={value}
           />
         </div>
         {prediction && <h3>Predicted value is: {prediction}</h3>}
         <button onClick={handleClear}>Clear</button>
         <button onClick={handleSubmit}>Guess the number</button>
-        {errors && <p style={{ color: "red" }}>Something went wrong</p>}
+        {error && <p style={{ color: "red" }}>Something went wrong</p>}
       </div>
     </div>
   );
 };
 
 export default App;
+
 ```
+
+The component is ready, test it out by executing and going to `localhost:3000` after:
 
 ```sh
 npm run start
 ```
-
-And go to the `localhost:3000`.
 
 <div align="center" style="margin:1rem auto;">
 
@@ -470,8 +494,15 @@ And go to the `localhost:3000`.
 
 </div>
 
-Check out the [DEMO](web-digits-recognizer.herokuapp.com). All code is available on my [Github repository ](https://github.com/teimurjan/digits-recognizer).
+The demo application is available [here](web-digits-recognizer.herokuapp.com). You can also browse the source code on [GitHub](https://github.com/teimurjan/digits-recognizer).
 
-### Conclusion
+### Summary
 
-I understand that the quality of this classifier is not so good as you want. That's it because of the big difference between the training and the actual data. But the reason for creating this project is just to learn something new and share this knowledge with others. Thank you for reading this article, hope you've discovered lots of interesting things, keep on studying and improve yourselves. 🙌
+The quality of this classifier is not perfect, and I do not pretend that it is. The difference between the data we used for training and the data coming from UI is enormous. Despite that, we created a working application from scratch for less than 30 minutes. Though it was not easy, we trained our skills in four different topics:
+
+- Machine learning.
+- Backend development.
+- Image processing.
+- Frontend development.
+
+I hope this article will motivate you to improve your abilities in one of the areas above and use them to design wonderful things.
