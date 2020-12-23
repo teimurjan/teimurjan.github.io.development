@@ -28,9 +28,9 @@ Technologies used: `Javascript`, `React`, `Typescript`, `Gatsby`, `CSS3`, `HTML5
 
 #### Frontend Engineer,<br/>February 2019 - March 2019
 
-* Created an immutable architecture for a complex tree-like text editor.
-* Designed customized DraftJS editor.
-* Wrote bash scripts for setting up the environment for MacOS.
+- Created an immutable architecture for a complex tree-like text editor.
+- Designed customized DraftJS editor.
+- Wrote bash scripts for setting up the environment for MacOS.
 
 Technologies used: `Javascript`, `React`, `DraftJS`
 
@@ -38,9 +38,9 @@ Technologies used: `Javascript`, `React`, `DraftJS`
 
 #### Frontend Developer,<br/>August 2019 – November 2019
 
-* Migrated the existing ReactJS application to Typescript.
-* Worked with the real-time API updates using Firebase and RxJS.
-* Integrated Algolia API to the existing application.
+- Migrated the existing ReactJS application to Typescript.
+- Worked with the real-time API updates using Firebase and RxJS.
+- Integrated Algolia API to the existing application.
 
 ### <a href="https://www.linkedin.com/company/stratact/" target="_blank" rel="noopener noreferrer">Stratact GmbH</a>
 

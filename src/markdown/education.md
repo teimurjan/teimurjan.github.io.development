@@ -1,7 +1,7 @@
 ---
 title: 'Education'
 ---
-### Ala-too Internatinal University
+### <a href="http://alatoo.edu.kg/" target="_blank" rel="noopener noreferrer">Ala-too Internatinal University</a>
 
 #### Computer Science,<br/>2015 - 2019
 

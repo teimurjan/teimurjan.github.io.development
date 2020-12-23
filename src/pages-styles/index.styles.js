@@ -107,3 +107,9 @@ export const IndexPageDescriptionContainer = styled.div`
 export const IndexPageDescription = styled.p`
   color: var(--fontOnBackgroundColor);
 `
+
+export const IndexPageIFrame = styled.iframe`
+  margin: 0 auto;
+  display: block;
+  max-width: 100%;
+`
