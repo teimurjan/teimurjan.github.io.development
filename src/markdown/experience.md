@@ -6,22 +6,21 @@ title: 'Experience'
 
 #### Senior Frontend Engineer,<br/>September 2020 - Present
 
-* Supported and extended shared components library.
-* Day-to-day mentoring front-end engineers.
-* Analysis of the interface building approaches and architectures.
-* Deep thorough investigations on the modern frontend topics.
+- Supported and extended shared components library.
+- Coordinated and mentored engineers in delivering stable and supportable products.
+- Participated in frontend architecture design and modularity investigations.
 
-Technologies used: `Javascript`, `React`, `Typescript`, `Docker`, `Jenkins`, `Microfrontend`
+Technologies used: `Javascript`, `React`, `Typescript`, `Docker`, `Jenkins`, `Microfrontends`
 
 ## <a href="https://clubhouse.io" target="_blank" rel="noopener noreferrer">Clubhouse</a>
 
 #### Frontend Engineer,<br/>February 2019 - September 2020
 
-* Implemented new landing pages for the marketing site using GatsbyJS.
-* Set up auto-generating types from GraphQL schemes.
-* Worked on migration from legacy JavaScript code based on MVP to React.js.
-* Created a completely new app's navigational system.
-* Improved app's performance by 2 times by moving to code splitting.
+- Implemented new landing pages for the marketing site using GatsbyJS.
+- Set up auto-generating types from GraphQL schemes.
+- Worked on migration from legacy JavaScript code based on MVP to React.js.
+- Created a completely new app's navigational system.
+- Improved page switching performance by 2 times by moving to code splitting.
 
 Technologies used: `Javascript`, `React`, `Typescript`, `Gatsby`, `CSS3`, `HTML5`, `Prismic CMS`, `jQuery`
 
@@ -31,8 +30,6 @@ Technologies used: `Javascript`, `React`, `Typescript`, `Gatsby`, `CSS3`, `HTML5
 
 * Created an immutable architecture for a complex tree-like text editor.
 * Designed customized DraftJS editor.
-* Set up frontend ready for any real-time back-end.
-* Optimized rendering performance of the text editor app.
 * Wrote bash scripts for setting up the environment for MacOS.
 
 Technologies used: `Javascript`, `React`, `DraftJS`
@@ -49,12 +46,11 @@ Technologies used: `Javascript`, `React`, `DraftJS`
 
 #### Frontend Engineer,<br/>June 2018 - January 2019
 
-* Created a fully responsive, custom Bootstrap theme using styled components.
-* Made different CSS animation from simple transitions to complex GIF-based animations.
-* Optimized the startup performance.
-* Provided support for Internet Explorer 11 (IE 11).
-* Set up full international support.
-* Covered 95% with unit and snapshot tests.
+- Created a fully responsive shared components library.
+- Designed CSS animation from simple transitions to complex GIF-based animations.
+- Provided support for Internet Explorer 11 and Safari 6.
+- Set up international support for up to 20 languages.
+- Covered 95% with unit and snapshot tests.
 
 Technologies used: `Javascript`, `React`
 
@@ -62,11 +58,11 @@ Technologies used: `Javascript`, `React`
 
 #### Software Engineer,<br/>October 2016 - May 2018
 
-* Designed and built APIs using Python/JavaScript.
-* Wrote unit and acceptance tests using Jest, Mocha, and Selenium.
-* Optimized an existing front-end application by cutting bundle size and increasing start-up speed.
-* Created a browser extension for scrapping, analyzing, and representing the data.
-* Worked in variously sized teams using Agile and Scrum methodologies.
+- Designed and built APIs using Python/JavaScript.
+- Wrote unit and acceptance tests using Jest, Mocha, and Selenium.
+- Optimized an existing front-end application runtime performance and start-up speed.
+- Created a browser extension for scrapping, analyzing, and representing the data.
+- Worked in teams of up to 8 people using Scrum methodologies.
 
 Technologies used: `Python`, `Django`, `Flask`, `Javascript`, `Node.js`, `React`
 
