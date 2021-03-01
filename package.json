@@ -32,7 +32,7 @@
     "netlify-cms-media-library-uploadcare": "^0.5.3",
     "polished": "^1.9.3",
     "prism-themes": "^1.0.1",
-    "prismjs": "1.17.1",
+    "prismjs": "1.23.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-helmet": "^5.2.0",
