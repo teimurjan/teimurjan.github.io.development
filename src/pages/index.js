@@ -13,8 +13,7 @@ import {
   IndexPageContentContainer,
   IndexPageCardsContainer,
   IndexPageAnimatedSkillCard,
-  IndexPageAnimatedContent,
-  IndexPageIFrame
+  IndexPageAnimatedContent
 } from '../pages-styles/index.styles'
 import { Container } from '../components/container/index.styles'
 import { MarkdownContent } from '../templates/markdown/index.styles'
@@ -28,7 +27,7 @@ const skillCardsProps = [
 ]
 
 const IndexPage = ({
-  data: { image, experience, education, conferences, publications }
+  data: { image, experience, education, conferences, publications, media }
 }) => {
   return (
     <Layout>
@@ -58,64 +57,38 @@ const IndexPage = ({
           <IndexPageImage fluid={image.childImageSharp.fluid} />
         </IndexPageColumnsWrapper>
         <IndexPageAnimatedContent delay={skillCardsProps.length * 200}>
-          <IndexPageWrapper>
-            <IndexPageTitle>Experience</IndexPageTitle>
-            <MarkdownContent
-              dangerouslySetInnerHTML={{ __html: experience.html }}
-            />
-          </IndexPageWrapper>
-          <IndexPageWrapper>
-            <IndexPageTitle>Educaiton</IndexPageTitle>
-            <MarkdownContent
-              dangerouslySetInnerHTML={{ __html: education.html }}
-            />
-          </IndexPageWrapper>
-          <IndexPageWrapper>
-            <IndexPageTitle>Conferences</IndexPageTitle>
-            <MarkdownContent
-              dangerouslySetInnerHTML={{ __html: conferences.html }}
-            />
-          </IndexPageWrapper>
-          <IndexPageWrapper>
-            <IndexPageTitle>Publications</IndexPageTitle>
-            <MarkdownContent
-              dangerouslySetInnerHTML={{ __html: publications.html }}
-            />
-          </IndexPageWrapper>
-          <IndexPageWrapper>
-            <IndexPageTitle>Media</IndexPageTitle>
-            <IndexPageIFrame
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/4gPrCiwQS68"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </IndexPageWrapper>
+          {[experience, education, conferences, publications, media].map(
+            data => (
+              <IndexPageWrapper key={data.id}>
+                <IndexPageTitle>{data.frontmatter.title}</IndexPageTitle>
+                <MarkdownContent
+                  dangerouslySetInnerHTML={{ __html: data.html }}
+                />
+              </IndexPageWrapper>
+            )
+          )}
         </IndexPageAnimatedContent>
       </Container>
     </Layout>
   )
 }
 
+const markdownShape = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  html: PropTypes.string.isRequired,
+  frontmatter: PropTypes.shape({ title: PropTypes.string.isRequired })
+})
+
 IndexPage.propTypes = {
   data: PropTypes.shape({
     image: PropTypes.shape({
       childImageSharp: PropTypes.shape({ fluid: PropTypes.object.isRequired })
     }),
-    experience: PropTypes.shape({
-      html: PropTypes.string.isRequired
-    }),
-    education: PropTypes.shape({
-      html: PropTypes.string.isRequired
-    }),
-    conferences: PropTypes.shape({
-      html: PropTypes.string.isRequired
-    }),
-    publications: PropTypes.shape({
-      html: PropTypes.string.isRequired
-    })
+    experience: markdownShape,
+    education: markdownShape,
+    conferences: markdownShape,
+    publications: markdownShape,
+    media: markdownShape
   })
 }
 
@@ -160,6 +133,16 @@ export const query = graphql`
     }
     publications: markdownRemark(
       fileAbsolutePath: { regex: "//src/markdown/publications.md$/" }
+    ) {
+      fileAbsolutePath
+      html
+      id
+      frontmatter {
+        title
+      }
+    }
+    media: markdownRemark(
+      fileAbsolutePath: { regex: "//src/markdown/media.md$/" }
     ) {
       fileAbsolutePath
       html
