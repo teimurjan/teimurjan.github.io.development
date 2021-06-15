@@ -10,6 +10,4 @@ title: 'Conferences'
 
 - <a href="https://entrance.by/" target="_blank" rel="noopener noreferrer">IT Entrance Belarus 2020</a><br/>Career growth recipes.
 
-<div class="call-to-action">
 <iframe style="display:block; margin: 0 auto; max-width: 100%;" width="560" height="315" src="https://www.youtube.com/embed/lvny7WmSwDs" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen>
-</div>
