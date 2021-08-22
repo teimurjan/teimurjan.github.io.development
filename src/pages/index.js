@@ -19,7 +19,7 @@ import { Container } from '../components/container/index.styles'
 import { MarkdownContent } from '../templates/markdown/index.styles'
 
 const skillCardsProps = [
-  { text: 'Age', emoji: '🙍🏼‍♂️', value: '23' },
+  { text: 'Age', emoji: '🙍🏼‍♂️', value: '24' },
   { text: 'Years of experience', emoji: '👨🏼‍💻', value: '5+' },
   { text: 'Satisfied employers', emoji: '💼', value: '8' },
   { text: 'Portfolio projects', emoji: '💥', value: '20+' },
